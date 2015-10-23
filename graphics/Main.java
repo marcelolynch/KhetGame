@@ -25,7 +25,7 @@ public class Main extends Application{
 		Group root = new Group();
 
 		graphicBoard = new Canvas(750,600);
-		graphicBoard.getGraphicsContext2D().drawImage(new Image("file:assets/Board.png"),0,0);
+		graphicBoard.getGraphicsContext2D().drawImage(new Image("file:"),0,0);
 
 		piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
 		piecesGC = piecesLayer.getGraphicsContext2D();
@@ -44,7 +44,7 @@ public class Main extends Application{
 		rotateCCWButton.setTranslateX(120);
 
 		
-		gameManager = new GameManager();
+		gameManager = new GameManager(null);
 	
 		//--->Deprecated
 		//new BoardDrawer().draw(graphicsContext);
