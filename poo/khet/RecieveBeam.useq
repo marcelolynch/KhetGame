@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.1.8" icons="true">  
+  <object id="1" language="java" name="poo.khet.Game" project="Khet-core" file="/Khet-core/src/poo/khet/Game.java" 
+    binary="false" label="game" type="class" autoSize="false">    
+    <position height="419" width="106" x="0" y="0"/>    
+    <execution id="2">      
+      <position height="251" width="56" x="5" y="148"/>    
+    </execution>  
+  </object>  
+  <object id="5" language="java" name="poo.khet.Pyramid" project="Khet-core" file="/Khet-core/src/poo/khet/Pyramid.java" 
+    binary="false" label="pyramid" type="class" autoSize="false">    
+    <position height="398" width="220" x="106" y="0"/>    
+    <execution id="4">      
+      <position height="209" width="70" x="65" y="169"/>    
+    </execution>    
+    <execution id="7">      
+      <position height="21" width="0" x="0" y="211"/>    
+    </execution>    
+    <execution id="11">      
+      <position height="21" width="0" x="0" y="305"/>    
+    </execution>  
+  </object>  
+  <object id="14" language="java" name="poo.khet.Beam" project="Khet-core" file="/Khet-core/src/poo/khet/Beam.java" 
+    binary="false" label="beam" type="class" autoSize="false">    
+    <position height="377" width="171" x="244" y="0"/>    
+    <execution id="9">      
+      <position height="21" width="0" x="0" y="242"/>    
+    </execution>    
+    <execution id="13">      
+      <position height="21" width="0" x="0" y="336"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="receiveBeam(poo.khet.Beam):boolean">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="6" operation="canReflectClockwise(poo.khet.Beam):boolean">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="7"/>  
+  </message>  
+  <message id="8" operation="redirectClockwise():void">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="10" operation="canReflectCounterClockwise(poo.khet.Beam):boolean">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="12" operation="redirectCounterClockwise():void">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="13"/>  
+  </message>
+</sequence-diagram>

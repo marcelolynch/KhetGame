@@ -1,0 +1,52 @@
+package poo.khet;
+
+import poo.khet.gameutils.Direction;
+
+public class Pyramid extends Piece {
+
+	private Mirror2 mirror;
+
+	Pyramid(Team team, Direction facing) {
+		super(team);
+		mirror = new Mirror2(facing);
+	}
+
+	/**
+	 * Cambia la direccion del laser en caso de que sea reflejado. Devuelve si
+	 * el laser fue o no reflejado.
+	 * 
+	 * @param beam
+	 *            laser que recibe y al que le cambia la direccion
+	 * @return <tt>true</tt> si el laser fue reflejado y su direccion cambio.
+	 *         <ff>false</ff> si el laser no fue reflejado.
+	 */
+	@Override
+	boolean receiveBeam(Beam beam) {
+		boolean reflectable = mirror.canProcessBeam(beam);
+
+		if (reflectable) {
+			mirror.processBeam(beam);
+		} else {
+			beam.deactivate(); // no se pudo reflejar; el rayo choca con la
+								// pieza y finaliza su recorrido
+		}
+
+		return reflectable;
+	}
+
+	@Override
+	boolean canBeSwapped() {
+		return true;
+	}
+
+	@Override
+	void rotateClockwise() {
+		mirror.rotateClockwise();
+	}
+
+	@Override
+	void rotateCounterClockwise() {
+		mirror.rotateCounterClockwise();
+	}
+
+}

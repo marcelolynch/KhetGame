@@ -1,0 +1,56 @@
+package poo.khet;
+
+// TODO como hacer para que la pieza en el canMove sepa que es ReservedSquare
+// por ahora se pasa la pieza a si misma a un metodo canTakeTeam
+/**
+ * Casillero reservado para piezas de un equipo determinado.
+ *
+ */
+public class ReservedSquare extends Square {
+	private Team team;
+	
+	/**
+	 * Construye un casillero reservado vacio.
+	 * @param team - equipo para el cual se reserva el casillero
+	 */
+	ReservedSquare(Team team) {
+		super();
+		setTeam(team);
+	}
+	
+	/**
+	 * Construye un casillero reservado con una <tt>Piece</tt>.
+	 * @param piece - <tt>Piece</tt> a ocupar el casillero
+	 * @param team - equipo para el cual se reserva el casillero
+	 */
+	ReservedSquare(Piece piece, Team team) {
+		this(team);
+		if(!getTeam().equals(piece.getTeam())){
+			throw new IllegalStateException();//TODO: No se cual Poner
+		}
+		setOccupant(piece);
+	}
+	
+	/**
+	 * Devuelve el equipo para el cual se reserva el casillero
+	 * @return el equipo para el cual se reserva el casillero
+	 */
+	public Team getTeam() {
+		return team;
+	}
+	
+	private void setTeam(Team team) {
+		if (team == null) {
+			throw new IllegalArgumentException("El equipo especificado es null");
+		}
+		this.team = team;
+	}
+	
+	
+	@Override
+	public boolean canAccomodate(Piece piece){
+		return piece.getTeam().equals(this.getTeam()) && super.canAccomodate(piece); 
+	}
+
+
+}
