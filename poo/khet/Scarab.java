@@ -1,5 +1,7 @@
 package poo.khet;
 
+import poo.khet.gameutils.Direction;
+
 public class Scarab extends Piece {
 
 	private Mirror2[] mirrors;
@@ -9,7 +11,7 @@ public class Scarab extends Piece {
 
 		mirrors = new Mirror2[2];
 		mirrors[0] = new Mirror2(facing);
-		mirrors[1] = new Mirror2(facing.getOppositeDirection());
+		mirrors[1] = new Mirror2(facing.getOppositeDir());
 	}
 
 	@Override

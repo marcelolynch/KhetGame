@@ -10,7 +10,7 @@ public class Shield extends Accessory {
 	
 	@Override
 	boolean canProcessBeam(Beam beam) {
-		return getFacing().isOppositeDirection(beam.getDirection());
+		return getFacing().isOppositeDir(beam.getDirection());
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package poo.khet;
 
+//TODO: Notificación al morir
 public class Pharaoh extends Piece {
 
 	Pharaoh(Team team) {

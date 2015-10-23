@@ -15,7 +15,7 @@ public class Board {
     static final private Position SILVER_CANNON_POS = new Position(0, 0);
     static final private Position RED_CANNON_POS = new Position(COLUMNS-1, ROWS-1);
 
-    private Grid grid;
+    private Grid<Square> grid;
     
     public Board(Map<Position, Piece> pieces) { 
     	generateBoard();
@@ -24,7 +24,7 @@ public class Board {
 
     //TODO: hacerlo bien
     private void generateBoard() {
-		grid = new Grid(ROWS, COLUMNS);
+		grid = new Grid<Square>();
 		Position position;
 		
 		for (int i=0; i < ROWS; i++) {
@@ -37,7 +37,7 @@ public class Board {
 		        	grid.setSquare(position, new ReservedSquare(Team.RED));
 		        }
 		        else {
-		            grid.setSquare(position, new FreeSquare());
+		            grid.setSquare(position, new Square());
 		        }
 		    }
 		}
@@ -48,8 +48,6 @@ public class Board {
 		grid.setSquare(new Position(1, ROWS-1), new ReservedSquare(Team.RED));
 		grid.setSquare(new Position(COLUMNS-2, 0), new ReservedSquare(Team.SILVER));
 		grid.setSquare(new Position(COLUMNS-2, ROWS-1), new ReservedSquare(Team.SILVER));
-//		board.setSquare(SILVER_CANNON_POS, new ReservedSquare(Team.SILVER));
-//		board.setSquare(RED_CANNON_POS, new ReservedSquare(Team.RED));
 	
     }
     
@@ -58,7 +56,6 @@ public class Board {
     		return false;
         return init.isAdjacent(dest);
     }
-
    
     /**
      * Consulta si es valido mover una pieza como la que se pasa
@@ -72,14 +69,8 @@ public class Board {
     	return selected.canAccomodate(piece);
     }
     
-    
-    // TODO: validar también lo de las dos posiciones de cañón
     public boolean isInBounds(Position pos) {
-        if (!grid.isInBounds(pos)) {
-            return false;
-        }
-
-        return true;
+        return grid.isInBounds(pos);
     }
     
 
@@ -100,10 +91,13 @@ public class Board {
     	return grid.getSquare(position).getOccupant();
     }
     
-    
-    //TODO: Validaciones? 
-    public void placePiece (Position position, Piece piece) {
-    	grid.getSquare(position).setOccupant(piece);
+    public void placePiece (Position pos, Piece piece) {
+    	if (grid.isInBounds(pos) && grid.getSquare(pos).isEmpty()) {
+    		grid.getSquare(pos).setOccupant(piece);
+    	}
+    	else {
+    		throw new IllegalArgumentException();
+    	}
     }
     
     private void placePieces(Map<Position, Piece> pieces) {

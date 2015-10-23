@@ -78,13 +78,6 @@ public class Square {
 	}
 	
 	/**
-	 * Devuelve si el casillero puede ser ocupado por el equipo de la pieza dada
-	 * @param piece la que quiere ocupar el casillero
-	 * @return <tt>true</tt> si puede ser ocupado por la pieza <ff>false</ff> si no.
-	 */
-	
-	
-	/**
 	 * Indica si la casilla puede acomodar una pieza como la <i>Piece</i> que se pasa
 	 * @param piece - la pieza a acomodar
 	 * @return <b>true</b> si es posible, <b>false</b> de lo contrario

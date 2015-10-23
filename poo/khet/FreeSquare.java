@@ -1,5 +1,6 @@
 package poo.khet;
 
+@Deprecated
 public class FreeSquare extends Square {
 
     FreeSquare(){

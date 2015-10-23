@@ -7,13 +7,13 @@ import poo.khet.gameutils.Position;
 
 public class Game {
 	
-	private Board2 board;
+	private Board board;
 	private BeamCannon redCannon;
 	private BeamCannon silverCannon;
 	
 	//Ahora Game recibe lo mismo que se manda para construir board
 	public Game (Map<Coordinate, Piece> piecesConfig) {
-		board = new Board2(piecesConfig); 
+		board = new Board(piecesConfig); 
 		redCannon = new BeamCannon(Team.RED);
 		silverCannon = new BeamCannon(Team.SILVER);
 	}
@@ -40,11 +40,11 @@ public class Game {
 		return true;
 	}
 	
-	void rotateClockwise (Coordinate position) {
+	void rotateClockwise (Position position) {
 		board.getOccupantIn(position).rotateClockwise();
 	}
 	
-	void rotateCounterClockwise (Coordinate position) {
+	void rotateCounterClockwise (Position position) {
 		board.getOccupantIn(position).rotateCounterClockwise();
 	}
 	
@@ -56,13 +56,13 @@ public class Game {
 		throw new IllegalArgumentException();
 	}
 	
-	Board2 throwBeam(Team team) {
+	Board throwBeam(Team team) {
 		BeamCannon cannon = getBeamCannon(team);
 		Beam beam = cannon.generateBeam();
 		BeamManager beamManager=new BeamManager(beam,board);
-		Coordinate death=beamManager.throwBeam(team);
+		Position death=beamManager.throwBeam(team);
 		if(death != null) {
-			board.getPosition(death).withdrawOccupant();
+			board.withdrawFrom(death);
 		}
 	}	
 	
@@ -95,13 +95,12 @@ public class Game {
 	private Coordinate nextBeamPosition(Coordinate coord, Beam beam) {
 		coord.changeInDirection(beam.getDirection());
 		return coord;
-	*/
 	}
-	
+	*/
 	
 
 
-	public Board2 getBoard() {
+	public Board getBoard() {
 		return board;
 	}
 

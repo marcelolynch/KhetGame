@@ -29,21 +29,12 @@ public class Beam {
 		return direction;
     }
 	
+	/**
+	 * Cambia la dirección del rayo
+	 * @param newDirection - nueva dirección del rayo
+	 */
 	void setDirection(Direction newDirection){
 	    this.direction = newDirection;
 	}
 	
-	/**
-	 * Redirige 90° el rayo
-	 */
-	void redirectClockwise() {
-		direction = direction.getClockwiseDirection();
-	}
-	
-	/**
-	 * Redirige -90° el rayo
-	 */
-	void redirectCounterClockwise() {
-		direction = direction.getCounterClockwiseDirection();
-	}
 }

@@ -2,7 +2,7 @@ package poo.khet;
 
 import poo.khet.gameutils.Direction;
 
-public class Anubis extends Piece implements BoardAccepter{
+public class Anubis extends Piece {
 
 	private Shield shield;
 
@@ -37,10 +37,5 @@ public class Anubis extends Piece implements BoardAccepter{
 	void rotateCounterClockwise() {
 		shield.rotateCounterClockwise();
 	}
-
-    @Override
-    public boolean accept(BoardVisitor visitor) {
-        return visitor.visit(this);
-    }
 
 }

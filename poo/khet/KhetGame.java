@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+@Deprecated
 public class KhetGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
@@ -14,7 +15,7 @@ public class KhetGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("chelivery.jpg");
+		img = new Texture("chelivery.jpg"); // RIP
 	}
 
 	@Override

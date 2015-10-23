@@ -8,59 +8,59 @@ public class DirectionTest {
 
 	@Test
 	public void testGetClockwiseDirection() {
-		assertEquals(Direction.EAST, Direction.NORTH.getClockwiseDirection());
-		assertEquals(Direction.SOUTH, Direction.EAST.getClockwiseDirection());
-		assertEquals(Direction.WEST, Direction.SOUTH.getClockwiseDirection());
-		assertEquals(Direction.NORTH, Direction.WEST.getClockwiseDirection());
+		assertEquals(Direction.EAST, Direction.NORTH.getClockwiseDir());
+		assertEquals(Direction.SOUTH, Direction.EAST.getClockwiseDir());
+		assertEquals(Direction.WEST, Direction.SOUTH.getClockwiseDir());
+		assertEquals(Direction.NORTH, Direction.WEST.getClockwiseDir());
 	}
 
 	@Test
 	public void testGetCounterClockwiseDirection() {
-		assertEquals(Direction.EAST, Direction.SOUTH.getCounterClockwiseDirection());
-		assertEquals(Direction.SOUTH, Direction.WEST.getCounterClockwiseDirection());
-		assertEquals(Direction.WEST, Direction.NORTH.getCounterClockwiseDirection());
-		assertEquals(Direction.NORTH, Direction.EAST.getCounterClockwiseDirection());
+		assertEquals(Direction.EAST, Direction.SOUTH.getCounterClockwiseDir());
+		assertEquals(Direction.SOUTH, Direction.WEST.getCounterClockwiseDir());
+		assertEquals(Direction.WEST, Direction.NORTH.getCounterClockwiseDir());
+		assertEquals(Direction.NORTH, Direction.EAST.getCounterClockwiseDir());
 	}
 
 	@Test
 	public void testGetOppositeDirection() {
-		assertEquals(Direction.EAST, Direction.WEST.getOppositeDirection());
-		assertEquals(Direction.SOUTH, Direction.NORTH.getOppositeDirection());
-		assertEquals(Direction.WEST, Direction.EAST.getOppositeDirection());
-		assertEquals(Direction.NORTH, Direction.SOUTH.getOppositeDirection());
+		assertEquals(Direction.EAST, Direction.WEST.getOppositeDir());
+		assertEquals(Direction.SOUTH, Direction.NORTH.getOppositeDir());
+		assertEquals(Direction.WEST, Direction.EAST.getOppositeDir());
+		assertEquals(Direction.NORTH, Direction.SOUTH.getOppositeDir());
 	}
 
 	@Test
 	public void testIsClockwiseDirection() {
-		assertTrue(Direction.NORTH.isClockwiseDirection(Direction.EAST));
-		assertTrue(Direction.WEST.isClockwiseDirection(Direction.NORTH));
-		assertTrue(Direction.EAST.isClockwiseDirection(Direction.SOUTH));
-		assertTrue(Direction.SOUTH.isClockwiseDirection(Direction.WEST));
+		assertTrue(Direction.NORTH.isClockwiseDir(Direction.EAST));
+		assertTrue(Direction.WEST.isClockwiseDir(Direction.NORTH));
+		assertTrue(Direction.EAST.isClockwiseDir(Direction.SOUTH));
+		assertTrue(Direction.SOUTH.isClockwiseDir(Direction.WEST));
 		
-		assertFalse(Direction.WEST.isClockwiseDirection(Direction.SOUTH));
-		assertFalse(Direction.SOUTH.isClockwiseDirection(Direction.SOUTH));
+		assertFalse(Direction.WEST.isClockwiseDir(Direction.SOUTH));
+		assertFalse(Direction.SOUTH.isClockwiseDir(Direction.SOUTH));
 	}
 
 	@Test
 	public void testIsCounterClockwiseDirection() {
-		assertTrue(Direction.NORTH.isCounterClockwiseDirection(Direction.WEST));
-		assertTrue(Direction.WEST.isCounterClockwiseDirection(Direction.SOUTH));
-		assertTrue(Direction.EAST.isCounterClockwiseDirection(Direction.NORTH));
-		assertTrue(Direction.SOUTH.isCounterClockwiseDirection(Direction.EAST));
+		assertTrue(Direction.NORTH.isCounterClockwiseDir(Direction.WEST));
+		assertTrue(Direction.WEST.isCounterClockwiseDir(Direction.SOUTH));
+		assertTrue(Direction.EAST.isCounterClockwiseDir(Direction.NORTH));
+		assertTrue(Direction.SOUTH.isCounterClockwiseDir(Direction.EAST));
 		
-		assertFalse(Direction.WEST.isCounterClockwiseDirection(Direction.NORTH));
-		assertFalse(Direction.SOUTH.isCounterClockwiseDirection(Direction.SOUTH));
+		assertFalse(Direction.WEST.isCounterClockwiseDir(Direction.NORTH));
+		assertFalse(Direction.SOUTH.isCounterClockwiseDir(Direction.SOUTH));
 	}
 
 	@Test
 	public void testIsOppositeDirection() {
-		assertTrue(Direction.NORTH.isOppositeDirection(Direction.SOUTH));
-		assertTrue(Direction.WEST.isOppositeDirection(Direction.EAST));
-		assertTrue(Direction.EAST.isOppositeDirection(Direction.WEST));
-		assertTrue(Direction.SOUTH.isOppositeDirection(Direction.NORTH));
+		assertTrue(Direction.NORTH.isOppositeDir(Direction.SOUTH));
+		assertTrue(Direction.WEST.isOppositeDir(Direction.EAST));
+		assertTrue(Direction.EAST.isOppositeDir(Direction.WEST));
+		assertTrue(Direction.SOUTH.isOppositeDir(Direction.NORTH));
 		
-		assertFalse(Direction.WEST.isOppositeDirection(Direction.NORTH));
-		assertFalse(Direction.SOUTH.isOppositeDirection(Direction.WEST));
+		assertFalse(Direction.WEST.isOppositeDir(Direction.NORTH));
+		assertFalse(Direction.SOUTH.isOppositeDir(Direction.WEST));
 	}
 
 }

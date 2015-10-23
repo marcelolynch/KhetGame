@@ -23,7 +23,7 @@ public class Direction {
 	 * Devuelve la <tt>Direction</tt> que se encuentra a 90° de la actual dirección.
 	 * @return <tt>Direction</tt> que se encuentra a 90° de la actual dirección
 	 */
-	public Direction getClockwiseDirection() {
+	public Direction getClockwiseDir() {
 		int index = (directionIndex + 1) % NUM_DIRECTIONS;
 		return directions[index];
 	}
@@ -32,7 +32,7 @@ public class Direction {
 	 * Devuelve la <tt>Direction</tt> que se encuentra a -90° de la actual dirección.
 	 * @return <tt>Direction</tt> que se encuentra a -90° de la actual dirección
 	 */
-	public Direction getCounterClockwiseDirection() {
+	public Direction getCounterClockwiseDir() {
 		int index;
 		if (directionIndex == 0) {
 			index = 3;
@@ -47,7 +47,7 @@ public class Direction {
 	 * Devuelve la <tt>Direction</tt> opuesta a la actual dirección.
 	 * @return <tt>Direction</tt> opuesta a la actual dirección
 	 */
-	public Direction getOppositeDirection() {
+	public Direction getOppositeDir() {
 		int index = (directionIndex + 2) % NUM_DIRECTIONS;
 		return directions[index];
 	}
@@ -57,8 +57,8 @@ public class Direction {
 	 * @param otherDir - dirección a evaluar con la dirección actual
 	 * @return <tt>true</tt> si otherDir se encuentra a 90° con respecto de la dirección actual; <tt>false</tt> sino
 	 */
-	boolean isClockwiseDirection(Direction otherDir) {
-		return getClockwiseDirection().equals(otherDir);
+	public boolean isClockwiseDir(Direction otherDir) {
+		return getClockwiseDir().equals(otherDir);
 	}
 	
 	/**
@@ -66,8 +66,8 @@ public class Direction {
 	 * @param otherDir - dirección a evaluar con la dirección actual
 	 * @return <tt>true</tt> si otherDir se encuentra a -90° con respecto de la dirección actual; <tt>false</tt> sino
 	 */
-	boolean isCounterClockwiseDirection(Direction otherDir) {
-		return getCounterClockwiseDirection().equals(otherDir);
+	public boolean isCounterClockwiseDir(Direction otherDir) {
+		return getCounterClockwiseDir().equals(otherDir);
 	}	
 
 	/**
@@ -75,8 +75,8 @@ public class Direction {
 	 * @param otherDir - dirección a evaluar con la dirección actual
 	 * @return <tt>true</tt> si otherDir es opuesta a la dirección actual; <tt>false</tt> sino
 	 */
-	boolean isOppositeDirection(Direction otherDir) {
-		return getOppositeDirection().equals(otherDir);
+	public boolean isOppositeDir(Direction otherDir) {
+		return getOppositeDir().equals(otherDir);
 	}
 	
 	@Override

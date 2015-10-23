@@ -15,11 +15,11 @@ public abstract class Accessory {
 	}
 	
 	void rotateClockwise() {
-		facing = getFacing().getClockwiseDirection();
+		facing = getFacing().getClockwiseDir();
 	}
 	
 	void rotateCounterClockwise() {
-		facing = getFacing().getCounterClockwiseDirection();
+		facing = getFacing().getCounterClockwiseDir();
 	}
 
 	abstract boolean canProcessBeam(Beam beam);

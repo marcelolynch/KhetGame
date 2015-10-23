@@ -2,7 +2,7 @@ package poo.khet;
 
 import poo.khet.gameutils.Direction;
 
-public class BeamCannon /*extends Component*/ implements BoardAccepter{
+public class BeamCannon {
 
     private Team team;
 
@@ -36,15 +36,11 @@ public class BeamCannon /*extends Component*/ implements BoardAccepter{
      */
     void rotate() {
     	if (isClockRotation) {
-            facing = facing.getClockwiseDirection();
+            facing = facing.getClockwiseDir();
     	} else {
-    		facing = facing.getCounterClockwiseDirection();
+    		facing = facing.getCounterClockwiseDir();
         }
     	isClockRotation = !isClockRotation;
     }
 
-    @Override
-    public boolean accept(BoardVisitor visitor) {
-        return visitor.visit(this);
-    }
 }

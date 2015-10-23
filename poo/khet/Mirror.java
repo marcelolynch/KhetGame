@@ -16,13 +16,13 @@ class Mirror {
     }
     
     public void rotateClockwise() {
-        receivableDirs[0] = receivableDirs[0].getClockwiseDirection();
-        receivableDirs[1] = receivableDirs[1].getClockwiseDirection();
+        receivableDirs[0] = receivableDirs[0].getClockwiseDir();
+        receivableDirs[1] = receivableDirs[1].getClockwiseDir();
     }
 
     public void rotateCounterClockwise() {
-        receivableDirs[0] = receivableDirs[0].getCounterClockwiseDirection();
-        receivableDirs[1] = receivableDirs[0].getCounterClockwiseDirection();
+        receivableDirs[0] = receivableDirs[0].getCounterClockwiseDir();
+        receivableDirs[1] = receivableDirs[0].getCounterClockwiseDir();
     }
 
     /**
@@ -32,8 +32,8 @@ class Mirror {
      * @return
      */
     public boolean canReflectFrom(Direction direction) {
-        return direction.isOppositeDirection(receivableDirs[0])
-                || direction.isOppositeDirection(receivableDirs[1]);
+        return direction.isOppositeDir(receivableDirs[0])
+                || direction.isOppositeDir(receivableDirs[1]);
     }
 
     /**
@@ -46,7 +46,7 @@ class Mirror {
         if (!canReflectFrom(beam.getDirection()))
             throw new IllegalArgumentException(); // TODO: Excepciones
 
-        if (beam.getDirection().isOppositeDirection(receivableDirs[0])){
+        if (beam.getDirection().isOppositeDir(receivableDirs[0])){
             beam.setDirection(receivableDirs[1]);
         }
         else{

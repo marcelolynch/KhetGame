@@ -1,6 +1,6 @@
 package poo.khet;
 
-public abstract class Piece /* extends Component */ implements BoardAccepter {
+public abstract class Piece {
 
 	abstract boolean canBeSwapped();
 
@@ -26,7 +26,6 @@ public abstract class Piece /* extends Component */ implements BoardAccepter {
 	 *          <tt>false</tt> si murio por el rayo
 	 */
 	abstract boolean receiveBeam(Beam beam);
-	// TODO: lo del return es provisorio.
 
 	/**
 	 * Chequea si la casilla es un destino valido

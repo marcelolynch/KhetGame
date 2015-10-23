@@ -8,23 +8,23 @@ public class Mirror2 extends Accessory {
 	
 	Mirror2(Direction facing) {
 		super(facing);
-		otherFacing = facing.getClockwiseDirection();
+		otherFacing = facing.getClockwiseDir();
 	}
 
 	@Override
 	boolean canProcessBeam(Beam beam) {
-		return getFacing().isOppositeDirection(beam.getDirection()) 
-				|| getOtherFacing().isOppositeDirection(beam.getDirection());
+		return getFacing().isOppositeDir(beam.getDirection()) 
+				|| getOtherFacing().isOppositeDir(beam.getDirection());
 	}
 	
 	@Override
 	Beam processBeam(Beam beam) {
 		if (!canProcessBeam(beam))
 			throw new IllegalArgumentException("No se púede procesar el rayo");
-		if (getFacing().isOppositeDirection(beam.getDirection())) {
-			beam.redirectCounterClockwise();
+		if (getFacing().isOppositeDir(beam.getDirection())) {
+			beam.setDirection(getOtherFacing());
 		} else {
-			beam.redirectClockwise();
+			beam.setDirection(getFacing());
 		}
 		
 		return beam;
@@ -33,13 +33,13 @@ public class Mirror2 extends Accessory {
 	@Override
 	void rotateClockwise() {
 		super.rotateClockwise();
-		otherFacing = getOtherFacing().getClockwiseDirection();
+		otherFacing = getOtherFacing().getClockwiseDir();
 	}
 	
 	@Override
 	void rotateCounterClockwise() {
 		super.rotateCounterClockwise();
-		otherFacing = getOtherFacing().getCounterClockwiseDirection();
+		otherFacing = getOtherFacing().getCounterClockwiseDir();
 	}
 	
 	Direction getOtherFacing() {
