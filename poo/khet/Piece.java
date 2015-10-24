@@ -1,6 +1,8 @@
 package poo.khet;
 
-public abstract class Piece {
+import java.util.Observable;
+
+public abstract class Piece extends Observable{
 
 	abstract boolean canBeSwapped();
 

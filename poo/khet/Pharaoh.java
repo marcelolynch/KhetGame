@@ -1,8 +1,7 @@
 package poo.khet;
 
-//TODO: Notificación al morir
 public class Pharaoh extends Piece {
-
+	
 	public Pharaoh(Team team) {
 		super(team);
 	}
@@ -10,7 +9,11 @@ public class Pharaoh extends Piece {
 	@Override
 	boolean receiveBeam(Beam beam) {
 		beam.deactivate();
+		setChanged();
+		notifyObservers(/*ACA VA EL ESTADO (Object)*/); // Tiene que notificar que el Faraón murió
 		return false;
+		
+		//TODO: Enum de estados para mandar la notificacion de la muerte
 	}
 
 	@Override
@@ -39,6 +42,4 @@ public class Pharaoh extends Piece {
 	public int hashCode(){
 		return getTeam().hashCode();
 	}
-
-
 }
