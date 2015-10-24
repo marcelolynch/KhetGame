@@ -1,5 +1,8 @@
 package graphics;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -11,6 +14,14 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import poo.khet.Anubis;
+import poo.khet.Board;
+import poo.khet.Pharaoh;
+import poo.khet.Piece;
+import poo.khet.Pyramid;
+import poo.khet.Scarab;
+import poo.khet.Team;
+import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
 public class Main extends Application{
@@ -20,15 +31,18 @@ public class Main extends Application{
 	Canvas graphicBoard;
 	Canvas piecesLayer;
 	Canvas rotateButtons;
+	BoardDrawer boardDrawer;
 	
 	public void start(Stage primaryStage) throws Exception{
 		Group root = new Group();
 
 		graphicBoard = new Canvas(750,600);
-		graphicBoard.getGraphicsContext2D().drawImage(new Image("file:"),0,0);
+		graphicBoard.getGraphicsContext2D().drawImage(new Image("file:assets/Board.png"),0,0);
 
 		piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
 		piecesGC = piecesLayer.getGraphicsContext2D();
+		
+		boardDrawer = new BoardDrawer(piecesGC);
 		
 		rotateButtons = new Canvas(200,80);
 		rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
@@ -106,7 +120,15 @@ public class Main extends Application{
 	}
 
 	private void redraw(){
-		//Comunicacion con el tablero? GameManager.getCrap? PieceUI matrix?
+		Map<Position, Piece> pMap= new HashMap<Position, Piece>();
+		pMap.put(new Position(1,3), new Anubis(Team.RED, Direction.EAST));
+		pMap.put(new Position(5,7), new Pharaoh(Team.SILVER));
+		pMap.put(new Position(3,5), new Pharaoh(Team.RED));
+		pMap.put(new Position(5,2), new Scarab(Team.RED, Direction.EAST));
+		pMap.put(new Position(3,1), new Pyramid(Team.SILVER, Direction.EAST));
+		Board board = new Board(pMap);
+		
+		boardDrawer.draw(board);
 	}
 
 	

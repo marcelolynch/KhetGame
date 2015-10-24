@@ -23,9 +23,9 @@ public class Grid<T> {
 		if (pos == null || square == null) {
 			throw new IllegalArgumentException();
 		}
-		if (!isInBounds(pos)) {
-			throw new IllegalArgumentException(); //exception de outofbounds
-		}
+	/*	if (!isInBounds(pos)) {
+			throw new IllegalArgumentException("Out of bounds"); //exception de outofbounds
+		}*/
 		grid.put(pos, square);
 	}
 	

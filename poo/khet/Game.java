@@ -12,7 +12,7 @@ public class Game {
 	private BeamCannon silverCannon;
 	
 	//Ahora Game recibe lo mismo que se manda para construir board
-	public Game (Map<Coordinate, Piece> piecesConfig) {
+	public Game (Map<Position, Piece> piecesConfig) {
 		board = new Board(piecesConfig); 
 		redCannon = new BeamCannon(Team.RED);
 		silverCannon = new BeamCannon(Team.SILVER);

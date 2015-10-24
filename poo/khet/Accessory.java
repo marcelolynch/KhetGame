@@ -3,7 +3,6 @@ package poo.khet;
 import poo.khet.gameutils.Direction;
 
 public abstract class Accessory {
-	String s = "laslaskjsdkjh";
 	private Direction facing;
 	
 	Accessory(Direction dir) {
@@ -24,4 +23,18 @@ public abstract class Accessory {
 
 	abstract boolean canProcessBeam(Beam beam);
 	abstract Beam processBeam(Beam beam); // ya que modifica el estado interno de Beam, estaría bien que devuelva void?
+	
+	@Override
+	public boolean equals(Object o){
+		if(o == null || !(o.getClass().equals(this.getClass()))){
+			return false;
+		}
+		Accessory other = (Accessory)o;
+		return other.getFacing().equals(this.getFacing());
+	}
+	
+	public int hashCode(){
+		return facing.hashCode();
+	}
+
 }

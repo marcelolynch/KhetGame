@@ -1,12 +1,8 @@
 package graphics;
 
-import poo.khet.Anubis;
-import poo.khet.Board;
 import poo.khet.Game;
 import poo.khet.Piece;
-import poo.khet.Square;
 import poo.khet.Team;
-import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
 public class GameManager implements ErrorConstants{
@@ -66,8 +62,7 @@ public class GameManager implements ErrorConstants{
 			throw new IllegalArgumentException("null parameter"); //TODO: Dejar que tire el NullPointer?
 		}
 		
-		if(choosing())
-				&& game.getBoard().isEmptyPosition(position))
+		if(choosing() && game.getBoard().isEmptyPosition(position))
 			return OK; //Selecciono casilla vacia - no pasa nada
 
 		
@@ -119,10 +114,14 @@ public class GameManager implements ErrorConstants{
 		}
 		else{
 			game.rotate(activeSquare, clockwise);
+			return OK;
 		}
 	}
 	
-	
+	/**
+	 * Indica si la etapa es de eleccion de piezas (por claridad)
+	 * @return
+	 */
 	private boolean choosing(){
 		return currentStage() == Stage.RED_CHOICE || currentStage() == Stage.SILVER_CHOICE;
 	}

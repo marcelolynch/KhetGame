@@ -6,7 +6,7 @@ public class Pyramid extends Piece {
 
 	private Mirror2 mirror;
 
-	Pyramid(Team team, Direction facing) {
+	public Pyramid(Team team, Direction facing) {
 		super(team);
 		mirror = new Mirror2(facing);
 	}
@@ -48,5 +48,20 @@ public class Pyramid extends Piece {
 	void rotateCounterClockwise() {
 		mirror.rotateCounterClockwise();
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o == null || !(o instanceof Pyramid)){
+			return false;
+		}
+		Pyramid other = (Pyramid)o;
+		return other.getTeam().equals(this.getTeam()) && other.mirror.equals(this.mirror);
+	}
+	
+	@Override
+	public int hashCode(){
+		return getTeam().hashCode() ^ mirror.hashCode();
+	}
+
 
 }

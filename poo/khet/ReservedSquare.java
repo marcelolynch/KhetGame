@@ -1,7 +1,5 @@
 package poo.khet;
 
-// TODO como hacer para que la pieza en el canMove sepa que es ReservedSquare
-// por ahora se pasa la pieza a si misma a un metodo canTakeTeam
 /**
  * Casillero reservado para piezas de un equipo determinado.
  *

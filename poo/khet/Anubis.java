@@ -6,7 +6,7 @@ public class Anubis extends Piece {
 
 	private Shield shield;
 
-	Anubis(Team team, Direction facing) {
+	public Anubis(Team team, Direction facing) {
 		super(team);
 		shield = new Shield(facing);
 	}
@@ -36,6 +36,20 @@ public class Anubis extends Piece {
 	@Override
 	void rotateCounterClockwise() {
 		shield.rotateCounterClockwise();
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o == null || !(o instanceof Anubis)){
+			return false;
+		}
+		Anubis other = (Anubis)o;
+		return other.getTeam().equals(this.getTeam()) && other.shield.equals(this.shield);
+	}
+	
+	@Override
+	public int hashCode(){
+		return getTeam().hashCode() ^ shield.hashCode();
 	}
 
 }

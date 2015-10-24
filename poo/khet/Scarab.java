@@ -6,7 +6,7 @@ public class Scarab extends Piece {
 
 	private Mirror2[] mirrors;
 
-	Scarab(Team team, Direction facing) {
+	public Scarab(Team team, Direction facing) {
 		super(team);
 
 		mirrors = new Mirror2[2];
@@ -49,4 +49,20 @@ public class Scarab extends Piece {
 	boolean canBeSwapped() {
 		return false;
 	}
+	
+	
+	@Override
+	public boolean equals(Object o){
+		if(o == null || !(o instanceof Scarab)){
+			return false;
+		}
+		Scarab other = (Scarab)o;
+		return other.getTeam().equals(this.getTeam()) && other.mirrors.equals(this.mirrors);
+	}
+	
+	@Override
+	public int hashCode(){
+		return getTeam().hashCode() ^ mirrors[0].hashCode() ^ mirrors[1].hashCode();
+	}
+
 }

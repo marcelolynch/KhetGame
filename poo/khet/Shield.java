@@ -20,5 +20,5 @@ public class Shield extends Accessory {
 		beam.deactivate();
 		return beam;
 	}
-
+	
 }
