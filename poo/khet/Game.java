@@ -2,7 +2,6 @@ package poo.khet;
 
 import java.util.Map;
 
-import poo.khet.gameutils.Coordinate;
 import poo.khet.gameutils.Position;
 
 public class Game {
@@ -20,15 +19,40 @@ public class Game {
 		movingTeam = Team.SILVER; // Siempre comienza SILVER
 	}
 	
+	/**
+	 * Valida que la posición esté ocupada por una pieza del equipo moviendo.
+	 * @param pos - posición a validar
+	 * @return <tt>true</tt> si se encuentra una pieza del equipo moviendo, <tt>false</tt> sino.
+	 */
+	public boolean isValidSelection(Position pos) { // la terminé haciendo para poder validar rotaciones
+		if (pos == null) {
+			return false;
+		}
+		
+		if (!board.isInBounds(pos)) {
+			return false;
+		}
+		
+		if (board.isEmptyPosition(pos)) {
+			return false;
+		}
+		
+		Piece p = board.getOccupantIn(pos);
+		
+		if (!p.getTeam().equals(movingTeam)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	// TODO: constantes de error
 	public boolean isValidMove(Position init, Position dest) {
 		if (init == null || dest == null) {
 			return false;
 		}
 		
-		// hay un checkDistance en board que hace las dos sig validaciones. ¿Mejor hacerlas así
-		// o que las haga el board?
-		if (!board.isInBounds(init) || !board.isInBounds(dest)) {
+		if (!isValidSelection(init)) {
 			return false;
 		}
 		
@@ -36,15 +60,7 @@ public class Game {
 			return false;
 		}
 		
-		if (board.isEmptyPosition(init)) {
-			return false;
-		}
-		
 		Piece p = board.getOccupantIn(init);
-		
-		if (!p.getTeam().equals(movingTeam)) {
-			return false;
-		}
 		
 		return board.canPlace(p, dest);
 	}
@@ -63,12 +79,19 @@ public class Game {
 		board.placePiece(dest, p);
 	}
 	
-	void rotateClockwise (Position position) {
-		board.getOccupantIn(position).rotateClockwise();
-	}
-	
-	void rotateCounterClockwise (Position position) {
-		board.getOccupantIn(position).rotateCounterClockwise();
+	public void rotate(Position pos, boolean clockwise) {
+		if (!isValidSelection(pos)) {
+			throw new IllegalArgumentException();
+		}
+		
+		Piece p = board.getOccupantIn(pos);
+		
+		if (clockwise) {
+			p.rotateClockwise();
+		}
+		else {
+			p.rotateCounterClockwise();
+		}
 	}
 	
 	BeamCannon getBeamCannon(Team team) {
@@ -133,9 +156,6 @@ public class Game {
 		return false;
 	}
 
-	//TODO: TODO
-	public void rotate(Position activeSquare, boolean clockwise) {
-		return;
-	}
+	
 
 }

@@ -50,12 +50,6 @@ public class Board {
 		grid.setSquare(new Position(COLUMNS-2, ROWS-1), new ReservedSquare(Team.SILVER));
 	
     }
-    
-    public boolean checkDistance(Position init, Position dest) {
-    	if (!isInBounds(init) || !isInBounds(dest))
-    		return false;
-        return init.isAdjacent(dest);
-    }
    
     /**
      * Consulta si es valido mover una pieza como la que se pasa
@@ -65,6 +59,9 @@ public class Board {
      * @return <tt>true</tt> si es licito moverla ahi; <tt>false</tt> de otro modo
      */
     public boolean canPlace(Piece piece, Position position){
+    	if (!isInBounds(position)) {
+    		return false;
+    	}
     	Square selected = grid.getSquare(position);
     	return selected.canAccomodate(piece);
     }
