@@ -24,7 +24,7 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
      * @throws ClassNotFoundException
      */
     
-    public GameSetup loadGameFile(String name) throws IOException, ClassNotFoundException {
+    public static GameSetup loadGameFile(String name) throws IOException, ClassNotFoundException {
 		File toRead = new File(name);
 		FileInputStream fis = new FileInputStream(toRead);
 		ObjectInputStream ois = new ObjectInputStream(fis);
@@ -36,7 +36,7 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 	
 	//TODO: Exceptions?
 	// tendria que haber un GameMode para poder guardarlo y cargarlo
-	public void writeGameFile(String name, Board board, GameSetup setup) throws FileNotFoundException, IOException {
+	public static void writeGameFile(String name, Board board, GameSetup setup) throws FileNotFoundException, IOException {
 		// O lo hacemos afuera? en la funcion que llama a writeGameFile. Digo porque capaz es raro de que se encargue
 		// aca de cambiar el GameSetup. Es como que son cosas que tendria que hacer Game
 		
@@ -52,7 +52,7 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 		setup.setBoardConfig(boardConfig);
 		
 		ObjectOutputStream oos = new ObjectOutputStream( 
-				new FileOutputStream(name)); // de esto no estoy seguro
+				new FileOutputStream(name)); 
 		oos.writeObject(setup);
 		oos.flush();
 		oos.close();
