@@ -90,17 +90,24 @@ public class Main extends Application{
 		});
 		
 		*/
-		redraw();
+		drawBoard();
+		
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
-    					Position coord = getPositionFromMouse(e.getX(), e.getY());
-        				piecesGC.clearRect((coord.getRow()*75), (coord.getCol()*75), 75, 75);
+    					Position selectedPos = getPositionFromMouse(e.getX(), e.getY());
+        				piecesGC.clearRect((selectedPos.getRow()*75), (selectedPos.getCol()*75), 75, 75);
+        				
         				if(e.getButton() == MouseButton.PRIMARY){
-        					new UIPiece().draw(piecesGC, coord);
-        					gameManager.handle(coord);
+        					gameManager.handle(selectedPos);
+        					new UIPiece().draw(piecesGC, selectedPos, true);
         				}
-        					redraw(); 
+        				else if(e.getButton() == MouseButton.SECONDARY){
+        					gameManager.resetTurn();
+        					new UIPiece().draw(piecesGC, selectedPos, false);
+        				}
+        				
+        				drawBoard(); 
         			}
         });
 		
@@ -109,17 +116,17 @@ public class Main extends Application{
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
         			gameManager.handleRotation(e.getX() < 98);
-        			redraw();
+        			drawBoard();
         			}
         });
 
        
-		primaryStage.setTitle("Preview");
+		primaryStage.setTitle("Khet — The Laser Game");
         primaryStage.setScene(new Scene(root, graphicBoard.getWidth() + 50, graphicBoard.getHeight()+ rotateButtons.getHeight() + 50));
         primaryStage.show();
 	}
 
-	private void redraw(){
+	private void drawBoard(){
 		Map<Position, Piece> pMap= new HashMap<Position, Piece>();
 		pMap.put(new Position(7,2), new Pyramid(Team.RED, Direction.WEST));
 		pMap.put(new Position(7,3), new Anubis(Team.RED, Direction.NORTH));

@@ -125,4 +125,13 @@ public class GameManager implements ErrorConstants{
 	private boolean choosing(){
 		return currentStage() == Stage.RED_CHOICE || currentStage() == Stage.SILVER_CHOICE;
 	}
+
+	public void resetTurn() {
+		if(currentStage() == Stage.RED_ACTION){
+			setStage(Stage.RED_CHOICE);
+		}
+		else if(currentStage() == Stage.SILVER_ACTION){
+			setStage(Stage.SILVER_CHOICE);
+		}
+	}
 }
