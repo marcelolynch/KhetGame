@@ -24,16 +24,26 @@ public class Beam {
 
 	/**
 	 * Devuelve la direccion en la que esta viajando el rayo
+	 * @throws IllegalStateException si el rayo no se encuentra activo
 	 */
 	Direction getDirection(){
+		if (!isActive()) {
+			throw new IllegalStateException("El rayo no se encuentra activo");
+		}
+
 		return direction;
     }
 	
 	/**
 	 * Cambia la dirección del rayo
 	 * @param newDirection - nueva dirección del rayo
+	 * @throws IllegalStateException si el rayo no se encuentra activo
 	 */
 	void setDirection(Direction newDirection){
+		if (!isActive()) {
+			throw new IllegalStateException("El rayo no se encuentra activo");
+		}
+		
 	    this.direction = newDirection;
 	}
 	
