@@ -23,6 +23,11 @@ public class Grid<T> {
 		if (pos == null || square == null) {
 			throw new IllegalArgumentException();
 		}
+		
+		//Comente esto porque no tiene sentido: isInBounds pregunta si ya existe la posicion en el mapa
+		//O sea tira excepcion si queres inicializar algo que nunca inicializaste, o sea no se puede llenar
+		//por primera vez. -Chelo
+		
 	/*	if (!isInBounds(pos)) {
 			throw new IllegalArgumentException("Out of bounds"); //exception de outofbounds
 		}*/

@@ -35,28 +35,23 @@ public class BoardDrawer{
 	public void draw(Board board){
 		Position pos;
 		Piece piece;
+		
 		for(int i=0; i<ROWS ;i++){
 			for(int j=0; j<COLUMNS; j++){
 				pos = new Position(i, j);
-				if(board.isInBounds(pos) && !board.isEmptyPosition(pos)){
+				if(board.isInBounds(pos) && !board.isEmptyPosition(pos)){ //Me protejo contra las esquinas que no son del tablero
 					piece = board.getOccupantIn(pos);
-					System.out.println(piece + "... en: (" + i + ", " + ","+ j+ ")");
 					graphicsContext.clearRect(SQUARE_SIZE*j, SQUARE_SIZE*i, SQUARE_SIZE, SQUARE_SIZE);
 					graphicsContext.drawImage(imageMap.get(piece), SQUARE_SIZE*j + 1, SQUARE_SIZE*i + 1);
 				}
 			}
 		}
 	}
-	
-	/*
-	boolean cannonPosition(Position pos){
-		return (pos.getRow() == 0 && pos.getCol()==0) || (pos.getRow()==ROWS-1 && pos.getCol() == COLUMNS-1);
-	}
-	*/
+
 	
 	/**
-	 * Cargar imagenes
-	 * @param imageMap
+	 * Cargar recursos en un mapa de imagenes
+	 * @param imageMap - el mapa
 	 */
 	void mapFiller(Map<Piece, Image> imageMap){
 		imageMap.put(new Anubis(Team.RED, Direction.NORTH), new Image("file:assets/pieces/anubis/red_north.png"));
@@ -67,7 +62,7 @@ public class BoardDrawer{
 		imageMap.put(new Anubis(Team.SILVER, Direction.NORTH), new Image("file:assets/pieces/anubis/silver_north.png"));
 		imageMap.put(new Anubis(Team.SILVER, Direction.EAST), new Image("file:assets/pieces/anubis/silver_east.png"));
 		imageMap.put(new Anubis(Team.SILVER, Direction.WEST), new Image("file:assets/pieces/anubis/silver_west.png"));
-		imageMap.put(new Anubis(Team.SILVER, Direction.SOUTH), new Image("file:assets/pieces/anubis/silver_south"));
+		imageMap.put(new Anubis(Team.SILVER, Direction.SOUTH), new Image("file:assets/pieces/anubis/silver_south.png"));
 
 		imageMap.put(new Scarab(Team.RED, Direction.NORTH), new Image("file:assets/pieces/scarab/red_north_south.png"));
 		imageMap.put(new Scarab(Team.RED, Direction.SOUTH), new Image("file:assets/pieces/scarab/red_north_south.png"));
