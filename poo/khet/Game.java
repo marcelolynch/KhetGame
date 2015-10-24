@@ -10,34 +10,57 @@ public class Game {
 	private Board board;
 	private BeamCannon redCannon;
 	private BeamCannon silverCannon;
+	private Team movingTeam;
 	
 	//Ahora Game recibe lo mismo que se manda para construir board
 	public Game (Map<Position, Piece> piecesConfig) {
 		board = new Board(piecesConfig); 
 		redCannon = new BeamCannon(Team.RED);
 		silverCannon = new BeamCannon(Team.SILVER);
+		movingTeam = Team.SILVER; // Siempre comienza SILVER
 	}
 	
-	//TODO: Graveyard
-	public boolean move(Position init, Position dest) {
-		if (!board.checkDistance(init,dest)) {
-			return false;
-		}
-		Square initSquare = board.getPosition(init);
-		Square destSquare = board.getPosition(dest);
-		
-		if (initSquare.isEmpty() || !((Piece)initSquare.getOccupant()).canMove(destSquare)) {
+	// TODO: constantes de error
+	public boolean isValidMove(Position init, Position dest) {
+		if (init == null || dest == null) {
 			return false;
 		}
 		
-		if (destSquare.isEmpty()) {
-			destSquare.setOccupant(initSquare.withdrawOccupant());
-		} else { // Va a haber swap
-			Piece swapped = ((Piece)destSquare.withdrawOccupant());
-			destSquare.setOccupant(initSquare.withdrawOccupant());
-			initSquare.setOccupant(swapped);
+		// hay un checkDistance en board que hace las dos sig validaciones. ¿Mejor hacerlas así
+		// o que las haga el board?
+		if (!board.isInBounds(init) || !board.isInBounds(dest)) {
+			return false;
 		}
-		return true;
+		
+		if (!init.isAdjacent(dest)) {
+			return false;
+		}
+		
+		if (board.isEmptyPosition(init)) {
+			return false;
+		}
+		
+		Piece p = board.getOccupantIn(init);
+		
+		if (!p.getTeam().equals(movingTeam)) {
+			return false;
+		}
+		
+		return board.canPlace(p, dest);
+	}
+	
+	public void move(Position init, Position dest) {
+		if (!isValidMove(init, dest)) {
+			throw new IllegalArgumentException("Movimiento inválido.");
+		}
+		
+		Piece p = board.withdrawFrom(init);
+		
+		if (!board.isEmptyPosition(dest)) { // hay swap
+			board.placePiece(init, board.withdrawFrom(dest));
+		}
+		
+		board.placePiece(dest, p);
 	}
 	
 	void rotateClockwise (Position position) {
