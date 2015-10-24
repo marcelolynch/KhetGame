@@ -57,7 +57,8 @@ public class Scarab extends Piece {
 			return false;
 		}
 		Scarab other = (Scarab)o;
-		return other.getTeam().equals(this.getTeam()) && other.mirrors.equals(this.mirrors);
+		return other.getTeam().equals(this.getTeam()) && 
+				other.mirrors[0].equals(this.mirrors[0]) && other.mirrors[1].equals(this.mirrors[1]);
 	}
 	
 	@Override

@@ -90,7 +90,7 @@ public class Main extends Application{
 		});
 		
 		*/
-		
+		redraw();
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
@@ -121,11 +121,16 @@ public class Main extends Application{
 
 	private void redraw(){
 		Map<Position, Piece> pMap= new HashMap<Position, Piece>();
-		pMap.put(new Position(1,3), new Anubis(Team.RED, Direction.EAST));
-		pMap.put(new Position(5,7), new Pharaoh(Team.SILVER));
-		pMap.put(new Position(3,5), new Pharaoh(Team.RED));
-		pMap.put(new Position(5,2), new Scarab(Team.RED, Direction.EAST));
-		pMap.put(new Position(3,1), new Pyramid(Team.SILVER, Direction.EAST));
+		pMap.put(new Position(0,4), new Anubis(Team.RED, Direction.SOUTH));
+		pMap.put(new Position(0,5), new Pharaoh(Team.RED));
+		pMap.put(new Position(0,6), new Anubis(Team.RED, Direction.SOUTH));
+		pMap.put(new Position(0,7), new Pyramid(Team.RED, Direction.EAST));
+		
+		pMap.put(new Position(1,2), new Pyramid(Team.RED, Direction.SOUTH));
+		
+		pMap.put(new Position(2,3), new Pyramid(Team.SILVER, Direction.WEST));
+
+		
 		Board board = new Board(pMap);
 		
 		boardDrawer.draw(board);
