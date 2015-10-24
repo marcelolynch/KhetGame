@@ -7,7 +7,7 @@ import java.util.Observer;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
-public class Game implements Observer{
+public class Game implements Observer {
 	
 	private Board board;
 	private BeamCannon redCannon;
@@ -108,8 +108,8 @@ public class Game implements Observer{
 	Board throwBeam(Team team) {
 		BeamCannon cannon = getBeamCannon(team);
 		Beam beam = cannon.generateBeam();
-		BeamManager beamManager=new BeamManager(beam,board);
-		Position death=beamManager.throwBeam(team);
+		BeamManager beamManager = new BeamManager(beam, board);
+		Position death = beamManager.throwBeam(team);
 		if(death != null) {
 			board.withdrawFrom(death);
 		}
