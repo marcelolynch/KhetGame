@@ -95,6 +95,10 @@ public class Game implements Observer, CannonPositions {
 		}
 	}
 	
+	public Team getMovingTeam() {
+		return movingTeam;
+	}
+	
 	BeamCannon getBeamCannon(Team team) {
 		if (team == Team.RED)
 			return redCannon;
