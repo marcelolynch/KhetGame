@@ -5,16 +5,11 @@ import java.util.Map;
 
 import poo.khet.gameutils.Position;
 
-public class Board {
+public class Board implements CannonPositions {
 
     static final int COLUMNS = 10;
     static final int ROWS = 8;
     
-    // TODO interfaz de constantes
-    //esto ya queda fuera de lugar pero hay que ver como ponerlo para poder hacer lo de outOfBounds
-    static final private Position SILVER_CANNON_POS = new Position(0, 0);
-    static final private Position RED_CANNON_POS = new Position(COLUMNS-1, ROWS-1);
-
     private Map<Position, Square> grid;
     
     public Board(Map<Position, Piece> pieces) { 
@@ -30,25 +25,28 @@ public class Board {
 		for (int i=0; i < ROWS; i++) {
 		    for(int j=0; j < COLUMNS ; j++){
 		    	position = new Position(i, j);
-		        if(j == 0 && i != SILVER_CANNON_POS.getRow()) {
-	                grid.put(position, new ReservedSquare(Team.SILVER));
-		        }
-		        else if(j == COLUMNS-1 && i != RED_CANNON_POS.getCol()) {
-		        	grid.put(position, new ReservedSquare(Team.RED));
-		        }
-		        else {
-		            grid.put(position, new Square());
-		        }
+		    	if( !(position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION)) ){
+		    		if(j == 0) {
+		    			grid.put(position, new ReservedSquare(Team.SILVER));
+		    		}
+		    		else if(j == COLUMNS-1) {
+		    			grid.put(position, new ReservedSquare(Team.RED));
+		    		}
+		    		else {
+		    			grid.put(position, new Square());
+		    		}
+		    	}
 		    }
 		}
 		
 		//Sobreescribo, si no los if/else se hacen muy pesados
 		//Se crearon arriba 4 instancias que se dejan de referenciar aca
 		grid.put(new Position(0, 1), new ReservedSquare(Team.RED));
-		grid.put(new Position(0,8), new ReservedSquare(Team.RED));
+		grid.put(new Position(0, 8), new ReservedSquare(Team.RED));
 		grid.put(new Position(7, 8), new ReservedSquare(Team.SILVER));
 		grid.put(new Position(7, 1), new ReservedSquare(Team.SILVER));
-	
+		
+
     }
    
     /**

@@ -140,7 +140,7 @@ public class GameManager implements ErrorConstants{
 				return INVALID_ACTION_SELECTED; 
 			
 			if(game.isValidMove(activeSquare, position)){
-				System.out.println("IT CAN MOVE");
+				System.out.println("MOVING PIECE");
 				game.move(activeSquare, position);
 				activeSquare = null; //Back to square 1
 				game.throwBeam(currentTeam());
