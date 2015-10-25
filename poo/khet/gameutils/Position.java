@@ -74,8 +74,13 @@ public class Position {
 		return (c.getRow() == this.getRow()) && (c.getCol() == this.getCol());
 	}
 	
-	
+	@Override
 	public int hashCode(){
 		return 31*getRow() ^ getCol();
+	}
+	
+	@Override
+	public String toString(){
+		return "Position: (" + getRow() + ", " + getCol() + ")";
 	}
 }
