@@ -82,18 +82,10 @@ public class GameManager implements ErrorConstants{
 		stage = newStage;
 	}
 	
-	public boolean handle(Position position){
-		/*activeSquare = board.getPosition(coord);
-		if(stage == Stage.RED_MOVE){
-				activeSquare.setOccupant(new Anubis(Team.RED, Direction.NORTH));
-				board.print();
-				return true;
-			}*/
-		System.out.println("Manejando la coordenada (" + position.getRow() + ", " + position.getCol() + ")");
-		return false;
-		
-	}
-	
+//	public boolean handle(Position position){
+//		System.out.println("Manejando la coordenada (" + position.getRow() + ", " + position.getCol() + ")");
+//		return false;
+//	}
 	/**
 	 * Recibe una posicion activada por el usuario; de ser posible
 	 * intenta aplicar la operacion (movimiento, seleccion) correspondiente
@@ -102,7 +94,7 @@ public class GameManager implements ErrorConstants{
 	 * @param dummy
 	 * @return
 	 */
-	public int handle(Position position, boolean dummy){ //Trabajando aca temporariamente
+	public int handle(Position position){
 		if(position == null){
 			throw new IllegalArgumentException("null parameter"); //TODO: Dejar que tire el NullPointer?
 		}
