@@ -14,7 +14,7 @@ public class BeamManager {
 		super();
 		this.beam = beam;
 		this.board = board;
-		this.beamPath = new ArrayList<>();
+		this.beamPath = new ArrayList<Position>();
 	}
 	
 	Beam getBeam() {
@@ -32,30 +32,24 @@ public class BeamManager {
 	BeamAction throwBeam(Team team) {
 		// podriamos pasarle la posicion del cannon para no tener que pasarle Game o algo asi
 		Position initialBeamPos = board.getCannonPosition(team);
-		initialBeamPos.getPosInDirection(beam.getDirection());
-		// Lo mueve para que no este en el mismo casillero que Cannon
 		return manageBeamTravel(beam, initialBeamPos);
 	}
 	
-	BeamAction manageBeamTravel (Beam beam, Position initialPosition) {
+	private BeamAction manageBeamTravel (Beam beam, Position initialPosition) {
 		BeamAction beamAction = null;
 		Position beamPos = initialPosition;
 		
 		while (beam.isActive()) {
+			beamPos = nextBeamPosition(beamPos, beam);
 			beamPath.add(beamPos);
 			if (!board.isInBounds(beamPos)) {
 				beam.deactivate();
 				beamAction = BeamAction.OUT_OF_BOUNDS;
-			} else {
-				if (!board.isEmptyPosition(beamPos)) {
-					if (board.getOccupantIn(beamPos).receiveBeam(beam)) {
-						beamAction = BeamAction.WAS_CONTAINED;
-					} else {
-						beamAction = BeamAction.DESTROYED_PIECE;
-					}
-				}
-				if (beam.isActive()) {
-					beamPos = nextBeamPosition(beamPos, beam);
+			} else if (!board.isEmptyPosition(beamPos)){
+				if (board.getOccupantIn(beamPos).receiveBeam(beam)) {
+					beamAction = BeamAction.WAS_CONTAINED;
+				} else {
+					beamAction = BeamAction.DESTROYED_PIECE;
 				}
 			}
 		}
@@ -64,9 +58,6 @@ public class BeamManager {
 	}
 	
 	private Position nextBeamPosition(Position pos, Beam beam) {
-		pos.getPosInDirection(beam.getDirection());
-		return pos;
+		return pos.getPosInDirection(beam.getDirection());
 	}
-		
-	
 }
