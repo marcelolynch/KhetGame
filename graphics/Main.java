@@ -64,7 +64,7 @@ public class Main extends Application{
         				piecesGC.clearRect((selectedPos.getRow()*75 - 1), (selectedPos.getCol()*75 - 1), 77, 77);
         				
         				if(e.getButton() == MouseButton.PRIMARY){
-        					gameManager.handle(selectedPos, true);
+        					gameManager.handle(selectedPos);
         				}
         				else if(e.getButton() == MouseButton.SECONDARY){
         					gameManager.resetTurn();
@@ -105,7 +105,6 @@ public class Main extends Application{
 	private Position getPositionFromMouse(double x, double y) {
 		int squareSize = 75;
 		Position c = new Position((int)y / squareSize, (int)x / squareSize);
-		System.out.println("Coord: (" + c.getRow() + ", " + c.getCol() + ")");
 		return c;
 	}
 
