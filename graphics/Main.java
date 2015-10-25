@@ -86,7 +86,8 @@ public class Main extends Application{
         primaryStage.setWidth(750); 
         primaryStage.setHeight(720);
         primaryStage.setResizable(false);
-		primaryStage.setTitle("Khet � The Laser Game");
+		primaryStage.setTitle("Khet - The Laser Game");
+		//primaryStage.getIcons().add(new Image("file:assets/icon.png"));
         primaryStage.setScene(new Scene(root, graphicBoard.getWidth() + 50, graphicBoard.getHeight()+ rotateButtons.getHeight() + 50));
         primaryStage.show();
 	}
@@ -94,6 +95,12 @@ public class Main extends Application{
 	private void drawBoard(){
 		piecesGC.clearRect(0, 0, piecesLayer.getWidth(), piecesLayer.getHeight());
 		boardDrawer.draw(gameManager.getBoard());
+		
+		// Resalta pieza seleccionada
+		if (!gameManager.isChoosing()) {
+			Position selected = gameManager.getActiveSquare();
+			piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol()*75, selected.getRow()*75);
+		}
 	}
 
 	
