@@ -82,8 +82,10 @@ public class Main extends Application{
         			}
         });
 
-       
-		primaryStage.setTitle("Khet — The Laser Game");
+        primaryStage.setWidth(750); 
+        primaryStage.setHeight(720);
+        primaryStage.setResizable(false);
+		primaryStage.setTitle("Khet ï¿½ The Laser Game");
         primaryStage.setScene(new Scene(root, graphicBoard.getWidth() + 50, graphicBoard.getHeight()+ rotateButtons.getHeight() + 50));
         primaryStage.show();
 	}
