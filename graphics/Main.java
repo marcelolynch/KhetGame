@@ -1,17 +1,28 @@
 package graphics;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.swing.GroupLayout.Alignment;
+
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import poo.khet.GameLoader;
 import poo.khet.gameutils.Position;
 
 public class Main extends Application{
@@ -21,6 +32,7 @@ public class Main extends Application{
 	Canvas graphicBoard;
 	Canvas piecesLayer;
 	Canvas rotateButtons;
+	Canvas saveButton;
 	BoardDrawer boardDrawer;
 	
 	public void start(Stage primaryStage) throws Exception{
@@ -38,22 +50,19 @@ public class Main extends Application{
 		rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
 		rotateButtons.setTranslateY(graphicBoard.getHeight()+10);
 		rotateButtons.setTranslateX(20);
-	
-		Button rotateCWButton = new Button("Rotate clockwise");
-		rotateCWButton.setTranslateY(graphicBoard.getHeight() + 10);
-		rotateCWButton.setTranslateX(10);
-
-		Button rotateCCWButton= new Button("Rotate counterclockwise");
-		rotateCCWButton.setTranslateY(graphicBoard.getHeight() + 10);
-		rotateCCWButton.setTranslateX(120);
+		
+		saveButton = new Canvas(75, 75);
+		saveButton.getGraphicsContext2D().drawImage(new Image("file:assets/SaveButton.png"), 0, 0);
+		saveButton.setTranslateY(graphicBoard.getHeight()+10);
+		saveButton.setTranslateX(750-75-20);
 
 		
 		gameManager = new GameManager(null);
 	
-	
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
 		root.getChildren().add(rotateButtons);
+		root.getChildren().add(saveButton);
 		
 		drawBoard();
 		
@@ -82,6 +91,14 @@ public class Main extends Application{
         			drawBoard();
         			}
         });
+        
+        saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+        		new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent e) {
+					saveGamePrompt();
+					}
+        			
+        });
 
         primaryStage.setWidth(750); 
         primaryStage.setHeight(720);
@@ -102,7 +119,37 @@ public class Main extends Application{
 			piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol()*75, selected.getRow()*75);
 		}
 	}
-
+	
+	void saveGamePrompt() {
+		Stage saveWindow = new Stage();
+		VBox saveLayout = new VBox(10);
+		Button saveBtn = new Button("Save");
+		TextField nameInput = new TextField();
+		
+		saveBtn.setOnAction(
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						try {
+							GameLoader.writeGameFile(nameInput.getText(), gameManager.getBoard());
+							System.out.println("Saved!");
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						saveWindow.close();
+					}
+				});
+		
+		saveLayout.setPadding(new Insets(20));
+		saveLayout.getChildren().add(saveBtn);
+		saveLayout.getChildren().add(nameInput);
+		saveWindow.setScene(new Scene(saveLayout));
+		saveWindow.setTitle("Save Game");
+		saveWindow.show();
+	}
 	
 	/**
 	 * Devuelve una coordenada a partir de la posicion del mouse

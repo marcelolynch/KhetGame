@@ -30,7 +30,7 @@ public class GameManager implements ErrorConstants{
 
 		pMap.put(new Position(6,7), new Pyramid(Team.RED, Direction.EAST));
 
-		pMap.put(new Position(5,6), new Pyramid(Team.SILVER, Direction.SOUTH));
+		pMap.put(new Position(5,6), new Pyramid(Team.SILVER, Direction.EAST));
 
 		pMap.put(new Position(4,0), new Pyramid(Team.SILVER, Direction.EAST));
 		pMap.put(new Position(4,2), new Pyramid(Team.RED, Direction.WEST));

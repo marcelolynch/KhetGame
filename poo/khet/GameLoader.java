@@ -36,7 +36,7 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 	
 	//TODO: Exceptions?
 	// tendria que haber un GameMode para poder guardarlo y cargarlo
-	public static void writeGameFile(String name, Board board, GameSetup setup) throws FileNotFoundException, IOException {
+	public static void writeGameFile(String name, Board board /*, GameSetup setup*/) throws FileNotFoundException, IOException {
 		// O lo hacemos afuera? en la funcion que llama a writeGameFile. Digo porque capaz es raro de que se encargue
 		// aca de cambiar el GameSetup. Es como que son cosas que tendria que hacer Game
 		
@@ -44,16 +44,18 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 		for (int i=0; i<ROWS; i++) {
 			for (int j=0; j<COLUMNS; j++) {
 				Position pos = new Position(i, j);
-				if (!board.isEmptyPosition(pos)) {
+				if (board.isInBounds(pos) && !board.isEmptyPosition(pos)) {
 					boardConfig.put(pos, board.getOccupantIn(pos));
 				}
 			}
 		}
-		setup.setBoardConfig(boardConfig);
+		//setup.setBoardConfig(boardConfig);
 		
 		ObjectOutputStream oos = new ObjectOutputStream( 
 				new FileOutputStream(name)); 
-		oos.writeObject(setup);
+		//oos.writeObject(boardConfig);
+		//TODO: algo de serializable sino tira IOException
+		System.out.println("Saved: " + name);
 		oos.flush();
 		oos.close();
 	}
