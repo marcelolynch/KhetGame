@@ -1,9 +1,9 @@
 package poo.khet;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import poo.khet.gameutils.Position;
-import poo.khet.gameutils.Grid;
 
 public class Board {
 
@@ -15,7 +15,7 @@ public class Board {
     static final private Position SILVER_CANNON_POS = new Position(0, 0);
     static final private Position RED_CANNON_POS = new Position(COLUMNS-1, ROWS-1);
 
-    private Grid<Square> grid;
+    private Map<Position, Square> grid;
     
     public Board(Map<Position, Piece> pieces) { 
     	generateBoard();
@@ -24,30 +24,30 @@ public class Board {
 
     //TODO: hacerlo bien
     private void generateBoard() {
-		grid = new Grid<Square>();
+		grid = new HashMap<Position, Square>();
 		Position position;
 		
 		for (int i=0; i < ROWS; i++) {
 		    for(int j=0; j < COLUMNS ; j++){
 		    	position = new Position(i, j);
 		        if(j == 0 && i != SILVER_CANNON_POS.getRow()) {
-	                grid.setSquare(position, new ReservedSquare(Team.SILVER));
+	                grid.put(position, new ReservedSquare(Team.SILVER));
 		        }
 		        else if(j == COLUMNS-1 && i != RED_CANNON_POS.getCol()) {
-		        	grid.setSquare(position, new ReservedSquare(Team.RED));
+		        	grid.put(position, new ReservedSquare(Team.RED));
 		        }
 		        else {
-		            grid.setSquare(position, new Square());
+		            grid.put(position, new Square());
 		        }
 		    }
 		}
 		
 		//Sobreescribo, si no los if/else se hacen muy pesados
 		//Se crearon arriba 4 instancias que se dejan de referenciar aca
-		grid.setSquare(new Position(0, 1), new ReservedSquare(Team.RED));
-		grid.setSquare(new Position(0,8), new ReservedSquare(Team.RED));
-		grid.setSquare(new Position(7, 8), new ReservedSquare(Team.SILVER));
-		grid.setSquare(new Position(7, 1), new ReservedSquare(Team.SILVER));
+		grid.put(new Position(0, 1), new ReservedSquare(Team.RED));
+		grid.put(new Position(0,8), new ReservedSquare(Team.RED));
+		grid.put(new Position(7, 8), new ReservedSquare(Team.SILVER));
+		grid.put(new Position(7, 1), new ReservedSquare(Team.SILVER));
 	
     }
    
@@ -62,22 +62,22 @@ public class Board {
     	if (!isInBounds(position)) {
     		return false;
     	}
-    	Square selected = grid.getSquare(position);
+    	Square selected = grid.get(position);
     	return selected.canAccomodate(piece);
     }
     
     public boolean isInBounds(Position pos) {
-        return grid.isInBounds(pos);
+        return grid.containsKey(pos);
     }
     
 
     public Piece withdrawFrom (Position position) {
-    	return grid.getSquare(position).withdrawOccupant();
+    	return grid.get(position).withdrawOccupant();
     }
     
     
     public boolean isEmptyPosition(Position position){
-    	return grid.getSquare(position).isEmpty();
+    	return grid.get(position).isEmpty();
     }
     
     
@@ -85,12 +85,12 @@ public class Board {
     	if(isEmptyPosition(position)){
     		throw new IllegalStateException(); //TODO: Excepcion
     	}
-    	return grid.getSquare(position).getOccupant();
+    	return grid.get(position).getOccupant();
     }
     
     public void placePiece (Position pos, Piece piece) {
-    	if (grid.isInBounds(pos) && grid.getSquare(pos).isEmpty()) {
-    		grid.getSquare(pos).setOccupant(piece);
+    	if (isInBounds(pos) && isEmptyPosition(pos)) {
+    		grid.get(pos).setOccupant(piece);
     	}
     	else {
     		throw new IllegalArgumentException();
