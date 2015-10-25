@@ -86,7 +86,7 @@ public class GameManager2 implements ErrorConstants {
 	public int handle(Position position){
 		if(position == null){
 			throw new IllegalArgumentException("null parameter"); //TODO: Dejar que tire el NullPointer?
-		}
+		}		
 		
 		if (currentStage() == Stage.ACTION) {
 			if (game.isValidMove(activeSquare, position)) {

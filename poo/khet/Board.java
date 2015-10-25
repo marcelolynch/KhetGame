@@ -75,6 +75,9 @@ public class Board implements CannonPositions {
     
     
     public boolean isEmptyPosition(Position position){
+    	if(!isInBounds(position)){
+    		throw new IllegalArgumentException("Not a valid (in-board) position");
+    	}
     	return grid.get(position).isEmpty();
     }
     
