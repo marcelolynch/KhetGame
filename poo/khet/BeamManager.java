@@ -29,10 +29,8 @@ public class BeamManager {
 		return beamPath;
 	}
 	
-	BeamAction throwBeam(Team team) {
-		// podriamos pasarle la posicion del cannon para no tener que pasarle Game o algo asi
-		Position initialBeamPos = board.getCannonPosition(team);
-		return manageBeamTravel(beam, initialBeamPos);
+	BeamAction throwBeam(Position initialPosition) {
+		return manageBeamTravel(beam, initialPosition);
 	}
 	
 	private BeamAction manageBeamTravel (Beam beam, Position initialPosition) {

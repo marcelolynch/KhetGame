@@ -1,7 +1,5 @@
 package graphics;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -14,14 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import poo.khet.Anubis;
-import poo.khet.Board;
-import poo.khet.Pharaoh;
-import poo.khet.Piece;
-import poo.khet.Pyramid;
-import poo.khet.Scarab;
-import poo.khet.Team;
-import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
 public class Main extends Application{
@@ -60,53 +50,25 @@ public class Main extends Application{
 		
 		gameManager = new GameManager(null);
 	
-		//--->Deprecated
-		//new BoardDrawer().draw(graphicsContext);
 	
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
 		root.getChildren().add(rotateButtons);
-
-	/*	root.getChildren().add(rotateCWButton);
-		root.getChildren().add(rotateCCWButton);
-      
-		rotateCWButton.setOnAction(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent event) {
-				gameManager.handleRotation(true);
-			}
-			
-		});
 		
-		
-		rotateCCWButton.setOnAction(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent event) {
-				gameManager.handleRotation(false);
-			}
-			
-		});
-		
-		*/
 		drawBoard();
 		
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
     					Position selectedPos = getPositionFromMouse(e.getX(), e.getY());
-        				piecesGC.clearRect((selectedPos.getRow()*75), (selectedPos.getCol()*75), 75, 75);
+        				piecesGC.clearRect((selectedPos.getRow()*75 - 1), (selectedPos.getCol()*75 - 1), 77, 77);
         				
         				if(e.getButton() == MouseButton.PRIMARY){
-        					gameManager.handle(selectedPos);
-        					new UIPiece().draw(piecesGC, selectedPos, true);
+        					gameManager.handle(selectedPos, true);
         				}
         				else if(e.getButton() == MouseButton.SECONDARY){
         					gameManager.resetTurn();
-        					new UIPiece().draw(piecesGC, selectedPos, false);
         				}
-        				
         				drawBoard(); 
         			}
         });
@@ -127,43 +89,8 @@ public class Main extends Application{
 	}
 
 	private void drawBoard(){
-		Map<Position, Piece> pMap= new HashMap<Position, Piece>();
-		pMap.put(new Position(7,2), new Pyramid(Team.RED, Direction.WEST));
-		pMap.put(new Position(7,3), new Anubis(Team.RED, Direction.NORTH));
-		pMap.put(new Position(7,4), new Pharaoh(Team.RED));
-		pMap.put(new Position(7,5), new Anubis(Team.RED, Direction.NORTH));
-
-		pMap.put(new Position(6,7), new Pyramid(Team.RED, Direction.EAST));
-
-		pMap.put(new Position(5,6), new Pyramid(Team.SILVER, Direction.SOUTH));
-
-		pMap.put(new Position(4,0), new Pyramid(Team.SILVER, Direction.EAST));
-		pMap.put(new Position(4,2), new Pyramid(Team.RED, Direction.WEST));
-		pMap.put(new Position(4,7), new Pyramid(Team.SILVER, Direction.NORTH));
-		pMap.put(new Position(4,9), new Pyramid(Team.RED, Direction.SOUTH));
-		pMap.put(new Position(4,4), new Scarab(Team.RED, Direction.WEST));
-		pMap.put(new Position(4,5), new Scarab(Team.RED, Direction.SOUTH));
-		
-		pMap.put(new Position(3,0), new Pyramid(Team.SILVER, Direction.NORTH));
-		pMap.put(new Position(3,2), new Pyramid(Team.RED, Direction.SOUTH));
-		pMap.put(new Position(3,7), new Pyramid(Team.SILVER, Direction.EAST));
-		pMap.put(new Position(3,9), new Pyramid(Team.RED, Direction.WEST));
-		pMap.put(new Position(3,4), new Scarab(Team.SILVER, Direction.NORTH));
-		pMap.put(new Position(3,5), new Scarab(Team.SILVER, Direction.WEST));
-
-		pMap.put(new Position(2,3), new Pyramid(Team.RED, Direction.WEST));
-	
-		pMap.put(new Position(1,2), new Pyramid(Team.SILVER, Direction.WEST));
-
-		pMap.put(new Position(0,4), new Anubis(Team.SILVER, Direction.SOUTH));
-		pMap.put(new Position(0,5), new Pharaoh(Team.SILVER));
-		pMap.put(new Position(0,6), new Anubis(Team.SILVER, Direction.SOUTH));
-		pMap.put(new Position(0,7), new Pyramid(Team.SILVER, Direction.SOUTH));
-
-		
-		Board board = new Board(pMap);
-		
-		boardDrawer.draw(board);
+		piecesGC.clearRect(0, 0, piecesLayer.getWidth(), piecesLayer.getHeight());
+		boardDrawer.draw(gameManager.getBoard());
 	}
 
 	
@@ -175,7 +102,7 @@ public class Main extends Application{
 	 */
 	private Position getPositionFromMouse(double x, double y) {
 		int squareSize = 75;
-		Position c = new Position((int)x / squareSize, (int)y / squareSize);
+		Position c = new Position((int)y / squareSize, (int)x / squareSize);
 		System.out.println("Coord: (" + c.getRow() + ", " + c.getCol() + ")");
 		return c;
 	}

@@ -3,11 +3,9 @@ package poo.khet;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-
-import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
-public class Game implements Observer {
+public class Game implements Observer, CannonPositions {
 	
 	private Board board;
 	private BeamCannon redCannon;
@@ -105,16 +103,27 @@ public class Game implements Observer {
 		throw new IllegalArgumentException();
 	}
 	
-	Board throwBeam(Team team) {
+	//Por que devolvia Board?
+	public void throwBeam(Team team) {
 		BeamCannon cannon = getBeamCannon(team);
 		Beam beam = cannon.generateBeam();
 		BeamManager beamManager = new BeamManager(beam, board);
-		Position death = beamManager.throwBeam(team);
-		if(death != null) {
-			board.withdrawFrom(death);
+		
+		Position startingPosition = team == Team.RED ? RED_CANNON_POSITION : SILVER_CANNON_POSITION;
+		
+		BeamAction beamFate = beamManager.throwBeam(startingPosition);
+		if(beamFate == BeamAction.DESTROYED_PIECE) {
+			board.withdrawFrom(beamManager.getLastPos());
 		}
+		
+		changePlayer();
+	//	return board;
 	}	
 	
+	private void changePlayer() {
+		movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
+	}
+
 	/*
 		Coordinate initialBeamCoord = board.getCannonPosition(team);
 		
@@ -147,16 +156,8 @@ public class Game implements Observer {
 	}
 	*/
 	
-
-
 	public Board getBoard() {
 		return board;
-	}
-
-
-	public boolean canItMove(Piece selected, Position position) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
