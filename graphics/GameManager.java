@@ -82,6 +82,10 @@ public class GameManager implements ErrorConstants{
 		stage = newStage;
 	}
 	
+	public Position getActiveSquare() {
+		return activeSquare;
+	}
+	
 //	public boolean handle(Position position){
 //		System.out.println("Manejando la coordenada (" + position.getRow() + ", " + position.getCol() + ")");
 //		return false;
@@ -99,7 +103,7 @@ public class GameManager implements ErrorConstants{
 			throw new IllegalArgumentException("null parameter"); //TODO: Dejar que tire el NullPointer?
 		}
 		
-		if(choosing() && game.getBoard().isEmptyPosition(position)){
+		if(isChoosing() && game.getBoard().isEmptyPosition(position)){
 			return OK; //Selecciono casilla vacia - no pasa nada
 		}
 		
@@ -154,7 +158,7 @@ public class GameManager implements ErrorConstants{
 	
 	
 	public int handleRotation(boolean clockwise){
-		if(choosing()){
+		if(isChoosing()){
 			return CANT_ROTATE_RIGHT_NOW;
 		}
 		else{
@@ -170,7 +174,7 @@ public class GameManager implements ErrorConstants{
 	 * Indica si la etapa es de eleccion de piezas (por claridad)
 	 * @return
 	 */
-	private boolean choosing(){
+	public boolean isChoosing(){
 		return currentStage() == Stage.RED_CHOICE || currentStage() == Stage.SILVER_CHOICE;
 	}
 

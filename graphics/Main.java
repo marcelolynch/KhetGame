@@ -69,6 +69,7 @@ public class Main extends Application{
         				else if(e.getButton() == MouseButton.SECONDARY){
         					gameManager.resetTurn();
         				}
+        				
         				drawBoard(); 
         			}
         });
