@@ -44,10 +44,10 @@ public class Board {
 		
 		//Sobreescribo, si no los if/else se hacen muy pesados
 		//Se crearon arriba 4 instancias que se dejan de referenciar aca
-		grid.setSquare(new Position(1, 0), new ReservedSquare(Team.RED));
-		grid.setSquare(new Position(1, ROWS-1), new ReservedSquare(Team.RED));
-		grid.setSquare(new Position(COLUMNS-2, 0), new ReservedSquare(Team.SILVER));
-		grid.setSquare(new Position(COLUMNS-2, ROWS-1), new ReservedSquare(Team.SILVER));
+		grid.setSquare(new Position(0, 1), new ReservedSquare(Team.RED));
+		grid.setSquare(new Position(0,8), new ReservedSquare(Team.RED));
+		grid.setSquare(new Position(7, 8), new ReservedSquare(Team.SILVER));
+		grid.setSquare(new Position(7, 1), new ReservedSquare(Team.SILVER));
 	
     }
    
