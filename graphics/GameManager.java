@@ -53,7 +53,7 @@ public class GameManager implements ErrorConstants{
 		pMap.put(new Position(0,4), new Anubis(Team.SILVER, Direction.SOUTH));
 		pMap.put(new Position(0,5), new Pharaoh(Team.SILVER));
 		pMap.put(new Position(0,6), new Anubis(Team.SILVER, Direction.SOUTH));
-		pMap.put(new Position(0,7), new Pyramid(Team.SILVER, Direction.SOUTH));
+		pMap.put(new Position(0,7), new Pyramid(Team.SILVER, Direction.EAST));
 		
 		stage = Stage.SILVER_CHOICE;
 		this.game = new Game(pMap);
