@@ -27,7 +27,7 @@ import poo.khet.gameutils.Position;
 
 public class Main extends Application{
 	
-	GameManager gameManager;
+	GameManager2 gameManager;
 	GraphicsContext piecesGC;
 	Canvas graphicBoard;
 	Canvas piecesLayer;
@@ -57,7 +57,7 @@ public class Main extends Application{
 		saveButton.setTranslateX(750-75-20);
 
 		
-		gameManager = new GameManager(null);
+		gameManager = new GameManager2(null);
 	
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
