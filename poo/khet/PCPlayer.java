@@ -1,98 +1,73 @@
 package poo.khet;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-import java.util.Vector;
+import poo.khet.gameutils.*;
 
-import poo.khet.gameutils.Position;
-
-public class PCPlayer {	
+public class PCPlayer implements CannonPositions {	
 	private Board board;
-	private Team team;
-	
+	static Team team=Team.RED;
+	Position a=new Position(0, 0);
 	public PCPlayer(Board board,Team team){
-		this.team=team;
 		this.board=board;
 	}
 	public Move getMove() {
 		List<Move> possibleMoves = possibleMoves();
-		List<Move> possibleRotation = possibleRotations();//Nose si lo prefieren asi o hacer un metodo mas complejo, para no tener que iterar en dos listas
-		List<Move> goodMoves = new ArrayList<Move>();
+		List<Move> possibleRotation = possibleRotations();
+		//Lo implemento con moves por ahora, si tengo una lista de actions no se como diferenciar entre si tengo que mover o rotar,para decirle al board
 		for(Move move:possibleMoves){
-			BeamCannon cannon = board.getBeamCannon(team);
+			BeamCannon cannon = getBeamCannon(team);// desp veo como 
 			Beam beam = cannon.generateBeam();
 			BeamManager beamManager=new BeamManager(beam,board);
-			Position death=beamManager.throwBeam(team);
-			if(death != null){
-				Square deathSquare = board.getPosition(death);
-				if(deathSquare.getOccupant().getTeam()!=team){
-					goodMoves.add(move);
+			Piece mover=board.withdrawFrom(start);
+			board.placePiece(end, mover);
+			Position startingPosition =  RED_CANNON_POSITION ;
+			BeamAction beamFate = beamManager.throwBeam(startingPosition);
+			board.withdrawFrom(end);
+			board.placePiece(start, mover);
+			if(beamFate == BeamAction.DESTROYED_PIECE){
+					return move;
 				}
 			}
-		}
-		Random number=new Random();
-		Integer selectedMove = number.nextInt(goodMoves.size());
-		return goodMoves.get(selectedMove);
+		return possibleMoves.get(0);
 	}
 
 
-	
 	public List<Move> possibleMoves(){
 		List<Move> possibleMoves = new ArrayList<Move>();
-	
+			
 		for(int i = 0; i < Board.ROWS ; i++){
 			for(int j = 0; j < Board.COLUMNS ; j++){
 				Position start = new Position(i,j);
-				
-				List<Position> possibleEnds = getAdyacentPositions(start);
-				
-				for (Position end: possibleEnds){
+				Position end=getAnEnd(start);
+				if(!board.isEmptyPosition(start)){										
 				   	boolean isValid = true;
-					// pasarle board a la pc para que pueda simular sus jugadas?
-					Square initSquare = board.getPosition(start);
-					Square destSquare = board.getPosition(end);
-					if (!board.checkDistance(start,end)) {
+					if (!start.isAdjacent(end)) {
 						isValid = false;
 					}
-					boolean correctPiece=((Piece)initSquare.getOccupant()).getTeam().equals(team);
-					boolean correctMovement=((Piece)initSquare.getOccupant()).canMove(destSquare);
-					if (!isValid || initSquare.isEmpty() || !correctPiece || !correctMovement) {
+					Piece initialPiece=board.getOccupantIn(start);
+					boolean correctPiece=initialPiece.getTeam().equals(team);
+					boolean correctMovement=board.canPlace(initialPiece, end);
+					if (!isValid || !correctPiece || !correctMovement) {
 						isValid = false;
 					}
 					if (isValid) {
-						moves.add(new Move(start,end));
+						possibleMoves.add(new Move(start,end));
 					}
 				}											
 			}
 		}
+		
 		return possibleMoves;
 	}
-	
-	
-	
-	private List<Position> getAdyacentPositions(Position start) {
-	//asi nomas por ahora, despues lo hago lindo en Coordinate
-		List<Position> possibleDirections= new ArrayList<Position>();
-		Position c1 = new Position(start.getRow()+1,start.getCol());
-		Position c2 = new Position(start.getRow(),start.getCol()+1);
-		Position c3 = new Position(start.getRow()-1,start.getCol());
-		Position c4 = new Position(start.getRow(),start.getCol()-1);
-		Position c5 = new Position(start.getRow()+1,start.getCol()+1);
-		Position c6 = new Position(start.getRow()+1,start.getCol()-1);
-		Position c7 = new Position(start.getRow()-1,start.getCol()+1);
-		Position c8 = new Position(start.getRow()-1,start.getCol()-1);
-		possibleDirections.add(c1);
-		possibleDirections.add(c2);
-		possibleDirections.add(c3);
-		possibleDirections.add(c4);
-		possibleDirections.add(c5);
-		possibleDirections.add(c6);
-		possibleDirections.add(c7);
-		possibleDirections.add(c8);
-		return possibleDirections;
+					
+	Position getAnEnd(Position start){
+		Random num=new Random();
+		Position end= new Position(start.getRow()+num.nextInt(3)-1,start.getCol()+num.nextInt(3)-1);
+			while(!board.isInBounds(end)){
+				end= new Position(start.getRow()+num.nextInt(3)-1,start.getCol()+num.nextInt(3)-1);
+			}
+		return end;				
 	}
 }
 
