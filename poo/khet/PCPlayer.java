@@ -2,39 +2,85 @@ package poo.khet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import poo.khet.gameutils.*;
+
+import poo.khet.gameutils.Position;
 
 public class PCPlayer implements CannonPositions {	
 	private Board board;
 	static Team team=Team.RED;
 	Position a=new Position(0, 0);
-	public PCPlayer(Board board,Team team){
+	public PCPlayer(Board board){
 		this.board=board;
 	}
-	public Move getMove() {
-		List<Move> possibleMoves = possibleMoves();
-		List<Move> possibleRotation = possibleRotations();
-		//Lo implemento con moves por ahora, si tengo una lista de actions no se como diferenciar entre si tengo que mover o rotar,para decirle al board
-		for(Move move:possibleMoves){
+	
+	
+	 //nose que devolveria
+	public void makeMove() {
+		List<Action> possibleMoves = possibleMoves();
+		possibleMoves.addAll(possibleRotations());
+		Position startingPosition =  RED_CANNON_POSITION ;
+		for(Action action : possibleMoves){
 			BeamCannon cannon = getBeamCannon(team);// desp veo como 
 			Beam beam = cannon.generateBeam();
 			BeamManager beamManager=new BeamManager(beam,board);
-			Piece mover=board.withdrawFrom(start);
-			board.placePiece(end, mover);
-			Position startingPosition =  RED_CANNON_POSITION ;
+			changeBoard(action);			
 			BeamAction beamFate = beamManager.throwBeam(startingPosition);
-			board.withdrawFrom(end);
-			board.placePiece(start, mover);
+			
 			if(beamFate == BeamAction.DESTROYED_PIECE){
-					return move;
+					return;
 				}
+			restoreBoard(action);
 			}
-		return possibleMoves.get(0);
+		changeBoard(possibleMoves.get(0));
+		BeamCannon cannon = getBeamCannon(team);// desp veo como 
+		Beam beam = cannon.generateBeam();
+		BeamManager beamManager=new BeamManager(beam,board);
+		BeamAction beamFate = beamManager.throwBeam(startingPosition);	
 	}
 
+	/**
+	 * solucion provisioria
+	 * @param move
+	 */
+	 
+	private void changeBoard(Move move){
+		Piece moved=board.withdrawFrom(move.getStart());
+		board.placePiece(move.getDest(), moved);
+	}
+	
+	private void restoreBoard(Move move){
+		Piece restored=board.withdrawFrom(move.getDest());
+		board.placePiece(move.getStart(), restored);
+	}
+	private void changeBoard(Rotation rotation){
+		Piece rotated=board.getOccupantIn(rotation.getStart());
+		if(rotation.isClockwise()){
+			rotated.rotateClockwise();
+		}else{
+			rotated.rotateCounterClockwise();
+		}
+	}
+	
+	private void restoreBoard(Rotation rotation){
+		Piece restored=board.getOccupantIn(rotation.getStart());
+		if(rotation.isClockwise()){
+			restored.rotateCounterClockwise();
+		}else{
+			restored.rotateClockwise();
+		}
+	}
+	
+	private void changeBoard(Action action){
 
-	public List<Move> possibleMoves(){
-		List<Move> possibleMoves = new ArrayList<Move>();
+	}
+	
+	private void restoreBoard(Action action){
+		
+	}
+	
+	
+	public List<Action> possibleMoves(){
+		List<Action> possibleMoves = new ArrayList<Action>();
 			
 		for(int i = 0; i < Board.ROWS ; i++){
 			for(int j = 0; j < Board.COLUMNS ; j++){
@@ -69,5 +115,36 @@ public class PCPlayer implements CannonPositions {
 			}
 		return end;				
 	}
-}
 
+
+	public List<Action> possibleRotations(){
+		List<Action> possibleRotations = new ArrayList<Action>();
+		
+		for(int i = 0; i < Board.ROWS ; i++){
+			for(int j = 0; j < Board.COLUMNS ; j++){
+				Position start = new Position(i,j);
+				boolean clockwise=rotate(start);
+				if(!board.isEmptyPosition(start)){										
+				   	boolean isValid = true;
+					Piece piece=board.getOccupantIn(start);
+					boolean correctPiece=piece.getTeam().equals(team);
+					if (!isValid || !correctPiece) {
+						isValid = false;
+					}
+					if (isValid) {
+						possibleRotations.add(new Rotation(start,clockwise));
+					}
+				}											
+			}
+		}
+		
+		return possibleRotations;
+	}
+
+	boolean rotate(Position start){
+		Random num=new Random();
+		return num.nextInt(6)>3;
+	}
+	
+	
+}
