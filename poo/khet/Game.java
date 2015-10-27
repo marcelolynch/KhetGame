@@ -12,7 +12,7 @@ public class Game implements Observer, CannonPositions {
 	private BeamCannon silverCannon;
 	private Team movingTeam;
 	
-	//Ahora Game recibe lo mismo que se manda para construir board
+	//TODO: Game recibe GameSetup
 	public Game (Map<Position, Piece> piecesConfig) {
 		board = new Board(piecesConfig); 
 		redCannon = new BeamCannon(Team.RED);
@@ -107,7 +107,6 @@ public class Game implements Observer, CannonPositions {
 		throw new IllegalArgumentException();
 	}
 	
-	//Por que devolvia Board?
 	public void throwBeam(Team team) {
 		BeamCannon cannon = getBeamCannon(team);
 		Beam beam = cannon.generateBeam();
@@ -122,45 +121,12 @@ public class Game implements Observer, CannonPositions {
 		}
 		
 		changePlayer();
-	//	return board;
 	}	
 	
 	private void changePlayer() {
 		movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
 	}
 
-	/*
-		Coordinate initialBeamCoord = board.getCannonPosition(team);
-		
-		initialBeamCoord.changeInDirection(beam.getDirection());
-		// Lo mueve para que no este en el mismo casillero que Cannon
-		manageBeamTravel(beam, initialBeamCoord);
-	}
-	
-	void manageBeamTravel (Beam beam, Coordinate initialPosition) {
-		Coordinate beamCoord = initialPosition;
-		while (beam.isActive()) {
-			if (board.isInBounds(beamCoord)) {
-				beam.deactivate();
-			} else {
-				Square currentPos = board.getPosition(beamCoord);
-				if (!currentPos.isEmpty()) { 
-					boolean survivedBeam = currentPos.getOccupant().receiveBeam(beam);
-					if (!survivedBeam) {
-						currentPos.withdrawOccupant();
-					}
-				}
-				beamCoord = nextBeamPosition(beamCoord, beam);
-			}
-		}
-	}
-	
-	private Coordinate nextBeamPosition(Coordinate coord, Beam beam) {
-		coord.changeInDirection(beam.getDirection());
-		return coord;
-	}
-	*/
-	
 	public Board getBoard() {
 		return board;
 	}

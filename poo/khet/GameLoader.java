@@ -34,12 +34,9 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 		return setup;
 	}
 	
-	//TODO: Exceptions?
-	// tendria que haber un GameMode para poder guardarlo y cargarlo
+	//TODO: Exceptions
+    //TODO: Recibir GameSetup, ver donde crear lo de boardConfig
 	public static void writeGameFile(String name, Board board /*, GameSetup setup*/) throws FileNotFoundException, IOException {
-		// O lo hacemos afuera? en la funcion que llama a writeGameFile. Digo porque capaz es raro de que se encargue
-		// aca de cambiar el GameSetup. Es como que son cosas que tendria que hacer Game
-		
 		HashMap<Position, Piece> boardConfig = new HashMap<>();
 		for (int i=0; i<ROWS; i++) {
 			for (int j=0; j<COLUMNS; j++) {
@@ -54,8 +51,6 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 		ObjectOutputStream oos = new ObjectOutputStream( 
 				new FileOutputStream(name)); 
 		oos.writeObject(boardConfig);
-		//TODO: algo de serializable sino tira IOException
-		System.out.println("Saved: " + name);
 		oos.flush();
 		oos.close();
 	}

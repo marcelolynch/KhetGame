@@ -84,7 +84,6 @@ public class Square {
 	 * @author Chelo
 	 */
 	public boolean canAccomodate(Piece piece){
-		//Mientras la pieza pueda mover hasta aca, todo bien
 		//La casilla no tiene restricciones adicionales
 		return piece.canMove(this);
 	}
