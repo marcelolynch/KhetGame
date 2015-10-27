@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import poo.khet.gameutils.Direction;
 
-public class Pyramid extends Piece implements Serializable {
+public class Pyramid extends Piece {
 	
 	//TODO: 
 	private static final long serialVersionUID = 1L;

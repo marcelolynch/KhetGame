@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import poo.khet.gameutils.Direction;
 
-public class Mirror2 extends Accessory implements Serializable {
+public class Mirror2 extends Accessory {
 	
 	//TODO: 
 	private static final long serialVersionUID = 1L;
