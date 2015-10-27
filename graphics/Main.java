@@ -4,8 +4,6 @@ package graphics;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.swing.GroupLayout.Alignment;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +19,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import poo.khet.GameLoader;
 import poo.khet.gameutils.Position;
 
@@ -56,7 +53,9 @@ public class Main extends Application{
 		saveButton.setTranslateY(graphicBoard.getHeight()+10);
 		saveButton.setTranslateX(750-75-20);
 
-		
+		//Aca hay que hacer una ventanita para seleccionar la configuracion inicial del juego
+		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
+		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
 		gameManager = new GameManager2(null);
 	
 		root.getChildren().add(graphicBoard);
@@ -104,8 +103,7 @@ public class Main extends Application{
         primaryStage.setHeight(720);
         primaryStage.setResizable(false);
 		primaryStage.setTitle("Khet - The Laser Game");
-		//primaryStage.getIcons().add(new Image("file:assets/icon.png"));
-        primaryStage.setScene(new Scene(root, graphicBoard.getWidth() + 50, graphicBoard.getHeight()+ rotateButtons.getHeight() + 50));
+		primaryStage.setScene(new Scene(root, graphicBoard.getWidth() + 50, graphicBoard.getHeight()+ rotateButtons.getHeight() + 50));
         primaryStage.show();
 	}
 
@@ -120,6 +118,7 @@ public class Main extends Application{
 		}
 	}
 	
+	//TODO: try-catch
 	void saveGamePrompt() {
 		Stage saveWindow = new Stage();
 		VBox saveLayout = new VBox(10);

@@ -39,8 +39,7 @@ public class Board implements CannonPositions {
 		    }
 		}
 		
-		//Sobreescribo, si no los if/else se hacen muy pesados
-		//Se crearon arriba 4 instancias que se dejan de referenciar aca
+		//Casillas Reservadas
 		grid.put(new Position(0, 8), new ReservedSquare(Team.SILVER));
 		grid.put(new Position(7, 8), new ReservedSquare(Team.SILVER));
 		grid.put(new Position(0, 1), new ReservedSquare(Team.RED));
