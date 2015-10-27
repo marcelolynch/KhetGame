@@ -36,7 +36,7 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 	
 	//TODO: Exceptions
     //TODO: Recibir GameSetup, ver donde crear lo de boardConfig
-	public static void writeGameFile(String name, Board board /*, GameSetup setup*/) throws FileNotFoundException, IOException {
+	public static void writeGameFile(String name, Board board, GameSetup setup) throws FileNotFoundException, IOException {
 		HashMap<Position, Piece> boardConfig = new HashMap<>();
 		for (int i=0; i<ROWS; i++) {
 			for (int j=0; j<COLUMNS; j++) {
@@ -46,11 +46,11 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 				}
 			}
 		}
-		//setup.setBoardConfig(boardConfig);
+		setup.setBoardConfig(boardConfig);
 		
 		ObjectOutputStream oos = new ObjectOutputStream( 
 				new FileOutputStream(name)); 
-		oos.writeObject(boardConfig);
+		oos.writeObject(setup);
 		oos.flush();
 		oos.close();
 	}

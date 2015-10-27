@@ -129,7 +129,8 @@ public class Main extends Application{
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent event) {
 						try {
-							GameLoader.writeGameFile(nameInput.getText(), gameManager.getBoard());
+							// TODO: Crear el GameSetup para guardar. Tendriamos que guardar la instancia en Main?
+							GameLoader.writeGameFile(nameInput.getText(), gameManager.getBoard(), null);
 							System.out.println("Saved!");
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block

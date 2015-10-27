@@ -25,6 +25,14 @@ public class GameSetup implements Serializable {
 		this.redCannon = redCannon;
 		this.silverCannon = silverCannon;
 	}
+	
+	public GameSetup(boolean twoPlayers, Map<Position, Piece> boardConfig) {
+		super();
+		this.twoPlayers = twoPlayers;
+		this.boardConfig = boardConfig;
+		redCannon = new BeamCannon(Team.RED);
+		silverCannon = new BeamCannon(Team.SILVER);
+	}
 
 	public boolean isTwoPlayers() {
 		return twoPlayers;

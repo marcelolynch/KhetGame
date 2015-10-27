@@ -1,6 +1,5 @@
 package poo.khet;
 
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import poo.khet.gameutils.Position;
@@ -12,11 +11,10 @@ public class Game implements Observer, CannonPositions {
 	private BeamCannon silverCannon;
 	private Team movingTeam;
 	
-	//TODO: Game recibe GameSetup
-	public Game (Map<Position, Piece> piecesConfig) {
-		board = new Board(piecesConfig); 
-		redCannon = new BeamCannon(Team.RED);
-		silverCannon = new BeamCannon(Team.SILVER);
+	public Game (GameSetup setup) {
+		board = new Board(setup.getBoardConfig()); 
+		redCannon = setup.getRedCannon();
+		silverCannon = setup.getSilverCannon();
 		movingTeam = Team.SILVER; // Siempre comienza SILVER
 	}
 	

@@ -14,6 +14,7 @@ import poo.khet.Team;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
+@Deprecated
 public class GameManager implements ErrorConstants{
 	enum Stage{ RED_CHOICE, SILVER_CHOICE, RED_ACTION, SILVER_ACTION }  
 	
