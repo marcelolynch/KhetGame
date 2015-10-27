@@ -1,10 +1,16 @@
 package poo.khet.gameutils;
 
+import java.io.Serializable;
+
 /**
  * Representa una dirección cuyos posibles valores son NORTH, EAST, SOUTH y WEST.
  * Presenta métodos para compararse con otras direcciones.
  */
-public class Direction {
+public class Direction implements Serializable {
+	
+	//TODO: 
+	private static final long serialVersionUID = 1L;
+	
 	public static final Direction NORTH = new Direction(0);
 	public static final Direction EAST = new Direction(1);
 	public static final Direction SOUTH = new Direction(2);

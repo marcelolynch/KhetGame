@@ -1,9 +1,14 @@
 package poo.khet;
 
+import java.io.Serializable;
+
 import poo.khet.gameutils.Direction;
 
-public class Pyramid extends Piece {
-
+public class Pyramid extends Piece implements Serializable {
+	
+	//TODO: 
+	private static final long serialVersionUID = 1L;
+	
 	private Mirror2 mirror;
 
 	public Pyramid(Team team, Direction facing) {

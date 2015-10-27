@@ -1,8 +1,13 @@
 package poo.khet;
 
+import java.io.Serializable;
+
 import poo.khet.gameutils.Direction;
 
-public class Scarab extends Piece {
+public class Scarab extends Piece implements Serializable {
+	
+	//TODO: 
+	private static final long serialVersionUID = 1L;
 
 	private Mirror2[] mirrors;
 

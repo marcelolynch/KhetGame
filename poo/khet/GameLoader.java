@@ -53,7 +53,7 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 		
 		ObjectOutputStream oos = new ObjectOutputStream( 
 				new FileOutputStream(name)); 
-		//oos.writeObject(boardConfig);
+		oos.writeObject(boardConfig);
 		//TODO: algo de serializable sino tira IOException
 		System.out.println("Saved: " + name);
 		oos.flush();

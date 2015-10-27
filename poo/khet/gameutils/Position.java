@@ -1,6 +1,12 @@
 package poo.khet.gameutils;
 
-public class Position {
+import java.io.Serializable;
+
+public class Position implements Serializable {
+	
+	//TODO: 
+	private static final long serialVersionUID = 1L;
+	
 	private int row;
 	private int col;
 	

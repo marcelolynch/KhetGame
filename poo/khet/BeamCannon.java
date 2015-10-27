@@ -1,10 +1,15 @@
 package poo.khet;
 
+import java.io.Serializable;
+
 import poo.khet.gameutils.Direction;
 
-public class BeamCannon {
+public class BeamCannon implements Serializable {
 
-    private Team team;
+    //TODO
+	private static final long serialVersionUID = 1L;
+
+	private Team team;
 
     private Direction facing;
     private boolean isClockRotation;

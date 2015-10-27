@@ -1,8 +1,12 @@
 package poo.khet;
 
+import java.io.Serializable;
 import java.util.Observable;
 
-public abstract class Piece extends Observable{
+public abstract class Piece extends Observable implements Serializable {
+
+	//TODO:
+	private static final long serialVersionUID = 1L;
 
 	abstract boolean canBeSwapped();
 

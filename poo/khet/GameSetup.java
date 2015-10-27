@@ -1,8 +1,13 @@
 package poo.khet;
 import poo.khet.gameutils.Position;
+
+import java.io.Serializable;
 import java.util.Map;
 
-public class GameSetup {
+public class GameSetup implements Serializable {
+	//TODO: Preguntar 
+	private static final long serialVersionUID = 1L;
+	
 	private boolean twoPlayers;
 	private Map<Position, Piece> boardConfig;
 	private BeamCannon redCannon;
