@@ -108,11 +108,11 @@ public class Game implements Observer, CannonPositions {
 	public void throwBeam(Team team) {
 		BeamCannon cannon = getBeamCannon(team);
 		Beam beam = cannon.generateBeam();
-		BeamManager beamManager = new BeamManager(beam, board);
+		BeamManager beamManager = new BeamManager(board);
 		
 		Position startingPosition = team == Team.RED ? RED_CANNON_POSITION : SILVER_CANNON_POSITION;
 		
-		BeamAction beamFate = beamManager.throwBeam(startingPosition);
+		BeamAction beamFate = beamManager.throwBeam(beam,startingPosition);
 		if(beamFate == BeamAction.DESTROYED_PIECE) {
 			System.out.println("Destroyed " + beamManager.getLastPos()); //TODO: Delete syso
 			board.withdrawFrom(beamManager.getLastPos());

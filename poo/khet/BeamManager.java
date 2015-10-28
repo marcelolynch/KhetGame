@@ -6,20 +6,16 @@ import java.util.List;
 import poo.khet.gameutils.Position;
 
 public class BeamManager {
-	private Beam beam;
 	private Board board;
 	private List<Position> beamPath;
 
-	BeamManager(Beam beam, Board board) {
+	BeamManager(Board board) {
 		super();
-		this.beam = beam;
 		this.board = board;
 		this.beamPath = new ArrayList<Position>();
 	}
 	
-	Beam getBeam() {
-		return beam;
-	}
+
 	
 	Position getLastPos() {
 		return beamPath.get(beamPath.size()-1);
@@ -29,7 +25,7 @@ public class BeamManager {
 		return beamPath;
 	}
 	
-	BeamAction throwBeam(Position initialPosition) {
+	BeamAction throwBeam(Beam beam ,Position initialPosition) {
 		System.out.println("IMMA FIRIN' MY LAZOR"); //TODO: Delete
 		return manageBeamTravel(beam, initialPosition);
 	}

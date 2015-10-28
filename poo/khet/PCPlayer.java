@@ -8,9 +8,12 @@ import poo.khet.gameutils.Position;
 public class PCPlayer implements CannonPositions {	
 	private Board board;
 	static Team team=Team.RED;
-	Position a=new Position(0, 0);
+	private Random brain=new Random();
+	private BeamManager beamManager;
+	
 	public PCPlayer(Board board){
 		this.board=board;
+		beamManager= new BeamManager(board);
 	}
 	
 	
@@ -22,11 +25,9 @@ public class PCPlayer implements CannonPositions {
 		for(Action action : possibleMoves){
 			BeamCannon cannon = getBeamCannon(team);// desp veo como 
 			Beam beam = cannon.generateBeam();
-			BeamManager beamManager=new BeamManager(beam,board);
 			changeBoard(action);			
-			BeamAction beamFate = beamManager.throwBeam(startingPosition);
-			
-			if(beamFate == BeamAction.DESTROYED_PIECE){
+			BeamAction beamFate = beamManager.throwBeam(beam,startingPosition);
+			if(beamFate == BeamAction.DESTROYED_PIECE && board.getOccupantIn(beamManager.getLastPos()).getTeam().equals(Team.SILVER)){
 					return;
 				}
 			restoreBoard(action);
@@ -34,8 +35,7 @@ public class PCPlayer implements CannonPositions {
 		changeBoard(possibleMoves.get(0));
 		BeamCannon cannon = getBeamCannon(team);// desp veo como 
 		Beam beam = cannon.generateBeam();
-		BeamManager beamManager=new BeamManager(beam,board);
-		BeamAction beamFate = beamManager.throwBeam(startingPosition);	
+		BeamAction beamFate = beamManager.throwBeam(beam,startingPosition);	
 	}
 
 	/**
@@ -49,8 +49,7 @@ public class PCPlayer implements CannonPositions {
 	}
 	
 	private void restoreBoard(Move move){
-		Piece restored=board.withdrawFrom(move.getDest());
-		board.placePiece(move.getStart(), restored);
+		changeBoard(new Move(move.getDest(),move.getStart()));
 	}
 	private void changeBoard(Rotation rotation){
 		Piece rotated=board.getOccupantIn(rotation.getStart());
@@ -62,12 +61,7 @@ public class PCPlayer implements CannonPositions {
 	}
 	
 	private void restoreBoard(Rotation rotation){
-		Piece restored=board.getOccupantIn(rotation.getStart());
-		if(rotation.isClockwise()){
-			restored.rotateCounterClockwise();
-		}else{
-			restored.rotateClockwise();
-		}
+		changeBoard(new Rotation(rotation.getStart(),!rotation.isClockwise()));
 	}
 	
 	private void changeBoard(Action action){
@@ -108,13 +102,20 @@ public class PCPlayer implements CannonPositions {
 	}
 					
 	Position getAnEnd(Position start){
-		Random num=new Random();
-		Position end= new Position(start.getRow()+num.nextInt(3)-1,start.getCol()+num.nextInt(3)-1);
+		Position end= getRandomEnd(start);
 			while(!board.isInBounds(end)){
-				end= new Position(start.getRow()+num.nextInt(3)-1,start.getCol()+num.nextInt(3)-1);
+				end= getRandomEnd(start);
 			}
 		return end;				
 	}
+	/**
+	 * 
+	 * @param start
+	 * @return	una posición aleatoria adyacente a ésta, pues nextInt(3) me da un número entre 0 y 2, y al restarle 1, me da uno entre -1 y 1.
+	 */
+	Position getRandomEnd(Position start){
+		return new Position(start.getRow()+brain.nextInt(3)-1,start.getCol()+brain.nextInt(3)-1);
+	}																							
 
 
 	public List<Action> possibleRotations(){
@@ -142,8 +143,7 @@ public class PCPlayer implements CannonPositions {
 	}
 
 	boolean rotate(Position start){
-		Random num=new Random();
-		return num.nextInt(6)>3;
+		return brain.nextInt(6)%2==0; // de ésta forma hay un 50% de probabilidad que rote de forma horaria y 50% que rote de forma antihoraria
 	}
 	
 	
