@@ -23,7 +23,7 @@ public class ReservedSquare extends Square {
 	 */
 	ReservedSquare(Piece piece, Team team) {
 		this(team);
-		if(!getTeam().equals(piece.getTeam())){
+		if (!getTeam().equals(piece.getTeam())) {
 			throw new IllegalStateException();//TODO: No se cual Poner
 		}
 		setOccupant(piece);

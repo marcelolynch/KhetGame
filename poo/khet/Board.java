@@ -17,22 +17,19 @@ public class Board implements CannonPositions {
     	placePieces(pieces);
     }
 
-    //TODO: hacerlo bien
     private void generateBoard() {
 		grid = new HashMap<Position, Square>();
 		Position position;
 		
 		for (int i=0; i < ROWS; i++) {
-		    for(int j=0; j < COLUMNS ; j++){
+		    for(int j=0; j < COLUMNS ; j++) {
 		    	position = new Position(i, j);
 		    	if( !(position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION)) ){
 		    		if(j == 0) {
 		    			grid.put(position, new ReservedSquare(Team.SILVER));
-		    		}
-		    		else if(j == COLUMNS-1) {
+		    		} else if (j == COLUMNS-1) {
 		    			grid.put(position, new ReservedSquare(Team.RED));
-		    		}
-		    		else {
+		    		} else {
 		    			grid.put(position, new Square());
 		    		}
 		    	}
@@ -44,7 +41,6 @@ public class Board implements CannonPositions {
 		grid.put(new Position(7, 8), new ReservedSquare(Team.SILVER));
 		grid.put(new Position(0, 1), new ReservedSquare(Team.RED));
 		grid.put(new Position(7, 1), new ReservedSquare(Team.RED));
-		
 
     }
    
@@ -73,8 +69,8 @@ public class Board implements CannonPositions {
     }
     
     
-    public boolean isEmptyPosition(Position position){
-    	if(!isInBounds(position)){
+    public boolean isEmptyPosition(Position position) { 
+    	if(!isInBounds(position)) {
     		throw new IllegalArgumentException("Not a valid (in-board) position");
     	}
     	return grid.get(position).isEmpty();
@@ -91,8 +87,7 @@ public class Board implements CannonPositions {
     public void placePiece (Position pos, Piece piece) {
     	if (isInBounds(pos) && isEmptyPosition(pos)) {
     		grid.get(pos).setOccupant(piece);
-    	}
-    	else {
+    	} else {
     		throw new IllegalArgumentException();
     	}
     }

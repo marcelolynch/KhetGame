@@ -16,10 +16,6 @@ public class GameState implements Serializable {
 	private BeamCannon silverCannon;
 	private Team movingTeam;
 	
-	// Se usa?
-	public GameState() {
-	}
-	
 	//Todo en periodo de prueba
 	public GameState(boolean twoPlayers, Map<Position, Piece> boardConfig, Team movingTeam,
 			BeamCannon redCannon, BeamCannon silverCannon) {

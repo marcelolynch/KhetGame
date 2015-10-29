@@ -3,8 +3,6 @@ package graphics;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import poo.khet.Piece;
@@ -41,17 +39,18 @@ public class GameDrawer implements CannonPositions{
 		
 	} 
 	
-	
 	public void draw(GraphicsContext graphicsContext){
 		
 		
 		graphicsContext.clearRect(SQUARE_SIZE*RED_CANNON_POSITION.getCol(), SQUARE_SIZE*RED_CANNON_POSITION.getRow(),
 				SQUARE_SIZE, SQUARE_SIZE);
-	graphicsContext.drawImage(cannonImg.get(redCannon), SQUARE_SIZE*RED_CANNON_POSITION.getCol(), SQUARE_SIZE*RED_CANNON_POSITION.getRow());
+		graphicsContext.drawImage(cannonImg.get(redCannon), SQUARE_SIZE*RED_CANNON_POSITION.getCol(), 
+				SQUARE_SIZE*RED_CANNON_POSITION.getRow());
 		
 		graphicsContext.clearRect(SQUARE_SIZE*SILVER_CANNON_POSITION.getCol(), SQUARE_SIZE*SILVER_CANNON_POSITION.getRow(),
 				SQUARE_SIZE, SQUARE_SIZE);
-		graphicsContext.drawImage(cannonImg.get(silverCannon), SQUARE_SIZE*(SILVER_CANNON_POSITION.getCol()), SQUARE_SIZE*(SILVER_CANNON_POSITION.getRow()));
+		graphicsContext.drawImage(cannonImg.get(silverCannon), SQUARE_SIZE*(SILVER_CANNON_POSITION.getCol()), 
+				SQUARE_SIZE*(SILVER_CANNON_POSITION.getRow()));
 
 		Position pos;
 		Piece piece;
