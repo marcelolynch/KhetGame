@@ -15,8 +15,6 @@ public class BeamManager {
 		this.beamPath = new ArrayList<Position>();
 	}
 	
-
-	
 	Position getLastPos() {
 		return beamPath.get(beamPath.size()-1);
 	}
@@ -49,7 +47,6 @@ public class BeamManager {
 				} else {
 					beamAction = BeamAction.DESTROYED_PIECE;
 					System.out.println("BEAM DESTROYED PIECE"); //TODO: Delete
-
 				}
 			}
 		}

@@ -5,10 +5,7 @@ import java.util.Observable;
 
 public abstract class Piece extends Observable implements Serializable {
 
-	//TODO:
 	private static final long serialVersionUID = 1L;
-
-	abstract boolean canBeSwapped();
 
 	/**
 	 * Equipo al que pertenece la pieza
@@ -22,16 +19,10 @@ public abstract class Piece extends Observable implements Serializable {
 
 		this.team = team;
 	}
-
-	/**
-	 * Procesa el <tt>Beam</tt> modificandolo de ser necesario
-	 * 
-	 * @param beam
-	 *            - el rayo a procesar
-	 * @returns <tt>true</tt> si la <tt>Pieza</tt> sigue en juego;
-	 *          <tt>false</tt> si murio por el rayo
-	 */
-	abstract boolean receiveBeam(Beam beam);
+	
+	public Team getTeam() {
+		return team;
+	}
 
 	/**
 	 * Chequea si la casilla es un destino valido
@@ -43,14 +34,20 @@ public abstract class Piece extends Observable implements Serializable {
 	boolean canMove(Square square) {
 		return square.isEmpty();
 	}
-
+	
+	/**
+	 * Procesa el <tt>Beam</tt> modificandolo de ser necesario
+	 * 
+	 * @param beam
+	 *            - el rayo a procesar
+	 * @returns <tt>true</tt> si la <tt>Pieza</tt> sigue en juego;
+	 *          <tt>false</tt> si murio por el rayo
+	 */
+	abstract boolean receiveBeam(Beam beam);
+	
+	abstract boolean canBeSwapped();
 	abstract void rotateClockwise();
-
 	abstract void rotateCounterClockwise();
-
-	public Team getTeam() {
-		return team;
-	}
 	
 	@Override
 	public boolean equals (Object obj) {

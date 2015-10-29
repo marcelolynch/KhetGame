@@ -27,6 +27,13 @@ public class GameLoader { // no me convence el nombre porque tambien se encarga 
 		return setup;
 	}
 	
+    /**
+     * Guarda en un archivo el estado del juego.
+     * @param name - nombre del archivo
+     * @param setup - estado del juego a guardar
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
 	//TODO: Exceptions
 	public static void writeGameFile(String name, GameState setup) throws FileNotFoundException, IOException {		
 		ObjectOutputStream oos = new ObjectOutputStream( 

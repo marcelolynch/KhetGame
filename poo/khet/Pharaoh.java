@@ -2,6 +2,8 @@ package poo.khet;
 
 public class Pharaoh extends Piece {
 	
+	private static final long serialVersionUID = 1L;
+
 	public Pharaoh(Team team) {
 		super(team);
 	}
@@ -12,7 +14,6 @@ public class Pharaoh extends Piece {
 		setChanged();
 		notifyObservers(this.getTeam()); // No estoy segura si esto es asi
 		return false;
-		
 	}
 
 	@Override

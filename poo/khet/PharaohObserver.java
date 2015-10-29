@@ -7,12 +7,12 @@ public class PharaohObserver implements Observer {
 	//Por ahora los Booleans indican si alguna pieza esta muerta o no
 	//No tuve mucha imaginacion con los nombres
 	//NOTA: Acordarse de agregarle el Observer a cada Faraón en la clase que lo inicializa
-	private Boolean redPharaohdead;
-	private Boolean silverPharaohdead;
+	private Boolean redPharaohDead;
+	private Boolean silverPharaohDead;
 	
 	public PharaohObserver(){
-		redPharaohdead = false;
-		silverPharaohdead = false;
+		redPharaohDead = false;
+		silverPharaohDead = false;
 	}
 	
 	/**
@@ -24,26 +24,26 @@ public class PharaohObserver implements Observer {
 	public void update(Observable o, Object arg) {
 		Team destroyedPieceTeam = (Team)arg;
 		if(destroyedPieceTeam.equals(Team.RED)){
-			setRedPharaohdead(true);
+			setRedPharaohDead(true);
 		} else if (destroyedPieceTeam.equals(Team.SILVER)){
-			setSilverPharaohdead(true);
+			setSilverPharaohDead(true);
 		}
 	}
 
-	public Boolean redPharaohIsdead() {
-		return redPharaohdead;
+	public Boolean isRedPharaohDead() {
+		return redPharaohDead;
 	}
 
-	public void setRedPharaohdead(Boolean redPharaohdead) {
-		this.redPharaohdead = redPharaohdead;
+	public void setRedPharaohDead(Boolean redPharaohdead) {
+		this.redPharaohDead = redPharaohdead;
 	}
 
-	public Boolean silverPharaohIsdead() {
-		return silverPharaohdead;
+	public Boolean isSilverPharaohDead() {
+		return silverPharaohDead;
 	}
 
-	public void setSilverPharaohdead(Boolean silverPharaohdead) {
-		this.silverPharaohdead = silverPharaohdead;
+	public void setSilverPharaohDead(Boolean silverPharaohdead) {
+		this.silverPharaohDead = silverPharaohdead;
 	}
 	
 	/**
@@ -54,9 +54,9 @@ public class PharaohObserver implements Observer {
 	
 	//queda default?
 	Team destroyedPharaoh(){
-		if(redPharaohIsdead()){
+		if(isRedPharaohDead()){
 			return Team.RED;
-		} else if (silverPharaohIsdead()) {
+		} else if (isSilverPharaohDead()) {
 			return Team.SILVER;
 		}
 		else {

@@ -1,7 +1,6 @@
 package poo.khet;
 
 import java.util.Observable;
-import java.util.Observer;
 import poo.khet.gameutils.Position;
 
 public class Game implements CannonPositions {

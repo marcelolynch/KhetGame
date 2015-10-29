@@ -7,11 +7,11 @@ public class Pyramid extends Piece {
 	//TODO: 
 	private static final long serialVersionUID = 1L;
 	
-	private Mirror2 mirror;
+	private Mirror mirror;
 
 	public Pyramid(Team team, Direction facing) {
 		super(team);
-		mirror = new Mirror2(facing);
+		mirror = new Mirror(facing);
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class Pyramid extends Piece {
 		if (reflectable) {
 			mirror.processBeam(beam);
 		} else {
-			beam.deactivate(); // no se pudo reflejar; el rayo choca con la
+			beam.deactivate();  // no se pudo reflejar; el rayo choca con la
 								// pieza y finaliza su recorrido
 		}
 
