@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import poo.khet.gameutils.Position;
 
-public class Game implements Observer, CannonPositions {
+public class Game implements CannonPositions {
 	
 	private Board board;
 	private BeamCannon redCannon;
@@ -147,6 +147,12 @@ public class Game implements Observer, CannonPositions {
 		movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
 	}
 
+<<<<<<< HEAD
+	public Board getBoard() {
+		return board;
+	}
+
+=======
 	@Override
 	public void update(Observable o, Object arg) {
 		//TODO:Lo que sucede cuando se muere el Faraón
@@ -168,5 +174,6 @@ public class Game implements Observer, CannonPositions {
 //		
 //		
 //	}
+>>>>>>> origin/master
 
 }
