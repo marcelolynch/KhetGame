@@ -1,7 +1,5 @@
 package poo.khet;
 
-import java.io.Serializable;
-
 import poo.khet.gameutils.Direction;
 
 public class Anubis extends Piece {

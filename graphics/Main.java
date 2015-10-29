@@ -19,7 +19,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import poo.khet.GameLoader;
 import poo.khet.gameutils.Position;
 
 public class Main extends Application{
@@ -55,7 +54,7 @@ public class Main extends Application{
 		//Aca hay que hacer una ventanita para seleccionar la configuracion inicial del juego
 		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
 		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
-		gameManager = new GameManager2();
+		gameManager = new GameManager2(null);
 	
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
@@ -120,17 +119,16 @@ public class Main extends Application{
 	
 	//TODO: try-catch
 	void saveGamePrompt() {
-		Stage saveWindow = new Stage();
+		final Stage saveWindow = new Stage();
 		VBox saveLayout = new VBox(10);
 		Button saveBtn = new Button("Save");
-		TextField nameInput = new TextField();
+		final TextField nameInput = new TextField();
 		
 		saveBtn.setOnAction(
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent event) {
 						try {
-							// TODO: Crear el GameSetup para guardar. Tendriamos que guardar la instancia en Main?
-							GameLoader.writeGameFile(nameInput.getText(), gameManager.getBoard(), null);
+							gameManager.saveGame(nameInput.getText());
 							System.out.println("Saved!");
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
