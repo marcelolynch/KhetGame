@@ -7,6 +7,7 @@ import java.util.Map;
 
 import poo.khet.Anubis;
 import poo.khet.Board;
+import poo.khet.CannonPositions;
 import poo.khet.Game;
 import poo.khet.GameLoader;
 import poo.khet.GameState;
@@ -18,7 +19,7 @@ import poo.khet.Team;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
-public class GameManager2 implements ErrorConstants {
+public class GameManager2 implements ErrorConstants, CannonPositions{
 	enum Stage{ CHOICE, ACTION }  
 	
 	private Game game;
@@ -62,7 +63,7 @@ public class GameManager2 implements ErrorConstants {
 		
 		// carga el juego pero no se imprimen las imagenes de las piezas
 		this.game = new Game(GameLoader.loadGameFile("Classic"));
-		gameDrawer = new GameDrawer(game.getBoard(), game.getRedCannon(), game.getRedCannon());
+		gameDrawer = new GameDrawer(game.getBoard(), game.getRedCannon(), game.getSilverCannon());
 
 	}
 
@@ -110,6 +111,10 @@ GameDrawer getDrawer(){
 				return INVALID_MOVE_SELECTED;
 			}
 		} 
+		else if(isCannonPosition(position) && game.isSwitchable(position)){
+			game.switchCannon();	
+			nextTurn();
+		}
 		else if (game.isValidSelection(position)){
 			activeSquare = position;
 			setStage(Stage.ACTION);
@@ -118,6 +123,10 @@ GameDrawer getDrawer(){
 		return OK;
 	}
 	
+	private boolean isCannonPosition(Position position) {
+		return position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION);
+	}
+
 	public int handleRotation(boolean clockwise){
 		if (currentStage() == Stage.ACTION) {
 			game.rotate(activeSquare, clockwise);

@@ -154,6 +154,20 @@ public class Game implements CannonPositions {
 	}
 	//NOTA: Acordarse de agregarle el Observer a cada Faraón en la clase que 
 
+	public void switchCannon() {
+		BeamCannon current = getMovingTeam()==Team.SILVER ? silverCannon : redCannon;
+		current.switchFacing();
+	}
+
+	public boolean isSwitchable(Position position) {
+		if(getMovingTeam() == Team.SILVER){
+			return position.equals(SILVER_CANNON_POSITION);
+		}
+		else{
+			return position.equals(RED_CANNON_POSITION);
+		}
+	}
+
 	
 // PROBANDO LO DE OBSERVER - OBSERVABLE
 //	public static void main(String[] args) {

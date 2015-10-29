@@ -117,7 +117,7 @@ public class GameDrawer implements CannonPositions{
 	
 		BeamCannon silverSwitched = new BeamCannon(Team.SILVER);
 		silverSwitched.switchFacing();
-		cannonImg.put(redSwitched, new Image("file:assets/cannons/silver_switched.png"));
+		cannonImg.put(silverSwitched, new Image("file:assets/cannons/silver_switched.png"));
 	}
 
 	
