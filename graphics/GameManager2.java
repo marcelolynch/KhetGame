@@ -1,12 +1,15 @@
 package graphics;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import poo.khet.Anubis;
 import poo.khet.Board;
 import poo.khet.Game;
-import poo.khet.GameSetup;
+import poo.khet.GameLoader;
+import poo.khet.GameState;
 import poo.khet.Pharaoh;
 import poo.khet.Piece;
 import poo.khet.Pyramid;
@@ -22,7 +25,8 @@ public class GameManager2 implements ErrorConstants {
 	private Stage stage;
 	private Position activeSquare;
 	
-	GameManager2(Game game){
+	//TODO: excepciones
+	GameManager2(String name) throws ClassNotFoundException, IOException{
 		Map<Position, Piece> pMap= new HashMap<Position, Piece>();
 		pMap.put(new Position(7,2), new Pyramid(Team.RED, Direction.WEST));
 		pMap.put(new Position(7,3), new Anubis(Team.RED, Direction.NORTH));
@@ -52,20 +56,23 @@ public class GameManager2 implements ErrorConstants {
 		stage = Stage.CHOICE;
 		
 		//el true es porque es de dos jugadores. Preguntar como hacer lindo eso
-		GameSetup setup = new GameSetup(true, pMap);
+		GameState setup = new GameState(true, pMap);
 		this.game = new Game(setup);
+		
+		// carga el juego pero no se imprimen las imagenes de las piezas
+		//this.game = new Game(GameLoader.loadGameFile("Classic"));
 	}
 
-	Team currentTeam(){
+	public Team currentTeam(){
 		return game.getMovingTeam();
 	}
 	
 	
-	Stage currentStage(){
+	public Stage currentStage(){
 		return this.stage;
 	}
 	
-	Board getBoard(){
+	public Board getBoard(){
 		return game.getBoard();
 	}
 	
@@ -89,8 +96,7 @@ public class GameManager2 implements ErrorConstants {
 			if (game.isValidMove(activeSquare, position)) {
 				System.out.println("MOVING PIECE");
 				game.move(activeSquare, position);
-				game.throwBeam(currentTeam());
-				resetTurn();
+				nextTurn();
 				System.out.println(currentStage());
 			} 
 			else {
@@ -109,8 +115,7 @@ public class GameManager2 implements ErrorConstants {
 	public int handleRotation(boolean clockwise){
 		if (currentStage() == Stage.ACTION) {
 			game.rotate(activeSquare, clockwise);
-			game.throwBeam(currentTeam());
-			resetTurn();
+			nextTurn();
 			return OK;
 		}
 		return CANT_ROTATE_RIGHT_NOW;
@@ -127,6 +132,17 @@ public class GameManager2 implements ErrorConstants {
 	public void resetTurn() {
 		activeSquare = null;
 		setStage(Stage.CHOICE);
+	}
+	
+	//TODO: excepciones
+	public void saveGame(String name) throws FileNotFoundException, IOException {
+		GameLoader.writeGameFile(name, game.getGameState());
+	}
+	
+	//TODO: buscar el ganador y si es PVE que mueva la compu
+	private void nextTurn() {
+		game.nextTurn();
+		resetTurn();
 	}
 	
 }
