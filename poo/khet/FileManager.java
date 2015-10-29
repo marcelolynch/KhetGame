@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.*;
 
 // parece como que puede ser estatica. ver
-public class GameLoader { // no me convence el nombre porque tambien se encarga de guardar
+public class FileManager { // no me convence el nombre porque tambien se encarga de guardar
 	
     /**
      * Lee el GameFile guardado previamente identificandolo con <tt>name</tt> 

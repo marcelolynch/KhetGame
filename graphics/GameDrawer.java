@@ -10,6 +10,7 @@ import poo.khet.Anubis;
 import poo.khet.BeamCannon;
 import poo.khet.Board;
 import poo.khet.CannonPositions;
+import poo.khet.Game;
 import poo.khet.Pyramid;
 import poo.khet.Pharaoh;
 import poo.khet.Scarab;
@@ -31,12 +32,11 @@ public class GameDrawer implements CannonPositions{
 	BeamCannon redCannon;
 	BeamCannon silverCannon;
 	
-	public GameDrawer(Board board, BeamCannon redCannon, BeamCannon silverCannon) {
+	public GameDrawer(Game game) {
 		mapFiller();
-		this.board = board;
-		this.redCannon = redCannon;
-		this.silverCannon = silverCannon;
-		
+		this.board = game.getBoard();
+		this.redCannon = game.getBeamCannon(Team.RED);
+		this.silverCannon = game.getBeamCannon(Team.SILVER);
 	} 
 	
 	public void draw(GraphicsContext graphicsContext){

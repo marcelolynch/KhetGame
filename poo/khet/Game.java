@@ -1,6 +1,8 @@
 package poo.khet;
 
 import java.util.Observable;
+
+import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
 public class Game implements CannonPositions {
@@ -10,6 +12,7 @@ public class Game implements CannonPositions {
 	private BeamCannon silverCannon;
 	private BeamManager beamManager;
 	private Team movingTeam;
+	private GameMode mode;
 	
 	public Game (GameState setup) {
 		board = new Board(setup.getBoardConfig()); 
@@ -17,36 +20,27 @@ public class Game implements CannonPositions {
 		redCannon = setup.getRedCannon();
 		silverCannon = setup.getSilverCannon();
 		movingTeam = setup.getMovingTeam();
+		mode = setup.getGameMode();
 	}
 	
 	public Board getBoard() {
 		return board;
 	}
 	
-	//TODO: ver lo de 1 jugador. Hace falta que Game lo sepa?
-	//Porque en principio no parece que haga uso de esa información, solo para getGameState().
+	public GameMode getGameMode() {
+		return mode;
+	}
+	
 	public GameState getGameState() {		
-		return new GameState(true, board.getPiecesPosition(), getMovingTeam(), redCannon, silverCannon);
+		return new GameState(mode, board.getPiecesPosition(), getMovingTeam(), redCannon, silverCannon);
 	}
 	
-	public BeamCannon getRedCannon(){
-		return redCannon;
-	}
-	
-	public BeamCannon getSilverCannon(){
-		return silverCannon;
-	}
-
 	/**
 	 * Valida que la posición esté ocupada por una pieza del equipo moviendo.
 	 * @param pos - posición a validar
 	 * @return <tt>true</tt> si se encuentra una pieza del equipo moviendo, <tt>false</tt> sino.
 	 */
-	public boolean isValidSelection(Position pos) {
-		if (pos == null) {
-			return false;
-		}
-		
+	public boolean isValidSelection(Position pos) {	
 		if (!board.isInBounds(pos)) {
 			return false;
 		}
@@ -159,12 +153,19 @@ public class Game implements CannonPositions {
 	}
 
 	public boolean isSwitchable(Position position) {
+		if (!isCannonPosition(position)) {
+			throw new IllegalArgumentException("Posición inválida");
+		}
 		if(getMovingTeam() == Team.SILVER){
 			return position.equals(SILVER_CANNON_POSITION);
 		}
 		else{
 			return position.equals(RED_CANNON_POSITION);
 		}
+	}
+	
+	public boolean isCannonPosition(Position position) {
+		return position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION);
 	}
 
 	
