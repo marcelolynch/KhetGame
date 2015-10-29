@@ -9,13 +9,25 @@ public class Game implements CannonPositions {
 	private Board board;
 	private BeamCannon redCannon;
 	private BeamCannon silverCannon;
+	private BeamManager beamManager;
 	private Team movingTeam;
 	
-	public Game (GameSetup setup) {
+	public Game (GameState setup) {
 		board = new Board(setup.getBoardConfig()); 
+		beamManager = new BeamManager(board);
 		redCannon = setup.getRedCannon();
 		silverCannon = setup.getSilverCannon();
-		movingTeam = Team.SILVER; // Siempre comienza SILVER
+		movingTeam = setup.getMovingTeam();
+	}
+	
+	public Board getBoard() {
+		return board;
+	}
+	
+	//TODO: ver lo de 1 jugador. Hace falta que Game lo sepa?
+	//Porque en principio no parece que haga uso de esa información, solo para getGameState().
+	public GameState getGameState() {		
+		return new GameState(true, board.getPiecesPosition(), getMovingTeam(), redCannon, silverCannon);
 	}
 	
 	/**
@@ -23,7 +35,7 @@ public class Game implements CannonPositions {
 	 * @param pos - posición a validar
 	 * @return <tt>true</tt> si se encuentra una pieza del equipo moviendo, <tt>false</tt> sino.
 	 */
-	public boolean isValidSelection(Position pos) { // la terminé haciendo para poder validar rotaciones
+	public boolean isValidSelection(Position pos) {
 		if (pos == null) {
 			return false;
 		}
@@ -97,7 +109,7 @@ public class Game implements CannonPositions {
 		return movingTeam;
 	}
 	
-	BeamCannon getBeamCannon(Team team) {
+	public BeamCannon getBeamCannon(Team team) {
 		if (team == Team.RED)
 			return redCannon;
 		if (team == Team.SILVER)
@@ -105,29 +117,55 @@ public class Game implements CannonPositions {
 		throw new IllegalArgumentException();
 	}
 	
-	public void throwBeam(Team team) {
+	public void nextTurn() {
+		throwBeam(getMovingTeam());
+		changePlayer();
+	}
+	
+	private void throwBeam(Team team) {
 		BeamCannon cannon = getBeamCannon(team);
 		Beam beam = cannon.generateBeam();
-		BeamManager beamManager = new BeamManager(board);
 		
 		Position startingPosition = team == Team.RED ? RED_CANNON_POSITION : SILVER_CANNON_POSITION;
 		
-		BeamAction beamFate = beamManager.throwBeam(beam,startingPosition);
+		BeamAction beamFate = beamManager.throwBeam(beam, startingPosition);
 		if(beamFate == BeamAction.DESTROYED_PIECE) {
 			System.out.println("Destroyed " + beamManager.getLastPos()); //TODO: Delete syso
 			board.withdrawFrom(beamManager.getLastPos());
-		}
-		
-		changePlayer();
+		}		
 	}	
 	
 	private void changePlayer() {
 		movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
 	}
 
+<<<<<<< HEAD
 	public Board getBoard() {
 		return board;
 	}
 
+=======
+	@Override
+	public void update(Observable o, Object arg) {
+		//TODO:Lo que sucede cuando se muere el Faraón
+		
+	}
+	//NOTA: Acordarse de agregarle el Observer a cada Faraón en la clase que 
+
+	
+// PROBANDO LO DE OBSERVER - OBSERVABLE
+//	public static void main(String[] args) {
+//		Pharaoh p = new Pharaoh(Team.RED);
+//		Map<Position, Piece> map = new HashMap<>();
+//		Position pos = new Position(0, 0);
+//		map.put(pos, p);
+//		Game game = new Game(map);
+//		p.addObserver(game);
+//		Beam beam = new Beam(Direction.NORTH);
+//		p.receiveBeam(beam);
+//		
+//		
+//	}
+>>>>>>> origin/master
 
 }

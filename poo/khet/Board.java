@@ -7,8 +7,8 @@ import poo.khet.gameutils.Position;
 
 public class Board implements CannonPositions {
 
-    static final int COLUMNS = 10;
-    static final int ROWS = 8;
+    public static final int COLUMNS = 10;
+    public static final int ROWS = 8;
     
     private Map<Position, Square> grid;
     
@@ -95,6 +95,23 @@ public class Board implements CannonPositions {
     	else {
     		throw new IllegalArgumentException();
     	}
+    }
+    
+    // Está bien que lo calcule el Board o mejor que lo haga Game por su cuenta cada vez que llaman a GameSetup?
+    // Se podría sobrecargar con un método que sea getPiecesPosition(Team) y te devuelve solo las piezas de Team
+    // si es que esto ayudaría a la AI, sino parece no servir.
+    public Map<Position, Piece> getPiecesPosition() {
+		Map<Position, Piece> boardConfig = new HashMap<Position, Piece>();
+		for (int i=0; i<ROWS; i++) {
+			for (int j=0; j<COLUMNS; j++) {
+				Position pos = new Position(i, j);
+				if (isInBounds(pos) && !isEmptyPosition(pos)) {
+					boardConfig.put(pos, getOccupantIn(pos));
+				}
+			}
+		}
+		
+		return boardConfig;
     }
     
     private void placePieces(Map<Position, Piece> pieces) {

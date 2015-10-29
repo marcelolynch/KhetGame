@@ -4,6 +4,8 @@ import poo.khet.gameutils.Direction;
 
 public class Shield extends Accessory {
 
+	private static final long serialVersionUID = 1L;
+
 	Shield (Direction dir) {
 		super(dir);
 	}
