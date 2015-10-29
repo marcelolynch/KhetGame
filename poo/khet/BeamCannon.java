@@ -12,11 +12,11 @@ public class BeamCannon implements Serializable {
 	private Team team;
 
     private Direction facing;
-    private boolean isClockRotation;
+    private boolean clockwiseSwitch;
 
     public BeamCannon(Team team) {
         this.team = team;
-        isClockRotation = false;
+        clockwiseSwitch = false;
         if (team == Team.RED) {
         	facing = Direction.NORTH;
         } else {
@@ -39,13 +39,26 @@ public class BeamCannon implements Serializable {
     /**
      * Alterna la orientación del laser (entre las dos posibles)
      */
-    void rotate() {
-    	if (isClockRotation) {
+    public void switchFacing() {
+    	if (clockwiseSwitch) {
             facing = facing.getClockwiseDir();
     	} else {
     		facing = facing.getCounterClockwiseDir();
         }
-    	isClockRotation = !isClockRotation;
+    	clockwiseSwitch = !clockwiseSwitch;
     }
 
+    @Override
+    public boolean equals(Object o){
+    	if(o == null || !(o instanceof BeamCannon)){
+    		return false;
+    	}
+    	BeamCannon b = (BeamCannon)o;
+    	return b.getTeam().equals(this.getTeam()) && b.getFacing().equals(this.getFacing());
+    }
+    
+    @Override
+    public int hashCode(){
+    	return 31*getTeam().hashCode() + getFacing().hashCode();
+    }
 }

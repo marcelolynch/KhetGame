@@ -10,14 +10,24 @@ public class Game implements Observer, CannonPositions {
 	private BeamCannon redCannon;
 	private BeamCannon silverCannon;
 	private Team movingTeam;
+	BeamManager beamManager;
 	
 	public Game (GameSetup setup) {
 		board = new Board(setup.getBoardConfig()); 
+		beamManager = new BeamManager(board);
 		redCannon = setup.getRedCannon();
 		silverCannon = setup.getSilverCannon();
 		movingTeam = Team.SILVER; // Siempre comienza SILVER
 	}
 	
+	public BeamCannon getRedCannon(){
+		return redCannon;
+	}
+	
+	public BeamCannon getSilverCannon(){
+		return silverCannon;
+	}
+
 	/**
 	 * Valida que la posición esté ocupada por una pieza del equipo moviendo.
 	 * @param pos - posición a validar
@@ -108,11 +118,10 @@ public class Game implements Observer, CannonPositions {
 	public void throwBeam(Team team) {
 		BeamCannon cannon = getBeamCannon(team);
 		Beam beam = cannon.generateBeam();
-		BeamManager beamManager = new BeamManager(board);
 		
 		Position startingPosition = team == Team.RED ? RED_CANNON_POSITION : SILVER_CANNON_POSITION;
 		
-		BeamAction beamFate = beamManager.throwBeam(beam,startingPosition);
+		BeamAction beamFate = beamManager.throwBeam(beam, startingPosition);
 		if(beamFate == BeamAction.DESTROYED_PIECE) {
 			System.out.println("Destroyed " + beamManager.getLastPos()); //TODO: Delete syso
 			board.withdrawFrom(beamManager.getLastPos());

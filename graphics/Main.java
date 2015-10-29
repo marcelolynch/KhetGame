@@ -30,18 +30,17 @@ public class Main extends Application{
 	Canvas piecesLayer;
 	Canvas rotateButtons;
 	Canvas saveButton;
-	BoardDrawer boardDrawer;
+	GameDrawer drawer;
 	
 	public void start(Stage primaryStage) throws Exception{
 		Group root = new Group();
 
 		graphicBoard = new Canvas(750,600);
 		graphicBoard.getGraphicsContext2D().drawImage(new Image("file:assets/Board.png"),0,0);
-
+		
 		piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
 		piecesGC = piecesLayer.getGraphicsContext2D();
 		
-		boardDrawer = new BoardDrawer(piecesGC);
 		
 		rotateButtons = new Canvas(200,80);
 		rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
@@ -56,13 +55,14 @@ public class Main extends Application{
 		//Aca hay que hacer una ventanita para seleccionar la configuracion inicial del juego
 		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
 		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
-		gameManager = new GameManager2(null);
+		gameManager = new GameManager2();
 	
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
 		root.getChildren().add(rotateButtons);
 		root.getChildren().add(saveButton);
 		
+		drawer = gameManager.getDrawer();	
 		drawBoard();
 		
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, 
@@ -109,7 +109,7 @@ public class Main extends Application{
 
 	private void drawBoard(){
 		piecesGC.clearRect(0, 0, piecesLayer.getWidth(), piecesLayer.getHeight());
-		boardDrawer.draw(gameManager.getBoard());
+		drawer.draw(piecesGC);
 		
 		// Resalta pieza seleccionada
 		if (!gameManager.isChoosing()) {

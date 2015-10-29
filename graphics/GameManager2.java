@@ -21,8 +21,9 @@ public class GameManager2 implements ErrorConstants {
 	private Game game;
 	private Stage stage;
 	private Position activeSquare;
+	private GameDrawer gameDrawer;
 	
-	GameManager2(Game game){
+	GameManager2(){
 		Map<Position, Piece> pMap= new HashMap<Position, Piece>();
 		pMap.put(new Position(7,2), new Pyramid(Team.RED, Direction.WEST));
 		pMap.put(new Position(7,3), new Anubis(Team.RED, Direction.NORTH));
@@ -54,6 +55,12 @@ public class GameManager2 implements ErrorConstants {
 		//el true es porque es de dos jugadores. Preguntar como hacer lindo eso
 		GameSetup setup = new GameSetup(true, pMap);
 		this.game = new Game(setup);
+		
+		gameDrawer = new GameDrawer(game.getBoard(), game.getRedCannon(), game.getRedCannon());
+	}
+	
+	GameDrawer getDrawer(){
+		return this.gameDrawer;
 	}
 
 	Team currentTeam(){
