@@ -10,10 +10,9 @@ public class Pharaoh extends Piece {
 	boolean receiveBeam(Beam beam) {
 		beam.deactivate();
 		setChanged();
-		notifyObservers(/*ACA VA EL ESTADO (Object)*/); // Tiene que notificar que el Faraón murió
+		notifyObservers(this.getTeam()); // No estoy segura si esto es asi
 		return false;
 		
-		//TODO: Enum de estados para mandar la notificacion de la muerte
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import poo.khet.gameutils.Position;
 
-public class Game implements Observer, CannonPositions {
+public class Game implements CannonPositions {
 	
 	private Board board;
 	private BeamCannon redCannon;
@@ -129,26 +129,5 @@ public class Game implements Observer, CannonPositions {
 		return board;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		//TODO:Lo que sucede cuando se muere el Faraón
-		
-	}
-	//NOTA: Acordarse de agregarle el Observer a cada Faraón en la clase que 
-
-	
-// PROBANDO LO DE OBSERVER - OBSERVABLE
-//	public static void main(String[] args) {
-//		Pharaoh p = new Pharaoh(Team.RED);
-//		Map<Position, Piece> map = new HashMap<>();
-//		Position pos = new Position(0, 0);
-//		map.put(pos, p);
-//		Game game = new Game(map);
-//		p.addObserver(game);
-//		Beam beam = new Beam(Direction.NORTH);
-//		p.receiveBeam(beam);
-//		
-//		
-//	}
 
 }
