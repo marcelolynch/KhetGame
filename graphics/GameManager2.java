@@ -56,11 +56,11 @@ public class GameManager2 implements ErrorConstants {
 		stage = Stage.CHOICE;
 		
 		//el true es porque es de dos jugadores. Preguntar como hacer lindo eso
-		GameState setup = new GameState(true, pMap);
-		this.game = new Game(setup);
+		//GameState setup = new GameState(true, pMap);
+		//this.game = new Game(setup);
 		
 		// carga el juego pero no se imprimen las imagenes de las piezas
-		//this.game = new Game(GameLoader.loadGameFile("Classic"));
+		this.game = new Game(GameLoader.loadGameFile("Classic"));
 	}
 
 	public Team currentTeam(){

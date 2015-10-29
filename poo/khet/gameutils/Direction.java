@@ -111,7 +111,14 @@ public class Direction implements Serializable {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return this == obj;
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (!(obj instanceof Direction))
+			return false;
+		Direction d = (Direction) obj;
+		return d.directionIndex == this.directionIndex;
 	}
 	
 	@Override
