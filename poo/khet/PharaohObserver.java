@@ -7,8 +7,8 @@ public class PharaohObserver implements Observer {
 	//Por ahora los Booleans indican si alguna pieza esta muerta o no
 	//No tuve mucha imaginacion con los nombres
 	//NOTA: Acordarse de agregarle el Observer a cada Faraón en la clase que lo inicializa
-	Boolean redPharaohdead;
-	Boolean silverPharaohdead;
+	private Boolean redPharaohdead;
+	private Boolean silverPharaohdead;
 	
 	public PharaohObserver(){
 		redPharaohdead = false;
