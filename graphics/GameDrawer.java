@@ -43,17 +43,18 @@ public class GameDrawer implements CannonPositions{
 	
 	
 	public void draw(GraphicsContext graphicsContext){
-		Position pos;
-		Piece piece;
+		
 		
 		graphicsContext.clearRect(SQUARE_SIZE*RED_CANNON_POSITION.getCol(), SQUARE_SIZE*RED_CANNON_POSITION.getRow(),
 				SQUARE_SIZE, SQUARE_SIZE);
-		graphicsContext.drawImage(cannonImg.get(redCannon), SQUARE_SIZE*RED_CANNON_POSITION.getCol(), SQUARE_SIZE*RED_CANNON_POSITION.getRow());
+	graphicsContext.drawImage(cannonImg.get(redCannon), SQUARE_SIZE*RED_CANNON_POSITION.getCol(), SQUARE_SIZE*RED_CANNON_POSITION.getRow());
 		
 		graphicsContext.clearRect(SQUARE_SIZE*SILVER_CANNON_POSITION.getCol(), SQUARE_SIZE*SILVER_CANNON_POSITION.getRow(),
 				SQUARE_SIZE, SQUARE_SIZE);
 		graphicsContext.drawImage(cannonImg.get(silverCannon), SQUARE_SIZE*(SILVER_CANNON_POSITION.getCol()), SQUARE_SIZE*(SILVER_CANNON_POSITION.getRow()));
 
+		Position pos;
+		Piece piece;
 		for(int i=0; i<ROWS ;i++){
 			for(int j=0; j<COLUMNS; j++){
 				pos = new Position(i, j);
@@ -107,8 +108,8 @@ public class GameDrawer implements CannonPositions{
 		imageMap.put(new Pharaoh(Team.SILVER), new Image("file:assets/pieces/pharaoh/silver.png"));
 		
 		
-		cannonImg.put(new BeamCannon(Team.RED), new Image("file:assets/pieces/cannons/red_regular.png"));
-		cannonImg.put(new BeamCannon(Team.SILVER), new Image("file:assets/pieces/cannons/silver_regular.png"));
+		cannonImg.put(new BeamCannon(Team.RED), new Image("file:assets/cannons/red_regular.png"));
+		cannonImg.put(new BeamCannon(Team.SILVER), new Image("file:assets/cannons/silver_regular.png"));
 		
 		BeamCannon redSwitched = new BeamCannon(Team.RED);
 		redSwitched.switchFacing();

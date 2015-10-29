@@ -147,13 +147,7 @@ public class Game implements CannonPositions {
 		movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
 	}
 
-<<<<<<< HEAD
-	public Board getBoard() {
-		return board;
-	}
 
-=======
-	@Override
 	public void update(Observable o, Object arg) {
 		//TODO:Lo que sucede cuando se muere el Faraón
 		
@@ -174,6 +168,4 @@ public class Game implements CannonPositions {
 //		
 //		
 //	}
->>>>>>> origin/master
-
 }
