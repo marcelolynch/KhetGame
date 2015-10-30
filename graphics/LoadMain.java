@@ -71,7 +71,7 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main("default1");
+							new Main("default1"); // TODO: esto no me gusta
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -126,7 +126,7 @@ public class LoadMain extends Application {
 		root.getChildren().add(nameInput);
 		
 		loadStage.setResizable(false);
-		loadStage.setTitle("Khet - The Laser Game");
+		loadStage.setTitle("Khet - Board Selection");
 		loadStage.setScene(new Scene(root));
 		loadStage.show();
 	}
