@@ -43,6 +43,7 @@ public class Main {
 		piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
 		piecesGC = piecesLayer.getGraphicsContext2D();
 		
+		
 		rotateButtons = new Canvas(200,80);
 		rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
 		rotateButtons.setTranslateY(graphicBoard.getHeight()+10);
@@ -60,7 +61,6 @@ public class Main {
 		//gameManager = new GameManager2(fileName);
 	
 		root.getChildren().add(graphicBoard);
-		root.getChildren().add(beamLayer);
 		root.getChildren().add(piecesLayer);
 		root.getChildren().add(rotateButtons);
 		root.getChildren().add(saveButton);
