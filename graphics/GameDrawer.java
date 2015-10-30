@@ -46,6 +46,12 @@ public class GameDrawer implements CannonPositions{
 		this.beamTrace = game.getLastBeamTrace();
 	} 
 	
+	public void draw(GraphicsContext gc) {
+		drawPieces(gc);
+		drawBeam(gc);
+	}
+	
+	
 	public void drawPieces(GraphicsContext gc) {
 		
 		gc.clearRect(SQUARE_SIZE*RED_CANNON_POSITION.getCol(), SQUARE_SIZE*RED_CANNON_POSITION.getRow(),
@@ -81,6 +87,7 @@ public class GameDrawer implements CannonPositions{
 	public void drawBeam(GraphicsContext gc) {
 		Position prev = null;
 		Image toDraw;
+		
 		for (Position each: beamTrace) {
 			if(prev != null){
 				if(board.isEmptyPosition(prev)){
@@ -94,8 +101,10 @@ public class GameDrawer implements CannonPositions{
 			prev = each;
 		}
 		
-		//Puntito al final (pieza destruida)
-		gc.drawImage(beamImg, prev.getCol()*SQUARE_SIZE, prev.getRow()*SQUARE_SIZE);
+		//Me protejo contra un beamTrace vacio (prev queda en null)
+		if(prev != null){
+			gc.drawImage(beamImg, prev.getCol()*SQUARE_SIZE, prev.getRow()*SQUARE_SIZE);
+		}
 		
 	}
 	

@@ -43,9 +43,6 @@ public class Main {
 		piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
 		piecesGC = piecesLayer.getGraphicsContext2D();
 		
-		beamLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
-		beamGC = beamLayer.getGraphicsContext2D();
-		
 		rotateButtons = new Canvas(200,80);
 		rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
 		rotateButtons.setTranslateY(graphicBoard.getHeight()+10);
@@ -69,7 +66,7 @@ public class Main {
 		root.getChildren().add(saveButton);
 		
 		drawer = gameManager.getDrawer();	
-		drawBoard();
+		drawGame();
 		
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>(){
@@ -83,8 +80,7 @@ public class Main {
         				else if(e.getButton() == MouseButton.SECONDARY){
         					gameManager.resetTurn();
         				}
-        				drawBoard();
-        				drawBeam();
+        				drawGame();
         			}
         });
 		
@@ -93,8 +89,7 @@ public class Main {
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
         			gameManager.handleRotation(e.getX() < 98);
-        			drawBoard();
-        			drawBeam();
+        			drawGame();
         			}
         });
         
@@ -114,9 +109,9 @@ public class Main {
         primaryStage.show();
 	}
 
-	private void drawBoard(){
+	private void drawGame(){
 		piecesGC.clearRect(0, 0, piecesLayer.getWidth(), piecesLayer.getHeight());
-		drawer.drawPieces(piecesGC);
+		drawer.draw(piecesGC);
 		
 		// Resalta pieza seleccionada
 		if (!gameManager.isChoosing()) {
@@ -125,10 +120,6 @@ public class Main {
 		}
 	}
 	
-	private void drawBeam() {
-		beamGC.clearRect(0, 0, beamLayer.getWidth(), beamLayer.getHeight());
-		drawer.drawBeam(beamGC);
-	}
 	
 	//TODO: try-catch
 	//TODO: tendria que ser otra clase todo lo de save
