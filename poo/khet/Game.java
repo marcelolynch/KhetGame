@@ -1,7 +1,6 @@
 package poo.khet;
 
 import java.util.List;
-import java.util.Observable;
 
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
@@ -14,6 +13,7 @@ public class Game implements CannonPositions {
 	private BeamManager beamManager;
 	private Team movingTeam;
 	private GameMode mode;
+	private Team winnerTeam;
 	
 	public Game (GameState setup) {
 		board = new Board(setup.getBoardConfig()); 
@@ -141,13 +141,6 @@ public class Game implements CannonPositions {
 		movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
 	}
 
-
-	public void update(Observable o, Object arg) {
-		//TODO:Lo que sucede cuando se muere el Faraón
-		
-	}
-	//NOTA: Acordarse de agregarle el Observer a cada Faraón en la clase que 
-
 	public void switchCannon() {
 		BeamCannon current = getMovingTeam()==Team.SILVER ? silverCannon : redCannon;
 		current.switchFacing();
@@ -174,17 +167,15 @@ public class Game implements CannonPositions {
 		return beamManager.getBeamTrace();
 	}
 	
-// PROBANDO LO DE OBSERVER - OBSERVABLE
-//	public static void main(String[] args) {
-//		Pharaoh p = new Pharaoh(Team.RED);
-//		Map<Position, Piece> map = new HashMap<>();
-//		Position pos = new Position(0, 0);
-//		map.put(pos, p);
-//		Game game = new Game(map);
-//		p.addObserver(game);
-//		Beam beam = new Beam(Direction.NORTH);
-//		p.receiveBeam(beam);
-//		
-//		
-//	}
+	public boolean hasWinner(){
+		return winnerTeam != null;
+	}
+	
+	public Team getWinnerTeam(){
+		if(!hasWinner()){
+			throw new IllegalStateException(); // o alguna excepcion
+		}
+		return this.winnerTeam;
+	}
+	
 }

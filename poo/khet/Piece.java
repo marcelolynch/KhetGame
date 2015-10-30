@@ -1,9 +1,8 @@
 package poo.khet;
 
 import java.io.Serializable;
-import java.util.Observable;
 
-public abstract class Piece extends Observable implements Serializable {
+public abstract class Piece implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

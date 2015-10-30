@@ -2,7 +2,7 @@ package poo.khet;
 
 import java.util.Observable;
 import java.util.Observer;
-
+@Deprecated
 public class PharaohObserver implements Observer {
 	//Por ahora los Booleans indican si alguna pieza esta muerta o no
 	//No tuve mucha imaginacion con los nombres
