@@ -31,6 +31,7 @@ public class GameDrawer implements CannonPositions{
 	
 	//Ver si hay una mejor opcion
 	Image beamImg = new Image("file:assets/beam/BeamPoint.png");
+	
 	 
 	Board board;
 	BeamCannon redCannon;
@@ -69,12 +70,57 @@ public class GameDrawer implements CannonPositions{
 		}
 	}
 
-	public void drawBeam(GraphicsContext gc) {
+	public void drawBeam2(GraphicsContext gc) {
+		
 		for (Position each: beamTrace) {
 			gc.drawImage(beamImg, each.getCol()*SQUARE_SIZE, each.getRow()*SQUARE_SIZE);
 		}
 	}
 	
+	
+	public void drawBeam(GraphicsContext gc) {
+		Position prev = null;
+		Image toDraw;
+		for (Position each: beamTrace) {
+			if(prev != null){
+				if(board.isEmptyPosition(prev)){
+					toDraw = beamImageFromPath(prev, each);
+					gc.drawImage(toDraw, prev.getCol()*SQUARE_SIZE, prev.getRow()*SQUARE_SIZE);
+				}
+				else{
+					gc.drawImage(beamImg, prev.getCol()*SQUARE_SIZE, prev.getRow()*SQUARE_SIZE);
+				}
+			}
+			prev = each;
+		}
+		
+		//Puntito al final (pieza destruida)
+		gc.drawImage(beamImg, prev.getCol()*SQUARE_SIZE, prev.getRow()*SQUARE_SIZE);
+		
+	}
+	
+	
+	Image beamH = new Image("file:assets/beam/BeamHorizontal.png");
+	Image beamV = new Image("file:assets/beam/BeamVertical.png");
+	
+	private Image beamImageFromPath(Position prev, Position now) {
+		int deltaCol = now.getCol() - prev.getCol();
+		int deltaRow = now.getRow() - prev.getRow();
+		
+		System.out.println("DeltaC = " + deltaCol + " DeltaR = " + deltaRow);
+		
+		if(deltaCol != 0){
+			return beamH;
+		}
+		else if(deltaRow != 0){
+			return beamV;
+		}
+		else{
+			System.out.println("What");
+			return null;
+		}
+	}
+
 	/**
 	 * Cargar recursos en un mapa de imagenes
 	 * @param imageMap - el mapa
