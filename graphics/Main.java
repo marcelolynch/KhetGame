@@ -4,7 +4,6 @@ package graphics;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,7 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import poo.khet.gameutils.Position;
 
-public class Main extends Application{
+public class Main {
 	
 	GameManager2 gameManager;
 	GraphicsContext piecesGC;
@@ -31,7 +30,9 @@ public class Main extends Application{
 	Canvas saveButton;
 	GameDrawer drawer;
 	
-	public void start(Stage primaryStage) throws Exception{
+	//TODO: static? es medio raro, pero tambien es raro instanciar Main. Preguntar
+	public Main(String fileName) throws Exception{
+		Stage primaryStage = new Stage();
 		Group root = new Group();
 
 		graphicBoard = new Canvas(750,600);
@@ -55,6 +56,7 @@ public class Main extends Application{
 		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
 		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
 		gameManager = new GameManager2(null);
+		//gameManager = new GameManager2(fileName);
 	
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
@@ -159,10 +161,6 @@ public class Main extends Application{
 		int squareSize = 75;
 		Position c = new Position((int)y / squareSize, (int)x / squareSize);
 		return c;
-	}
-
-	public static void main(String[] args) {
-		launch(args);
 	}
 
 }
