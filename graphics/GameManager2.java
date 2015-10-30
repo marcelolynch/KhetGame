@@ -6,7 +6,6 @@ import poo.khet.Board;
 import poo.khet.Game;
 import poo.khet.FileManager;
 import poo.khet.Team;
-import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
 public class GameManager2 implements ErrorConstants {
@@ -115,6 +114,7 @@ public class GameManager2 implements ErrorConstants {
 //		if (game.getGameMode() == GameMode.PVE) {
 //			AIMover.makeMove();
 //		}
+		
 	}
 	
 }

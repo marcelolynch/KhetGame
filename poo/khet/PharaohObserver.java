@@ -34,7 +34,7 @@ public class PharaohObserver implements Observer {
 		return redPharaohDead;
 	}
 
-	public void setRedPharaohDead(Boolean redPharaohdead) {
+	private void setRedPharaohDead(Boolean redPharaohdead) {
 		this.redPharaohDead = redPharaohdead;
 	}
 
@@ -42,28 +42,8 @@ public class PharaohObserver implements Observer {
 		return silverPharaohDead;
 	}
 
-	public void setSilverPharaohDead(Boolean silverPharaohdead) {
+	private void setSilverPharaohDead(Boolean silverPharaohdead) {
 		this.silverPharaohDead = silverPharaohdead;
 	}
-	
-	/**
-	 * Responde si el faraón de algun equipo murio.
-	 * @return Team.RED si muere el faraón del equipo rojo, Team.SILVER 
-	 * si muere el faraon del equipo plateado, o null en caso de que ninguno muera
-	 */
-	
-	//queda default?
-	Team destroyedPharaoh(){
-		if(isRedPharaohDead()){
-			return Team.RED;
-		} else if (isSilverPharaohDead()) {
-			return Team.SILVER;
-		}
-		else {
-			return null; //Esto es medio feo
-		}
-	}
-	
-
 	
 }
