@@ -1,5 +1,6 @@
 package poo.khet;
 
+import java.util.List;
 import java.util.Observable;
 
 import poo.khet.gameutils.GameMode;
@@ -167,7 +168,11 @@ public class Game implements CannonPositions {
 	public boolean isCannonPosition(Position position) {
 		return position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION);
 	}
-
+	
+	//Cree esto para que lo pueda pedir el front
+	public List<Position> getLastBeamTrace() {
+		return beamManager.getBeamTrace();
+	}
 	
 // PROBANDO LO DE OBSERVER - OBSERVABLE
 //	public static void main(String[] args) {

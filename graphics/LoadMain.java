@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Paint;
 
 public class LoadMain extends Application {
 	
@@ -19,7 +18,7 @@ public class LoadMain extends Application {
 	Button[] defaultButtons = new Button[3];
 	Button loadBtn;
 	
-	//TODO: Excpetion
+	//TODO: Exception
 	public void start(Stage loadStage) throws Exception {
 		Group root = new Group();
 		loadStage.setWidth(800);

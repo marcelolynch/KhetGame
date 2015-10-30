@@ -24,8 +24,10 @@ public class Main {
 	
 	GameManager gameManager;
 	GraphicsContext piecesGC;
+	GraphicsContext beamGC;
 	Canvas graphicBoard;
 	Canvas piecesLayer;
+	Canvas beamLayer;
 	Canvas rotateButtons;
 	Canvas saveButton;
 	GameDrawer drawer;
@@ -41,6 +43,8 @@ public class Main {
 		piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
 		piecesGC = piecesLayer.getGraphicsContext2D();
 		
+		beamLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
+		beamGC = beamLayer.getGraphicsContext2D();
 		
 		rotateButtons = new Canvas(200,80);
 		rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
@@ -59,6 +63,7 @@ public class Main {
 		//gameManager = new GameManager2(fileName);
 	
 		root.getChildren().add(graphicBoard);
+		root.getChildren().add(beamLayer);
 		root.getChildren().add(piecesLayer);
 		root.getChildren().add(rotateButtons);
 		root.getChildren().add(saveButton);
@@ -78,8 +83,8 @@ public class Main {
         				else if(e.getButton() == MouseButton.SECONDARY){
         					gameManager.resetTurn();
         				}
-        				
-        				drawBoard(); 
+        				drawBoard();
+        				drawBeam();
         			}
         });
 		
@@ -89,6 +94,7 @@ public class Main {
         			public void handle(MouseEvent e) {
         			gameManager.handleRotation(e.getX() < 98);
         			drawBoard();
+        			drawBeam();
         			}
         });
         
@@ -110,7 +116,7 @@ public class Main {
 
 	private void drawBoard(){
 		piecesGC.clearRect(0, 0, piecesLayer.getWidth(), piecesLayer.getHeight());
-		drawer.draw(piecesGC);
+		drawer.drawPieces(piecesGC);
 		
 		// Resalta pieza seleccionada
 		if (!gameManager.isChoosing()) {
@@ -119,7 +125,13 @@ public class Main {
 		}
 	}
 	
+	private void drawBeam() {
+		beamGC.clearRect(0, 0, beamLayer.getWidth(), beamLayer.getHeight());
+		drawer.drawBeam(beamGC);
+	}
+	
 	//TODO: try-catch
+	//TODO: tendria que ser otra clase todo lo de save
 	void saveGamePrompt() {
 		final Stage saveWindow = new Stage();
 		VBox saveLayout = new VBox(10);

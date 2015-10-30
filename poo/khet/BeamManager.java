@@ -7,20 +7,19 @@ import poo.khet.gameutils.Position;
 
 public class BeamManager {
 	private Board board;
-	private List<Position> beamPath;
+	private List<Position> beamTrace = new ArrayList<>();
 
 	BeamManager(Board board) {
 		super();
 		this.board = board;
-		this.beamPath = new ArrayList<Position>();
 	}
 	
 	Position getLastPos() {
-		return beamPath.get(beamPath.size()-1);
+		return beamTrace.get(beamTrace.size()-1);
 	}
 	
-	public List<Position> getBeamPath() {
-		return beamPath;
+	public List<Position> getBeamTrace() {
+		return beamTrace;
 	}
 	
 	BeamAction throwBeam(Beam beam ,Position initialPosition) {
@@ -31,11 +30,12 @@ public class BeamManager {
 	private BeamAction manageBeamTravel (Beam beam, Position initialPosition) {
 		BeamAction beamAction = null;
 		Position beamPos = initialPosition;
+		beamTrace.clear(); 
 		
 		while (beam.isActive()) {
 			beamPos = nextBeamPosition(beamPos, beam);
 			System.out.println("BEAMPOS: " + beamPos); //TODO: Delete
-			beamPath.add(beamPos);
+			beamTrace.add(beamPos);
 			if (!board.isInBounds(beamPos)) {
 				beam.deactivate();
 				beamAction = BeamAction.OUT_OF_BOUNDS;

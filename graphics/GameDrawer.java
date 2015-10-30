@@ -1,6 +1,7 @@
 package graphics;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -28,51 +29,58 @@ public class GameDrawer implements CannonPositions{
 	Map<Piece, Image> imageMap = new HashMap<Piece, Image>();
 	Map<BeamCannon, Image> cannonImg = new HashMap<BeamCannon, Image>();
 	
+	//Ver si hay una mejor opcion
+	Image beamImg = new Image("file:assets/beam/BeamPoint.png");
+	 
 	Board board;
 	BeamCannon redCannon;
 	BeamCannon silverCannon;
+	List<Position> beamTrace;
 	
 	public GameDrawer(Game game) {
 		mapFiller();
 		this.board = game.getBoard();
 		this.redCannon = game.getBeamCannon(Team.RED);
 		this.silverCannon = game.getBeamCannon(Team.SILVER);
+		this.beamTrace = game.getLastBeamTrace();
 	} 
 	
-	public void draw(GraphicsContext graphicsContext){
+	public void drawPieces(GraphicsContext gc) {
 		
-		
-		graphicsContext.clearRect(SQUARE_SIZE*RED_CANNON_POSITION.getCol(), SQUARE_SIZE*RED_CANNON_POSITION.getRow(),
+		gc.clearRect(SQUARE_SIZE*RED_CANNON_POSITION.getCol(), SQUARE_SIZE*RED_CANNON_POSITION.getRow(),
 				SQUARE_SIZE, SQUARE_SIZE);
-		graphicsContext.drawImage(cannonImg.get(redCannon), SQUARE_SIZE*RED_CANNON_POSITION.getCol(), 
+		gc.drawImage(cannonImg.get(redCannon), SQUARE_SIZE*RED_CANNON_POSITION.getCol(), 
 				SQUARE_SIZE*RED_CANNON_POSITION.getRow());
 		
-		graphicsContext.clearRect(SQUARE_SIZE*SILVER_CANNON_POSITION.getCol(), SQUARE_SIZE*SILVER_CANNON_POSITION.getRow(),
+		gc.clearRect(SQUARE_SIZE*SILVER_CANNON_POSITION.getCol(), SQUARE_SIZE*SILVER_CANNON_POSITION.getRow(),
 				SQUARE_SIZE, SQUARE_SIZE);
-		graphicsContext.drawImage(cannonImg.get(silverCannon), SQUARE_SIZE*(SILVER_CANNON_POSITION.getCol()), 
+		gc.drawImage(cannonImg.get(silverCannon), SQUARE_SIZE*(SILVER_CANNON_POSITION.getCol()), 
 				SQUARE_SIZE*(SILVER_CANNON_POSITION.getRow()));
 
-		Position pos;
-		Piece piece;
-		for(int i=0; i<ROWS ;i++){
-			for(int j=0; j<COLUMNS; j++){
-				pos = new Position(i, j);
-				if(board.isInBounds(pos) && !board.isEmptyPosition(pos)){ //Me protejo contra las esquinas que no son del tablero
-					piece = board.getOccupantIn(pos);
-					graphicsContext.clearRect(SQUARE_SIZE*j, SQUARE_SIZE*i, SQUARE_SIZE, SQUARE_SIZE);
-					graphicsContext.drawImage(imageMap.get(piece), SQUARE_SIZE*j + 1, SQUARE_SIZE*i + 1);
+		for (int i=0; i<ROWS ;i++) {
+			for (int j=0; j<COLUMNS; j++) {
+				Position pos = new Position(i, j);
+				if(board.isInBounds(pos) && !board.isEmptyPosition(pos)) { //Me protejo contra las esquinas que no son del tablero
+					Piece piece = board.getOccupantIn(pos);
+					gc.clearRect(SQUARE_SIZE*j, SQUARE_SIZE*i, SQUARE_SIZE, SQUARE_SIZE);
+					gc.drawImage(imageMap.get(piece), SQUARE_SIZE*j + 1, SQUARE_SIZE*i + 1);
 				}
 			}
 		}
 	}
 
-	
+	public void drawBeam(GraphicsContext gc) {
+		for (Position each: beamTrace) {
+			gc.drawImage(beamImg, each.getCol()*SQUARE_SIZE, each.getRow()*SQUARE_SIZE);
+		}
+	}
 	
 	/**
 	 * Cargar recursos en un mapa de imagenes
 	 * @param imageMap - el mapa
 	 */
 	void mapFiller(){
+		//Piezas
 		imageMap.put(new Anubis(Team.RED, Direction.NORTH), new Image("file:assets/pieces/anubis/red_north.png"));
 		imageMap.put(new Anubis(Team.RED, Direction.EAST), new Image("file:assets/pieces/anubis/red_east.png"));
 		imageMap.put(new Anubis(Team.RED, Direction.WEST), new Image("file:assets/pieces/anubis/red_west.png"));
@@ -106,10 +114,11 @@ public class GameDrawer implements CannonPositions{
 		imageMap.put(new Pharaoh(Team.RED), new Image("file:assets/pieces/pharaoh/red.png"));
 		imageMap.put(new Pharaoh(Team.SILVER), new Image("file:assets/pieces/pharaoh/silver.png"));
 		
-		
+		//Cañones
 		cannonImg.put(new BeamCannon(Team.RED), new Image("file:assets/cannons/red_regular.png"));
 		cannonImg.put(new BeamCannon(Team.SILVER), new Image("file:assets/cannons/silver_regular.png"));
 		
+		//Cañones rotados
 		BeamCannon redSwitched = new BeamCannon(Team.RED);
 		redSwitched.switchFacing();
 		cannonImg.put(redSwitched, new Image("file:assets/cannons/red_switched.png"));
