@@ -18,4 +18,23 @@ public class Rotation extends Action {
 	public void setClockwise(boolean isClockwise) {
 		this.isClockwise = isClockwise;
 	}
+
+	@Override
+	void executeActionIn(Board board) {
+		Piece rotated=board.getOccupantIn(this.getStart());
+		if(this.isClockwise()){
+			rotated.rotateClockwise();
+		}else{
+			rotated.rotateCounterClockwise();
+		}
+	}
+
+	@Override
+	Action getRevertedAction(Action action) {
+		return new Rotation(this.getStart(),!this.isClockwise());
+	}
+	
+	
+	
+	
 }

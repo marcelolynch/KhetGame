@@ -19,4 +19,13 @@ public abstract class Action {
 	void setStart(Position start) {
 		this.start = start;
 	}
+	abstract void executeActionIn(Board board) ;
+	
+	/**
+	 * es solo una idea jaja
+	 * @param action
+	 * @return
+	 */
+	abstract Action getRevertedAction(Action action); 
+	
 }

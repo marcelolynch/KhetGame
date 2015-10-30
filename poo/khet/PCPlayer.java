@@ -22,56 +22,38 @@ public class PCPlayer implements CannonPositions {
 		List<Action> possibleMoves = possibleMoves();
 		possibleMoves.addAll(possibleRotations());
 		Position startingPosition =  RED_CANNON_POSITION ;
+		Action secondChoice;//en caso de que no encuentre una que destruya una pieza del enemigo,por lo menos que elija una que no hace nada
+		boolean foundSecondChoice= false;
 		for(Action action : possibleMoves){
 			BeamCannon cannon = getBeamCannon(team);// desp veo como 
 			Beam beam = cannon.generateBeam();
-			changeBoard(action);			
+			action.executeActionIn(board);			
 			BeamAction beamFate = beamManager.throwBeam(beam,startingPosition);
 			if(beamFate == BeamAction.DESTROYED_PIECE && board.getOccupantIn(beamManager.getLastPos()).getTeam().equals(Team.SILVER)){
 					return;
 				}
-			restoreBoard(action);
+			else if(!foundSecondChoice && beamFate != BeamAction.DESTROYED_PIECE ){
+				secondChoice=action;
+				foundSecondChoice=true;
 			}
-		changeBoard(possibleMoves.get(0));
+			Action restore=action.getRevertedAction(action);
+			restore.executeActionIn(board);
+			}
+		if(foundSecondChoice){
+			BeamCannon cannon = getBeamCannon(team);// desp veo como 
+			Beam beam = cannon.generateBeam();
+			secondChoice.executeActionIn(board);
+			beamManager.throwBeam(beam,startingPosition);	
+		}
+		
+		Action finalChoice=possibleMoves.get(brain.nextInt(possibleMoves.size()-1)); // como no encontro ninguna "buena" , agarra cualquiera
+		finalChoice.executeActionIn(board);
 		BeamCannon cannon = getBeamCannon(team);// desp veo como 
 		Beam beam = cannon.generateBeam();
-		BeamAction beamFate = beamManager.throwBeam(beam,startingPosition);	
+		beamManager.throwBeam(beam,startingPosition);	
 	}
 
-	/**
-	 * solucion provisioria
-	 * @param move
-	 */
-	 
-	private void changeBoard(Move move){
-		Piece moved=board.withdrawFrom(move.getStart());
-		board.placePiece(move.getDest(), moved);
-	}
-	
-	private void restoreBoard(Move move){
-		changeBoard(new Move(move.getDest(),move.getStart()));
-	}
-	private void changeBoard(Rotation rotation){
-		Piece rotated=board.getOccupantIn(rotation.getStart());
-		if(rotation.isClockwise()){
-			rotated.rotateClockwise();
-		}else{
-			rotated.rotateCounterClockwise();
-		}
-	}
-	
-	private void restoreBoard(Rotation rotation){
-		changeBoard(new Rotation(rotation.getStart(),!rotation.isClockwise()));
-	}
-	
-	private void changeBoard(Action action){
 
-	}
-	
-	private void restoreBoard(Action action){
-		
-	}
-	
 	
 	public List<Action> possibleMoves(){
 		List<Action> possibleMoves = new ArrayList<Action>();
