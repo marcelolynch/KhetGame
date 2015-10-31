@@ -42,6 +42,10 @@ public class Game implements CannonPositions {
 	 * @return <tt>true</tt> si se encuentra una pieza del equipo moviendo, <tt>false</tt> sino.
 	 */
 	public boolean isValidSelection(Position pos) {	
+		if (hasWinner()) {
+			return false;
+		}
+		
 		if (!board.isInBounds(pos)) {
 			return false;
 		}
@@ -50,16 +54,17 @@ public class Game implements CannonPositions {
 			return false;
 		}
 		
-		Piece p = board.getOccupantIn(pos);
+		//será mejor preguntarle al tablero de qué equipo es la pieza
+		//pasandoles como parámetro la posición?
+		Team pieceTeam = board.getOccupantIn(pos).getTeam();
 		
-		if (!p.getTeam().equals(movingTeam)) {
+		if (!pieceTeam.equals(movingTeam)) {
 			return false;
 		}
 		
 		return true;
 	}
 	
-	// TODO: constantes de error
 	public boolean isValidMove(Position init, Position dest) {
 		if (init == null || dest == null) {
 			return false;
@@ -112,16 +117,21 @@ public class Game implements CannonPositions {
 	}
 	
 	public BeamCannon getBeamCannon(Team team) {
-		if (team == Team.RED)
+		if (team == Team.RED) {
 			return redCannon;
-		if (team == Team.SILVER)
+		}
+		if (team == Team.SILVER) {
 			return silverCannon;
+		}
 		throw new IllegalArgumentException();
 	}
 	
 	public void nextTurn() {
 		throwBeam(getMovingTeam());
 		changePlayer();
+		if (!NotificationCenter.isEmpty()) {
+			updateWinnerTeam();
+		}
 	}
 	
 	private void throwBeam(Team team) {
@@ -136,6 +146,15 @@ public class Game implements CannonPositions {
 			board.withdrawFrom(beamManager.getLastPos());
 		}		
 	}	
+	
+	private void updateWinnerTeam() {
+		Notification n = NotificationCenter.getNotification(); //Va a traer problemas cuando la AI simule el rayo
+		if (n == Notification.SILVER_PHARAOH_DEAD) {
+			winnerTeam = Team.RED;
+		} else {
+			winnerTeam = Team.SILVER;
+		}
+	}
 	
 	private void changePlayer() {
 		movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
@@ -162,7 +181,6 @@ public class Game implements CannonPositions {
 		return position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION);
 	}
 	
-	//Cree esto para que lo pueda pedir el front
 	public List<Position> getLastBeamTrace() {
 		return beamManager.getBeamTrace();
 	}
@@ -173,7 +191,7 @@ public class Game implements CannonPositions {
 	
 	public Team getWinnerTeam(){
 		if(!hasWinner()){
-			throw new IllegalStateException(); // o alguna excepcion
+			throw new IllegalStateException();
 		}
 		return this.winnerTeam;
 	}

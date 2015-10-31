@@ -62,12 +62,10 @@ public class Board implements CannonPositions {
     public boolean isInBounds(Position pos) {
         return grid.containsKey(pos);
     }
-    
 
     public Piece withdrawFrom (Position position) {
     	return grid.get(position).withdrawOccupant();
     }
-    
     
     public boolean isEmptyPosition(Position position) { 
     	if(!isInBounds(position)) {
@@ -75,7 +73,6 @@ public class Board implements CannonPositions {
     	}
     	return grid.get(position).isEmpty();
     }
-    
     
     public Piece getOccupantIn (Position position) {
     	if(isEmptyPosition(position)){
@@ -92,7 +89,6 @@ public class Board implements CannonPositions {
     	}
     }
     
-    // Está bien que lo calcule el Board o mejor que lo haga Game por su cuenta cada vez que llaman a GameSetup?
     // Se podría sobrecargar con un método que sea getPiecesPosition(Team) y te devuelve solo las piezas de Team
     // si es que esto ayudaría a la AI, sino parece no servir.
     public Map<Position, Piece> getPiecesPosition() {
@@ -113,6 +109,5 @@ public class Board implements CannonPositions {
     	for (Position pos: pieces.keySet()) {
     		placePiece(pos, pieces.get(pos));
     	}
-    }
- 
+    } 
 }

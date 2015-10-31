@@ -81,6 +81,11 @@ public class Main {
         					gameManager.resetTurn();
         				}
         				drawGame();
+        				
+        				if (gameManager.hasWinner()) {
+        					//printWinner (gameManager.getWinnerTeam);
+        					//GOTO MainMenu
+        				}
         			}
         });
 		
@@ -90,15 +95,18 @@ public class Main {
         			public void handle(MouseEvent e) {
         			gameManager.handleRotation(e.getX() < 98);
         			drawGame();
-        			}
+    				if (gameManager.hasWinner()) {
+    					//printWinner (gameManager.getWinnerTeam);
+    					//GOTO MainMenu
+    				}
+        		}
         });
         
         saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent e) {
 					saveGamePrompt();
-					}
-        			
+				}
         });
 
         primaryStage.setWidth(750); 

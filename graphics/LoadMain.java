@@ -19,7 +19,7 @@ public class LoadMain extends Application {
 	Button loadBtn;
 	
 	//TODO: Exception
-	public void start(Stage loadStage) throws Exception {
+	public void start(final Stage loadStage) throws Exception {
 		Group root = new Group();
 		loadStage.setWidth(800);
 		loadStage.setHeight(400);
@@ -47,7 +47,7 @@ public class LoadMain extends Application {
 		loadBtn = new Button("Load Game");
 		loadBtn.setTranslateX(175); loadBtn.setTranslateY(315);
 		loadBtn.setPrefSize(100, 35);
-		TextField nameInput = new TextField();
+		final TextField nameInput = new TextField();
 		nameInput.setPrefSize(350, 35);
 		nameInput.setTranslateX(275); nameInput.setTranslateY(315);
 		
