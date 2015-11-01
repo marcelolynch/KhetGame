@@ -36,6 +36,14 @@ public class Game implements CannonPositions {
 		return new GameState(mode, board.getPiecesPosition(), getMovingTeam(), redCannon, silverCannon);
 	}
 	
+	//Algo as� -Chelo
+	//Tendria que ser llamado en casi todos lados. Creo que esta bien
+	public void assertGameInProgress(){
+		if(hasWinner()){
+			throw new IllegalStateException("Illegal operation: game has ended");
+		}
+	}
+	
 	/**
 	 * Valida que la posición esté ocupada por una pieza del equipo moviendo.
 	 * @param pos - posición a validar
