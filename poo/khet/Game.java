@@ -38,7 +38,7 @@ public class Game implements CannonPositions {
 	
 	//Algo así -Chelo
 	//Tendria que ser llamado en casi todos lados. Creo que esta bien
-	public void assertGameInProgress(){
+	private void assertGameInProgress(){
 		if(hasWinner()){
 			throw new IllegalStateException("Illegal operation: game has ended");
 		}
