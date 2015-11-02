@@ -50,6 +50,8 @@ public class Game implements CannonPositions {
 	 * @return <tt>true</tt> si se encuentra una pieza del equipo moviendo, <tt>false</tt> sino.
 	 */
 	public boolean isValidSelection(Position pos) {	
+		assertGameInProgress();
+		
 		if (hasWinner()) {
 			return false;
 		}
@@ -74,6 +76,8 @@ public class Game implements CannonPositions {
 	}
 	
 	public boolean isValidMove(Position init, Position dest) {
+		assertGameInProgress();
+		
 		if (init == null || dest == null) {
 			return false;
 		}
@@ -92,6 +96,8 @@ public class Game implements CannonPositions {
 	}
 	
 	public void move(Position init, Position dest) {
+		assertGameInProgress();
+		
 		if (!isValidMove(init, dest)) {
 			throw new IllegalArgumentException("Movimiento inválido.");
 		}
@@ -106,6 +112,8 @@ public class Game implements CannonPositions {
 	}
 	
 	public void rotate(Position pos, boolean clockwise) {
+		assertGameInProgress();
+
 		if (!isValidSelection(pos)) {
 			throw new IllegalArgumentException();
 		}
@@ -121,6 +129,8 @@ public class Game implements CannonPositions {
 	}
 	
 	public Team getMovingTeam() {
+		assertGameInProgress();
+		
 		return movingTeam;
 	}
 	
@@ -135,6 +145,8 @@ public class Game implements CannonPositions {
 	}
 	
 	public void nextTurn() {
+		assertGameInProgress();
+
 		throwBeam(getMovingTeam());
 		changePlayer();
 		if (!NotificationCenter.isEmpty()) {
@@ -169,11 +181,15 @@ public class Game implements CannonPositions {
 	}
 
 	public void switchCannon() {
+		assertGameInProgress();
+
 		BeamCannon current = getMovingTeam()==Team.SILVER ? silverCannon : redCannon;
 		current.switchFacing();
 	}
 
 	public boolean isSwitchable(Position position) {
+		assertGameInProgress();
+
 		if (!isCannonPosition(position)) {
 			throw new IllegalArgumentException("Posición inválida");
 		}
