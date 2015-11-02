@@ -20,7 +20,7 @@ public class GameManager implements ErrorConstants {
 	public GameManager(String name) throws ClassNotFoundException, IOException{	
 		stage = Stage.CHOICE;
 		
-		game = new Game(FileManager.loadGameFile("Classic"));
+		game = new Game(FileManager.loadGameFile(name));
 		gameDrawer = new GameDrawer(game);
 	}
 

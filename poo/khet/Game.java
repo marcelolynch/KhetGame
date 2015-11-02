@@ -36,7 +36,7 @@ public class Game implements CannonPositions {
 		return new GameState(mode, board.getPiecesPosition(), getMovingTeam(), redCannon, silverCannon);
 	}
 	
-	//Algo as� -Chelo
+	//Algo as� -Chelo
 	//Tendria que ser llamado en casi todos lados. Creo que esta bien
 	private void assertGameInProgress(){
 		if(hasWinner()){
@@ -64,8 +64,6 @@ public class Game implements CannonPositions {
 			return false;
 		}
 		
-		//será mejor preguntarle al tablero de qué equipo es la pieza
-		//pasandoles como parámetro la posición?
 		Team pieceTeam = board.getOccupantIn(pos).getTeam();
 		
 		if (!pieceTeam.equals(movingTeam)) {
@@ -147,25 +145,29 @@ public class Game implements CannonPositions {
 	public void nextTurn() {
 		assertGameInProgress();
 
-		throwBeam(getMovingTeam());
+		BeamAction beamFate = throwBeam(getMovingTeam());
+		if(beamFate == BeamAction.DESTROYED_PIECE) {
+			System.out.println("Destroyed " + beamManager.getLastPos()); //TODO: Delete syso
+			Piece withdrawn = board.withdrawFrom(beamManager.getLastPos());
+			//Esto esta muy pensado
+			if(withdrawn instanceof Pharaoh){
+				System.out.println("Chan");
+			//	loser = withdrawn.getTeam();
+			}
+		}		
+		
 		changePlayer();
-		if (!NotificationCenter.isEmpty()) {
-			updateWinnerTeam();
-		}
 	}
 	
-	private void throwBeam(Team team) {
+	private BeamAction throwBeam(Team team) {
 		BeamCannon cannon = getBeamCannon(team);
 		Beam beam = cannon.generateBeam();
 		
 		Position startingPosition = team == Team.RED ? RED_CANNON_POSITION : SILVER_CANNON_POSITION;
 		
-		BeamAction beamFate = beamManager.throwBeam(beam, startingPosition);
-		if(beamFate == BeamAction.DESTROYED_PIECE) {
-			System.out.println("Destroyed " + beamManager.getLastPos()); //TODO: Delete syso
-			board.withdrawFrom(beamManager.getLastPos());
-		}		
-	}	
+		return beamManager.manageBeam(beam, startingPosition);
+	}
+	
 	
 	private void updateWinnerTeam() {
 		Notification n = NotificationCenter.getNotification(); //Va a traer problemas cuando la AI simule el rayo

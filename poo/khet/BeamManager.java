@@ -22,12 +22,8 @@ public class BeamManager {
 		return beamTrace;
 	}
 	
-	BeamAction throwBeam(Beam beam ,Position initialPosition) {
-		System.out.println("IMMA FIRIN' MY LAZOR"); //TODO: Delete
-		return manageBeamTravel(beam, initialPosition);
-	}
 	
-	private BeamAction manageBeamTravel (Beam beam, Position initialPosition) {
+	public BeamAction manageBeam (Beam beam, Position initialPosition) {
 		BeamAction beamAction = null;
 		Position beamPos = initialPosition;
 		beamTrace.clear(); 

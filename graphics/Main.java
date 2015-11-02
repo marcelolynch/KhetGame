@@ -57,7 +57,7 @@ public class Main {
 		//Aca hay que hacer una ventanita para seleccionar la configuracion inicial del juego
 		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
 		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
-		gameManager = new GameManager(null);
+		gameManager = new GameManager(fileName);
 		//gameManager = new GameManager2(fileName);
 	
 		root.getChildren().add(graphicBoard);
