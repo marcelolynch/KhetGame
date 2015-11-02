@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
  * Guarda las notificaciones que se envian, almacenandolas en una lista, 
  * para asi luego poder consultarlas desde otras clases.
  */
+@Deprecated
 public final class NotificationCenter {
 	//Capaz es mejor que sea una lista de Team así no hay q ir poniendo ifs para los Notification
 	static LinkedList<Notification> notifications = new LinkedList<Notification>();
