@@ -1,24 +1,15 @@
 package graphics;
 
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import poo.khet.gameutils.Position;
 
@@ -60,8 +51,8 @@ public class BoardStage {
 		saveButton.setTranslateY(graphicBoard.getHeight()+10);
 		saveButton.setTranslateX(750-75-20);
 		
-		closeButton = new Canvas(110,50);
-		closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/cerrar.png"), 0, 0);
+		closeButton = new Canvas(75,75);
+		closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/CloseButton.png"), 0, 0);
 		closeButton.setTranslateY(graphicBoard.getHeight()+10);
 		closeButton.setTranslateX(500);
 
@@ -69,20 +60,14 @@ public class BoardStage {
 		bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), -1, 0);
 		bar.setTranslateY(graphicBoard.getHeight());
 	
-
-	
-		//Aca hay que hacer una ventanita para seleccionar la configuracion inicial del juego
-		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
-		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
-		
 		gameManager = new GameManager(fileName);
 		
 		//Cambiar aca para que ande el editor, y cambiar el tipo de gameManager arriba
 		//gameManager = new EditorManager(fileName);
 		
+		//root.getChildren().add(bar);
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
-		root.getChildren().add(bar);
 		root.getChildren().add(rotateButtons);
 		root.getChildren().add(saveButton);
 		root.getChildren().add(closeButton);
@@ -134,7 +119,7 @@ public class BoardStage {
         saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent e) {
-					saveGamePrompt();
+					new SaveStage(gameManager);
 				}
         });
 
@@ -164,40 +149,6 @@ public class BoardStage {
 			Position selected = gameManager.getActiveSquare();
 			piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol()*75, selected.getRow()*75);
 		}
-	}
-	
-	
-	//TODO: try-catch
-	//TODO: tendria que ser otra clase todo lo de save
-	void saveGamePrompt() {
-		final Stage saveWindow = new Stage();
-		VBox saveLayout = new VBox(10);
-		Button saveBtn = new Button("Save");
-		final TextField nameInput = new TextField();
-		
-		saveBtn.setOnAction(
-				new EventHandler<ActionEvent>() {
-					public void handle(ActionEvent event) {
-						try {
-							gameManager.saveGame(nameInput.getText());
-							System.out.println("Saved!");
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						saveWindow.close();
-					}
-				});
-		
-		saveLayout.setPadding(new Insets(20));
-		saveLayout.getChildren().add(saveBtn);
-		saveLayout.getChildren().add(nameInput);
-		saveWindow.setScene(new Scene(saveLayout));
-		saveWindow.setTitle("Save Game");
-		saveWindow.show();
 	}
 	
 	/**

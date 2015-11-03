@@ -14,7 +14,6 @@ import javafx.scene.image.Image;
 public class LoadStage extends Application {
 	
 	Canvas[] graphicDefaults = new Canvas[3];
-	//Canvas BackGround;
 	Button[] defaultButtons = new Button[3];
 	Button loadBtn;
 	
@@ -23,10 +22,6 @@ public class LoadStage extends Application {
 		Group root = new Group();
 		loadStage.setWidth(800);
 		loadStage.setHeight(400);
-		
-		//Que hago con todos los magic numbers, son todas cosas par aue este alineado, es imposible ponerle nombre a todo
-		//BackGround = new Canvas(800, 400);
-		//BackGround.getGraphicsContext2D().drawImage(new Image("file:assets/BackGround.png"),0,0);
 		
 		for (int i=0; i<3; i++) {
 			graphicDefaults[i] = new Canvas(200, 160);
@@ -70,7 +65,7 @@ public class LoadStage extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new BoardStage("default1", loadStage); // TODO: esto no me gusta
+							new BoardStage("default1", loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -117,8 +112,7 @@ public class LoadStage extends Application {
 						loadStage.close();
 					}
 				});
-		
-		//root.getChildren().add(BackGround);
+
 		root.getChildren().addAll(graphicDefaults);
 		root.getChildren().addAll(defaultButtons);
 		root.getChildren().add(loadBtn);
