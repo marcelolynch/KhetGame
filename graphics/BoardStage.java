@@ -37,10 +37,10 @@ public class BoardStage {
 	Canvas closeButton;
 	GameDrawer drawer;
 	
-	public BoardStage(String fileName, Stage loadScreen) throws Exception{
+	public BoardStage(String fileName, final Stage loadScreen) throws Exception{
 		this.loadScreen = loadScreen;
 		
-		Stage primaryStage = new Stage();
+		final Stage primaryStage = new Stage();
 		Group root = new Group();
 
 		graphicBoard = new Canvas(750,600);
@@ -108,14 +108,7 @@ public class BoardStage {
         					
         					//A esta altura el juego pudo haber cambiado el estado
             				if (gameManager.hasWinner()) {
-           					Alert alert = new Alert(AlertType.INFORMATION);
-							alert.setTitle("Fin del Juego");
-          					alert.setHeaderText(null);
-            					alert.setContentText("FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
-
-            					alert.showAndWait();
-            					closeButton.toFront();
-            					rotateButtons.toBack();
+            					showWinner();
             				}
         				}
         			}
@@ -126,8 +119,14 @@ public class BoardStage {
         rotateButtons.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
-        			gameManager.handleRotation(e.getX() < 98);
-        			drawGame();
+        				if (!gameManager.hasWinner()) {
+        					gameManager.handleRotation(e.getX() < 98);
+        					drawGame();
+        					
+        					if (gameManager.hasWinner()) {
+        						showWinner();
+        					}
+        				}
         		}
         });
         
@@ -164,6 +163,16 @@ public class BoardStage {
 			Position selected = gameManager.getActiveSquare();
 			piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol()*75, selected.getRow()*75);
 		}
+	}
+	
+	private void showWinner() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Fin del Juego");
+		alert.setHeaderText(null);
+		alert.setContentText("FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
+		alert.show();
+		closeButton.toFront();
+		rotateButtons.toBack();
 	}
 	
 	
