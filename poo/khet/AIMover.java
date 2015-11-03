@@ -5,34 +5,32 @@ import java.util.Random;
 
 import poo.khet.gameutils.Position;
 
-public class PCPlayer implements CannonPositions {	
+public class AIMover implements CannonPositions {	
 	private Game game;
 	static Team team=Team.RED;
 	private Random brain=new Random();
 	private BeamManager beamManager;
-	private Board board;//TODO: poner nombre lindo
+	private Board auxiliarBoard;
 	
-	public PCPlayer(Game game){
+	public AIMover(Game game){
 		this.game=game;
-		board=new Board(game.getBoard().getPiecesPosition());
-		beamManager= new BeamManager(board);
+		auxiliarBoard=new Board(game.getBoard().getPiecesPosition());
+		beamManager= new BeamManager(auxiliarBoard);
 	}
 	
 	
-	 //nose que devolveria
+	 /**
+	  * Se encarga de elegir la mejor jugada posible, con un criterio establecido, y de realizarla, luego llama a game para que finalize el turno
+	  */
 	public void makeMove() {
 		List<Action> possibleMoves = possibleMoves();
 		possibleMoves.addAll(possibleRotations());
-		Position startingPosition =  RED_CANNON_POSITION ;
-		Action secondChoice=null;;//en caso de que no encuentre una que destruya una pieza del enemigo,por lo menos que elija una que no hace nada
+		Action secondChoice=null;
 		boolean foundSecondChoice= false;
 		for(Action action : possibleMoves){
-			BeamCannon cannon = game.getBeamCannon(team);
-			Beam beam = cannon.generateBeam();
-			action.executeActionIn(board);			
-			BeamAction beamFate = beamManager.manageBeam(beam,startingPosition);
-			if(beamFate == BeamAction.DESTROYED_PIECE && board.getOccupantIn(beamManager.getLastPos()).getTeam().equals(Team.SILVER)){
-				action.executeActionIn(game.getBoard());//este es el tablero real
+			BeamAction beamFate = simulateMove(action);
+			if(beamFate == BeamAction.DESTROYED_PIECE && auxiliarBoard.getOccupantIn(beamManager.getLastPos()).getTeam().equals(Team.SILVER)){
+				action.executeActionIn(game.getBoard());
 				game.nextTurn();	
 				return;
 				}
@@ -41,7 +39,7 @@ public class PCPlayer implements CannonPositions {
 				foundSecondChoice=true;
 			}
 			Action restore=action.getRevertedAction(action);
-			restore.executeActionIn(board);
+			restore.executeActionIn(auxiliarBoard);
 			}
 		if(foundSecondChoice){
 			secondChoice.executeActionIn(game.getBoard());
@@ -53,6 +51,18 @@ public class PCPlayer implements CannonPositions {
 		game.nextTurn();
 		return;	
 	}
+	/**
+	 * Realiza la accion en el tablero auxiliar y lanza el rayo en él
+	 * @param action
+	 * @return
+	 */
+	public BeamAction simulateMove(Action action){
+		action.executeActionIn(auxiliarBoard);	
+		BeamCannon cannon = game.getBeamCannon(team);
+		Beam beam = cannon.generateBeam();
+		Position startingPosition =  RED_CANNON_POSITION ;
+		return beamManager.manageBeam(beam,startingPosition);	
+	}
 
 
 	
@@ -62,7 +72,7 @@ public class PCPlayer implements CannonPositions {
 		for(int i = 0; i < Board.ROWS ; i++){
 			for(int j = 0; j < Board.COLUMNS ; j++){
 				Position start = new Position(i,j);
-				Position end=getAnEnd(start);
+				Position end=getRandomEndInBounds(start);
 					
 					if (game.isValidSelection(start) &&  game.isValidMove(start, end)) {
 						possibleMoves.add(new Move(start,end));
@@ -72,9 +82,9 @@ public class PCPlayer implements CannonPositions {
 		return possibleMoves;
 	}
 					
-	Position getAnEnd(Position start){
+	Position getRandomEndInBounds(Position start){
 		Position end= getRandomEnd(start);
-			while(!board.isInBounds(end)){
+			while(!auxiliarBoard.isInBounds(end)){
 				end= getRandomEnd(start);
 			}
 		return end;				
@@ -95,17 +105,22 @@ public class PCPlayer implements CannonPositions {
 		for(int i = 0; i < Board.ROWS ; i++){
 			for(int j = 0; j < Board.COLUMNS ; j++){
 				Position start = new Position(i,j);
-				boolean clockwise=rotate(start);
 				if (game.isValidSelection(start)) {
-					possibleRotations.add(new Rotation(start,clockwise));
+					possibleRotations.add(randomRotation(start));
 				}
 			}											
 		}	
 		return possibleRotations;
 	}
-
-	boolean rotate(Position start){
-		return brain.nextInt(6)%2==0; // de ésta forma hay un 50% de probabilidad que rote de forma horaria y 50% que rote de forma antihoraria
+	
+	/**
+	 * Rota de manera aleatoria la pieza ubicada en la posición pos del tablero.
+	 * @param start
+	 * @return una rotacion
+	 */
+	Rotation randomRotation(Position pos){
+		boolean clockwise = brain.nextInt(6)%2==0; // de ésta forma hay un 50% de probabilidad que rote de forma horaria y 50% que rote de forma antihoraria
+		return new Rotation(pos,clockwise);
 	}
 	
 	
