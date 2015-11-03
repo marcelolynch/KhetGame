@@ -37,7 +37,6 @@ public class BoardStage {
 	Canvas closeButton;
 	GameDrawer drawer;
 	
-	//TODO: static? es medio raro, pero tambien es raro instanciar Main. Preguntar
 	public BoardStage(String fileName, Stage loadScreen) throws Exception{
 		this.loadScreen = loadScreen;
 		

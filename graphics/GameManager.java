@@ -27,10 +27,10 @@ public class GameManager implements ErrorConstants {
 	GameDrawer getDrawer(){
 		return this.gameDrawer;
 	}	
-//	public Team currentTeam(){
-//		return game.getMovingTeam();
-//	}
-//	
+	public Team currentTeam(){
+		return game.getMovingTeam();
+	}
+	
 	public Stage currentStage(){
 		return this.stage;
 	}
@@ -67,10 +67,10 @@ public class GameManager implements ErrorConstants {
 				return INVALID_MOVE_SELECTED;
 			}
 		} 
-//		else if(game.isCannonPosition(position) && game.isSwitchable(position)){
-//			game.switchCannon();	
-//			nextTurn();
-//		}
+		else if(game.isCannonPosition(position) && game.isSwitchable(position)){
+			game.switchCannon();	
+			nextTurn();
+		}
 		else if (game.isValidSelection(position)){
 			activeSquare = position;
 			setStage(Stage.ACTION);
@@ -106,14 +106,14 @@ public class GameManager implements ErrorConstants {
 		FileManager.writeGameFile(name, game.getGameState());
 	}
 	
-//	public boolean hasWinner() {
-//		return game.hasWinner();
-//	}
-//	
-//	public Team getWinnerTeam() {
-//		return game.getWinnerTeam();
-//	}
-//	
+	public boolean hasWinner() {
+		return game.hasWinner();
+	}
+	
+	public Team getWinnerTeam() {
+		return game.getWinnerTeam();
+	}
+	
 	//TODO: si es PVE que mueva la compu
 	private void nextTurn() {
 		game.nextTurn();

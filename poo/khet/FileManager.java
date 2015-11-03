@@ -1,18 +1,23 @@
 package poo.khet;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.*;
 
-// parece como que puede ser estatica. ver
-public class FileManager { // no me convence el nombre porque tambien se encarga de guardar
-	
-    /**
-     * Lee el GameFile guardado previamente identificandolo con <tt>name</tt> 
-     * @param name
-     * @return HashMap<Coordinate, Piece>
+/**
+ * Clase con metodos para guardar y cargar archivos del juego,
+ * a partir de la clase GameSetup.
+ */
+public class FileManager {
+
+	/**
+     * Lee el GameFile guardado previamente identificandolo con <tt>name</tt>
+     * @param name - nombre del archivo
+     * @return GameState - estado del juego cargado
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -34,7 +39,6 @@ public class FileManager { // no me convence el nombre porque tambien se encarga
      * @throws FileNotFoundException
      * @throws IOException
      */
-	//TODO: Exceptions
 	public static void writeGameFile(String name, GameState setup) throws FileNotFoundException, IOException {		
 		ObjectOutputStream oos = new ObjectOutputStream( 
 				new FileOutputStream(name)); 
