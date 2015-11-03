@@ -11,6 +11,7 @@ import poo.khet.Anubis;
 import poo.khet.BeamCannon;
 import poo.khet.Board;
 import poo.khet.CannonPositions;
+import poo.khet.Editor;
 import poo.khet.Game;
 import poo.khet.Pyramid;
 import poo.khet.Pharaoh;
@@ -29,9 +30,7 @@ public class GameDrawer implements CannonPositions{
 	Map<Piece, Image> imageMap = new HashMap<Piece, Image>();
 	Map<BeamCannon, Image> cannonImg = new HashMap<BeamCannon, Image>();
 	
-	//Ver si hay una mejor opcion
 	Image beamImg = new Image("file:assets/beam/BeamPoint.png");
-	
 	 
 	Board board;
 	BeamCannon redCannon;
@@ -45,6 +44,16 @@ public class GameDrawer implements CannonPositions{
 		this.silverCannon = game.getBeamCannon(Team.SILVER);
 		this.beamTrace = game.getLastBeamTrace();
 	} 
+	
+	//Para el EDITORRR
+	public GameDrawer(Editor editor) {
+		mapFiller();
+		this.board = editor.getBoard();
+		this.redCannon = editor.getBeamCannon(Team.RED);
+		this.silverCannon = editor.getBeamCannon(Team.SILVER);
+		this.beamTrace = editor.getLastBeamTrace();
+	} 
+	//------------------------------
 	
 	public void draw(GraphicsContext gc) {
 		drawPieces(gc);

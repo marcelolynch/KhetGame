@@ -75,9 +75,13 @@ public class BoardStage {
 		//Aca hay que hacer una ventanita para seleccionar la configuracion inicial del juego
 		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
 		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
+		
 		gameManager = new GameManager("Classic");
 		//gameManager = new GameManager2(fileName);
-	
+		
+		//Cambiar aca para que ande el editor, y cambiar el tipo de gameManager arriba
+		//gameManager = new EditorManager("Classic");
+		
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
 		root.getChildren().add(bar);
@@ -92,7 +96,7 @@ public class BoardStage {
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
-        				if(!gameManager.hasWinner()){
+        				if(/*!gameManager.hasWinner()*/true){
         					Position selectedPos = getPositionFromMouse(e.getX(), e.getY());
         					piecesGC.clearRect((selectedPos.getRow()*75 - 1), (selectedPos.getCol()*75 - 1), 77, 77);
         				
@@ -105,15 +109,15 @@ public class BoardStage {
         					drawGame();
         					
         					//A esta altura el juego pudo haber cambiado el estado
-            				if (gameManager.hasWinner()) {
-            					Alert alert = new Alert(AlertType.INFORMATION);
-            					alert.setTitle("Fin del Juego");
-            					alert.setHeaderText(null);
-            					alert.setContentText("FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
-
-            					alert.showAndWait();
-            					closeButton.toFront();
-            				}
+//            				if (gameManager.hasWinner()) {
+//            					Alert alert = new Alert(AlertType.INFORMATION);
+//            					alert.setTitle("Fin del Juego");
+//            					alert.setHeaderText(null);
+//            					alert.setContentText("FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
+//
+//            					alert.showAndWait();
+//            					closeButton.toFront();
+//            				}
         				}
         			}
         });

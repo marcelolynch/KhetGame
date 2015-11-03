@@ -3,40 +3,37 @@ package graphics;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import poo.khet.Board;
-import poo.khet.Game;
+import poo.khet.Editor;
 import poo.khet.FileManager;
 import poo.khet.Team;
 import poo.khet.gameutils.Position;
 
-public class GameManager implements ErrorConstants {
+public class EditorManager implements ErrorConstants {
 	enum Stage{ CHOICE, ACTION }  
 	
-	private Game game;
+	private Editor editor;
 	private Stage stage;
 	private Position activeSquare;
 	private GameDrawer gameDrawer;
 	
 	//TODO: excepciones
-	public GameManager(String name) throws ClassNotFoundException, IOException{	
+	public EditorManager(String name) throws ClassNotFoundException, IOException{	
 		stage = Stage.CHOICE;
 		
-		game = new Game(FileManager.loadGameFile(name));
-		gameDrawer = new GameDrawer(game);
+		editor = new Editor(FileManager.loadGameFile(name));
+		gameDrawer = new GameDrawer(editor);
 	}
 
 	GameDrawer getDrawer(){
 		return this.gameDrawer;
 	}	
-//	public Team currentTeam(){
-//		return game.getMovingTeam();
-//	}
-//	
+	
 	public Stage currentStage(){
 		return this.stage;
 	}
 	
 	public Board getBoard(){
-		return game.getBoard();
+		return editor.getBoard();
 	}
 	
 	private void setStage(Stage newStage){
@@ -56,10 +53,10 @@ public class GameManager implements ErrorConstants {
 		}		
 		
 		if (currentStage() == Stage.ACTION) {
-			if (game.isValidMove(activeSquare, position)) {
+			if (editor.isValidMove(activeSquare, position)) {
 				System.out.println("MOVING PIECE");
-				game.move(activeSquare, position);
-				nextTurn();
+				editor.move(activeSquare, position);
+				resetTurn();
 				System.out.println(currentStage());
 			} 
 			else {
@@ -67,11 +64,12 @@ public class GameManager implements ErrorConstants {
 				return INVALID_MOVE_SELECTED;
 			}
 		} 
-//		else if(game.isCannonPosition(position) && game.isSwitchable(position)){
-//			game.switchCannon();	
-//			nextTurn();
-//		}
-		else if (game.isValidSelection(position)){
+		else if(editor.isCannonPosition(position)){
+			//TODO: no anda
+			editor.switchCannon();	
+			resetTurn();
+		}
+		else if (editor.isValidSelection(position)){
 			activeSquare = position;
 			setStage(Stage.ACTION);
 		}
@@ -81,8 +79,8 @@ public class GameManager implements ErrorConstants {
 
 	public int handleRotation(boolean clockwise){
 		if (currentStage() == Stage.ACTION) {
-			game.rotate(activeSquare, clockwise);
-			nextTurn();
+			editor.rotate(activeSquare, clockwise);
+			resetTurn();
 			return OK;
 		}
 		return CANT_ROTATE_RIGHT_NOW;
@@ -103,25 +101,8 @@ public class GameManager implements ErrorConstants {
 	
 	//TODO: excepciones
 	public void saveGame(String name) throws FileNotFoundException, IOException {	
-		FileManager.writeGameFile(name, game.getGameState());
+		FileManager.writeGameFile(name, editor.getGameState());
 	}
-	
-//	public boolean hasWinner() {
-//		return game.hasWinner();
-//	}
-//	
-//	public Team getWinnerTeam() {
-//		return game.getWinnerTeam();
-//	}
-//	
-	//TODO: si es PVE que mueva la compu
-	private void nextTurn() {
-		game.nextTurn();
-		resetTurn();
-//		if (game.getGameMode() == GameMode.PVE) {
-//			AIMover.makeMove();
-//		}
-		
-	}
+
 	
 }
