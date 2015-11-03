@@ -120,6 +120,7 @@ public class BoardStage {
         				}
         			}
         });
+        
 		
 
         rotateButtons.addEventHandler(MouseEvent.MOUSE_CLICKED, 
