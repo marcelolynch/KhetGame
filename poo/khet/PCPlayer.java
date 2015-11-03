@@ -6,13 +6,15 @@ import java.util.Random;
 import poo.khet.gameutils.Position;
 
 public class PCPlayer implements CannonPositions {	
-	private Board board;
+	private Game game;
 	static Team team=Team.RED;
 	private Random brain=new Random();
 	private BeamManager beamManager;
+	private Board board;//TODO: poner nombre lindo
 	
-	public PCPlayer(Board board){
-		this.board=board;
+	public PCPlayer(Game game){
+		this.game=game;
+		board=new Board(game.getBoard().getPiecesPosition());
 		beamManager= new BeamManager(board);
 	}
 	
@@ -22,15 +24,17 @@ public class PCPlayer implements CannonPositions {
 		List<Action> possibleMoves = possibleMoves();
 		possibleMoves.addAll(possibleRotations());
 		Position startingPosition =  RED_CANNON_POSITION ;
-		Action secondChoice;//en caso de que no encuentre una que destruya una pieza del enemigo,por lo menos que elija una que no hace nada
+		Action secondChoice=null;;//en caso de que no encuentre una que destruya una pieza del enemigo,por lo menos que elija una que no hace nada
 		boolean foundSecondChoice= false;
 		for(Action action : possibleMoves){
-			BeamCannon cannon = getBeamCannon(team);// desp veo como 
+			BeamCannon cannon = game.getBeamCannon(team);
 			Beam beam = cannon.generateBeam();
 			action.executeActionIn(board);			
-			BeamAction beamFate = beamManager.throwBeam(beam,startingPosition);
+			BeamAction beamFate = beamManager.manageBeam(beam,startingPosition);
 			if(beamFate == BeamAction.DESTROYED_PIECE && board.getOccupantIn(beamManager.getLastPos()).getTeam().equals(Team.SILVER)){
-					return;
+				action.executeActionIn(game.getBoard());//este es el tablero real
+				game.nextTurn();	
+				return;
 				}
 			else if(!foundSecondChoice && beamFate != BeamAction.DESTROYED_PIECE ){
 				secondChoice=action;
@@ -40,17 +44,14 @@ public class PCPlayer implements CannonPositions {
 			restore.executeActionIn(board);
 			}
 		if(foundSecondChoice){
-			BeamCannon cannon = getBeamCannon(team);// desp veo como 
-			Beam beam = cannon.generateBeam();
-			secondChoice.executeActionIn(board);
-			beamManager.throwBeam(beam,startingPosition);	
-		}
-		
+			secondChoice.executeActionIn(game.getBoard());
+
+		}else{
 		Action finalChoice=possibleMoves.get(brain.nextInt(possibleMoves.size()-1)); // como no encontro ninguna "buena" , agarra cualquiera
-		finalChoice.executeActionIn(board);
-		BeamCannon cannon = getBeamCannon(team);// desp veo como 
-		Beam beam = cannon.generateBeam();
-		beamManager.throwBeam(beam,startingPosition);	
+		finalChoice.executeActionIn(game.getBoard());
+		}
+		game.nextTurn();
+		return;	
 	}
 
 
@@ -62,24 +63,12 @@ public class PCPlayer implements CannonPositions {
 			for(int j = 0; j < Board.COLUMNS ; j++){
 				Position start = new Position(i,j);
 				Position end=getAnEnd(start);
-				if(!board.isEmptyPosition(start)){										
-				   	boolean isValid = true;
-					if (!start.isAdjacent(end)) {
-						isValid = false;
-					}
-					Piece initialPiece=board.getOccupantIn(start);
-					boolean correctPiece=initialPiece.getTeam().equals(team);
-					boolean correctMovement=board.canPlace(initialPiece, end);
-					if (!isValid || !correctPiece || !correctMovement) {
-						isValid = false;
-					}
-					if (isValid) {
+					
+					if (game.isValidSelection(start) &&  game.isValidMove(start, end)) {
 						possibleMoves.add(new Move(start,end));
 					}
 				}											
-			}
-		}
-		
+			}	
 		return possibleMoves;
 	}
 					
@@ -107,20 +96,11 @@ public class PCPlayer implements CannonPositions {
 			for(int j = 0; j < Board.COLUMNS ; j++){
 				Position start = new Position(i,j);
 				boolean clockwise=rotate(start);
-				if(!board.isEmptyPosition(start)){										
-				   	boolean isValid = true;
-					Piece piece=board.getOccupantIn(start);
-					boolean correctPiece=piece.getTeam().equals(team);
-					if (!isValid || !correctPiece) {
-						isValid = false;
-					}
-					if (isValid) {
-						possibleRotations.add(new Rotation(start,clockwise));
-					}
-				}											
-			}
-		}
-		
+				if (game.isValidSelection(start)) {
+					possibleRotations.add(new Rotation(start,clockwise));
+				}
+			}											
+		}	
 		return possibleRotations;
 	}
 
