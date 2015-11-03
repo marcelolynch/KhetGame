@@ -1,7 +1,6 @@
 package poo.khet;
 
 import java.util.List;
-
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
@@ -141,7 +140,7 @@ public class Game implements CannonPositions {
 		}
 		throw new IllegalArgumentException();
 	}
-	
+
 	public void nextTurn() {
 		assertGameInProgress();
 
@@ -149,14 +148,15 @@ public class Game implements CannonPositions {
 		if(beamFate == BeamAction.DESTROYED_PIECE) {
 			System.out.println("Destroyed " + beamManager.getLastPos()); //TODO: Delete syso
 			Piece withdrawn = board.withdrawFrom(beamManager.getLastPos());
-			//Esto esta muy pensado
-			if(withdrawn instanceof Pharaoh){
-				System.out.println("Chan");
-			//	loser = withdrawn.getTeam();
+
+			if(withdrawn instanceof Pharaoh){ //instanceof justificado
+				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+				winnerTeam = (withdrawn.getTeam() == Team.SILVER ? Team.RED : Team.SILVER);
 			}
-		}		
-		
-		changePlayer();
+		}	
+		if(!hasWinner()){
+			changePlayer();
+		}
 	}
 	
 	private BeamAction throwBeam(Team team) {
@@ -168,15 +168,6 @@ public class Game implements CannonPositions {
 		return beamManager.manageBeam(beam, startingPosition);
 	}
 	
-	
-	private void updateWinnerTeam() {
-		Notification n = NotificationCenter.getNotification(); //Va a traer problemas cuando la AI simule el rayo
-		if (n == Notification.SILVER_PHARAOH_DEAD) {
-			winnerTeam = Team.RED;
-		} else {
-			winnerTeam = Team.SILVER;
-		}
-	}
 	
 	private void changePlayer() {
 		movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);

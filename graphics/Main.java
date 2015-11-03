@@ -11,6 +11,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -22,6 +24,8 @@ import poo.khet.gameutils.Position;
 
 public class Main {
 	
+	Stage loadScreen;
+	
 	GameManager gameManager;
 	GraphicsContext piecesGC;
 	GraphicsContext beamGC;
@@ -30,10 +34,13 @@ public class Main {
 	Canvas beamLayer;
 	Canvas rotateButtons;
 	Canvas saveButton;
+	Canvas closeButton;
 	GameDrawer drawer;
 	
 	//TODO: static? es medio raro, pero tambien es raro instanciar Main. Preguntar
-	public Main(String fileName) throws Exception{
+	public Main(String fileName, Stage loadScreen) throws Exception{
+		this.loadScreen = loadScreen;
+		
 		Stage primaryStage = new Stage();
 		Group root = new Group();
 
@@ -53,17 +60,31 @@ public class Main {
 		saveButton.getGraphicsContext2D().drawImage(new Image("file:assets/SaveButton.png"), 0, 0);
 		saveButton.setTranslateY(graphicBoard.getHeight()+10);
 		saveButton.setTranslateX(750-75-20);
+		
+		closeButton = new Canvas(110,50);
+		closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/cerrar.png"), 0, 0);
+		closeButton.setTranslateY(graphicBoard.getHeight()+10);
+		closeButton.setTranslateX(500);
 
+		Canvas bar  = new Canvas(750,90);
+		bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), -1, 0);
+		bar.setTranslateY(graphicBoard.getHeight());
+	
+
+	
 		//Aca hay que hacer una ventanita para seleccionar la configuracion inicial del juego
 		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
 		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
-		gameManager = new GameManager(fileName);
+		gameManager = new GameManager("Classic");
 		//gameManager = new GameManager2(fileName);
 	
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
+		root.getChildren().add(bar);
 		root.getChildren().add(rotateButtons);
 		root.getChildren().add(saveButton);
+		root.getChildren().add(closeButton);
+		closeButton.toBack();
 		
 		drawer = gameManager.getDrawer();	
 		drawGame();
@@ -71,20 +92,28 @@ public class Main {
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
-    					Position selectedPos = getPositionFromMouse(e.getX(), e.getY());
-        				piecesGC.clearRect((selectedPos.getRow()*75 - 1), (selectedPos.getCol()*75 - 1), 77, 77);
+        				if(!gameManager.hasWinner()){
+        					Position selectedPos = getPositionFromMouse(e.getX(), e.getY());
+        					piecesGC.clearRect((selectedPos.getRow()*75 - 1), (selectedPos.getCol()*75 - 1), 77, 77);
         				
-        				if(e.getButton() == MouseButton.PRIMARY){
-        					gameManager.handle(selectedPos);
-        				}
-        				else if(e.getButton() == MouseButton.SECONDARY){
-        					gameManager.resetTurn();
-        				}
-        				drawGame();
-        				
-        				if (gameManager.hasWinner()) {
-        					//printWinner (gameManager.getWinnerTeam);
-        					//GOTO MainMenu
+        					if(e.getButton() == MouseButton.PRIMARY){
+        						gameManager.handle(selectedPos);
+        					}
+        					else if(e.getButton() == MouseButton.SECONDARY){
+        						gameManager.resetTurn();
+        					}
+        					drawGame();
+        					
+        					//A esta altura el juego pudo haber cambiado el estado
+            				if (gameManager.hasWinner()) {
+            					Alert alert = new Alert(AlertType.INFORMATION);
+            					alert.setTitle("Fin del Juego");
+            					alert.setHeaderText(null);
+            					alert.setContentText("FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
+
+            					alert.showAndWait();
+            					closeButton.toFront();
+            				}
         				}
         			}
         });
@@ -95,10 +124,6 @@ public class Main {
         			public void handle(MouseEvent e) {
         			gameManager.handleRotation(e.getX() < 98);
         			drawGame();
-    				if (gameManager.hasWinner()) {
-    					//printWinner (gameManager.getWinnerTeam);
-    					//GOTO MainMenu
-    				}
         		}
         });
         
@@ -109,6 +134,15 @@ public class Main {
 				}
         });
 
+        
+        closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+        		new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent e) {
+						primaryStage.close();
+						loadScreen.show();
+				}
+        });
+        
         primaryStage.setWidth(750); 
         primaryStage.setHeight(720);
         primaryStage.setResizable(false);

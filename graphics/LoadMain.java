@@ -70,12 +70,12 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main("default1"); // TODO: esto no me gusta
+							new Main("default1", loadStage); // TODO: esto no me gusta
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						loadStage.close();
+						loadStage.hide();
 					}
 				});
 		
@@ -83,12 +83,12 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main("default2");
+							new Main("default2", loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						loadStage.close();
+						loadStage.hide();
 					}
 				});
 		
@@ -96,12 +96,12 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main("default3");
+							new Main("default3", loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						loadStage.close();
+						loadStage.hide();
 					}
 				});
 		
@@ -109,7 +109,7 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main(nameInput.getText());
+							new Main(nameInput.getText(), loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
