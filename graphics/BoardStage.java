@@ -28,6 +28,9 @@ public class BoardStage {
 	Canvas closeButton;
 	GameDrawer drawer;
 	
+	final int BUTTON_SIZE = 75;
+	final int SQUARE_SIZE = 75;
+	
 	public BoardStage(String fileName, Stage loadScreen) throws Exception{
 		this.loadScreen = loadScreen;
 		
@@ -46,15 +49,15 @@ public class BoardStage {
 		rotateButtons.setTranslateY(graphicBoard.getHeight()+10);
 		rotateButtons.setTranslateX(20);
 		
-		saveButton = new Canvas(75, 75);
+		saveButton = new Canvas(BUTTON_SIZE, BUTTON_SIZE);
 		saveButton.getGraphicsContext2D().drawImage(new Image("file:assets/SaveButton.png"), 0, 0);
 		saveButton.setTranslateY(graphicBoard.getHeight()+10);
-		saveButton.setTranslateX(750-75-20);
+		saveButton.setTranslateX(750-BUTTON_SIZE-20);
 		
-		closeButton = new Canvas(75,75);
+		closeButton = new Canvas(BUTTON_SIZE, BUTTON_SIZE);
 		closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/CloseButton.png"), 0, 0);
 		closeButton.setTranslateY(graphicBoard.getHeight()+10);
-		closeButton.setTranslateX(500);
+		closeButton.setTranslateX(saveButton.getTranslateX()-BUTTON_SIZE-20);
 
 		Canvas bar  = new Canvas(750,90);
 		bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), -1, 0);
@@ -147,7 +150,7 @@ public class BoardStage {
 		// Resalta pieza seleccionada
 		if (!gameManager.isChoosing()) {
 			Position selected = gameManager.getActiveSquare();
-			piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol()*75, selected.getRow()*75);
+			piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol()*SQUARE_SIZE, selected.getRow()*SQUARE_SIZE);
 		}
 	}
 	
@@ -158,9 +161,8 @@ public class BoardStage {
 	 * @return - Coordinate: la coordenada del tablero correspondiente al click
 	 */
 	private Position getPositionFromMouse(double x, double y) {
-		int squareSize = 75;
-		Position c = new Position((int)y / squareSize, (int)x / squareSize);
-		return c;
+		Position p = new Position((int)y / SQUARE_SIZE, (int)x / SQUARE_SIZE);
+		return p;
 	}
 
 }
