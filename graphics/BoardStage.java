@@ -76,11 +76,10 @@ public class BoardStage {
 		// o si se quiere cargar una partida guardada. Tambien tiene que elegir la cantidad de jugadores,
 		// y con eso generamos un GameSetup con el que construimos un Game. Y ese Game se lo pasamos a GameManager
 		
-		gameManager = new GameManager("Classic");
-		//gameManager = new GameManager2(fileName);
+		gameManager = new GameManager(fileName);
 		
 		//Cambiar aca para que ande el editor, y cambiar el tipo de gameManager arriba
-		//gameManager = new EditorManager("Classic");
+		//gameManager = new EditorManager(fileName);
 		
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
