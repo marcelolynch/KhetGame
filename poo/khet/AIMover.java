@@ -44,10 +44,11 @@ public class AIMover implements CannonPositions,BoardDimensions {
 			}
 		if(foundSecondChoice){
 			secondChoice.executeActionIn(game.getBoard());
-
+			secondChoice.executeActionIn(auxiliarBoard);
 		}else{
 		Action finalChoice=possibleMoves.get(brain.nextInt(possibleMoves.size()-1)); // como no encontro ninguna "buena" , agarra cualquiera
 		finalChoice.executeActionIn(game.getBoard());
+		finalChoice.executeActionIn(auxiliarBoard);
 		}
 		game.nextTurn();
 		return;	
