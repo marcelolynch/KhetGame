@@ -36,7 +36,7 @@ public class GameManager implements ErrorConstants {
 	//TODO: excepciones
 	/**
 	 * Construye un nuevo GameManager a partir de un archivo de configuracion 
-	 * cuyo nombre se pasa como parámetro.
+	 * cuyo nombre se pasa como par&aacute;metro.
 	 * 
 	 * @param name - El nombre del archivo de configuracion a cargar
 	 * @throws ClassNotFoundException //TODO: ??????
@@ -115,7 +115,7 @@ public class GameManager implements ErrorConstants {
 	 * Si el turno esta en etapa de selecci&oacute;n (<code>Stage.CHOICE</code>) y se activa una posici&oacute;n
 	 * correspondiente a una pieza, se selecciona la misma para manejar en la siguiente llamada, y la etapa
 	 * cambia a la de acci&oacute;n.<br>
-	 * Si se activa una posici&oacute;n de cañ&oacute;n (del equipo que esta moviendo), se alterna su orientaci&oacute;n y 
+	 * Si se activa una posici&oacute;n de ca&ntilde;&oacute;n (del equipo que esta moviendo), se alterna su orientaci&oacute;n y 
 	 * cambia el turno.<p>
 	 * 
 	 * Si el turno esta en etapa de acci&oacute;n (inmediatamente despues de la elecci&oacute;), la posici&oacute;n que se pasa
