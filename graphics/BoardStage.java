@@ -94,7 +94,7 @@ public class BoardStage {
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>(){
         			public void handle(MouseEvent e) {
-        				if(/*!gameManager.hasWinner()*/true){
+        				if(!gameManager.hasWinner()){
         					Position selectedPos = getPositionFromMouse(e.getX(), e.getY());
         					piecesGC.clearRect((selectedPos.getRow()*75 - 1), (selectedPos.getCol()*75 - 1), 77, 77);
         				
@@ -107,15 +107,16 @@ public class BoardStage {
         					drawGame();
         					
         					//A esta altura el juego pudo haber cambiado el estado
-//            				if (gameManager.hasWinner()) {
-//            					Alert alert = new Alert(AlertType.INFORMATION);
-//            					alert.setTitle("Fin del Juego");
-//            					alert.setHeaderText(null);
-//            					alert.setContentText("FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
-//
-//            					alert.showAndWait();
-//            					closeButton.toFront();
-//            				}
+            				if (gameManager.hasWinner()) {
+           					Alert alert = new Alert(AlertType.INFORMATION);
+							alert.setTitle("Fin del Juego");
+          					alert.setHeaderText(null);
+            					alert.setContentText("FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
+
+            					alert.showAndWait();
+            					closeButton.toFront();
+            					rotateButtons.toBack();
+            				}
         				}
         			}
         });
