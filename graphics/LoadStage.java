@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
-public class LoadMain extends Application {
+public class LoadStage extends Application {
 	
 	Canvas[] graphicDefaults = new Canvas[3];
 	//Canvas BackGround;
@@ -70,7 +70,7 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main("default1", loadStage); // TODO: esto no me gusta
+							new BoardStage("default1", loadStage); // TODO: esto no me gusta
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -83,7 +83,7 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main("default2", loadStage);
+							new BoardStage("default2", loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -96,7 +96,7 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main("default3", loadStage);
+							new BoardStage("default3", loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -109,7 +109,7 @@ public class LoadMain extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new Main(nameInput.getText(), loadStage);
+							new BoardStage(nameInput.getText(), loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

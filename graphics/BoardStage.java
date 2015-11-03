@@ -22,7 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import poo.khet.gameutils.Position;
 
-public class Main {
+public class BoardStage {
 	
 	Stage loadScreen;
 	
@@ -38,7 +38,7 @@ public class Main {
 	GameDrawer drawer;
 	
 	//TODO: static? es medio raro, pero tambien es raro instanciar Main. Preguntar
-	public Main(String fileName, Stage loadScreen) throws Exception{
+	public BoardStage(String fileName, Stage loadScreen) throws Exception{
 		this.loadScreen = loadScreen;
 		
 		Stage primaryStage = new Stage();
