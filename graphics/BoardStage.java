@@ -65,9 +65,9 @@ public class BoardStage {
 		//Cambiar aca para que ande el editor, y cambiar el tipo de gameManager arriba
 		//gameManager = new EditorManager(fileName);
 		
+		//root.getChildren().add(bar);
 		root.getChildren().add(graphicBoard);
 		root.getChildren().add(piecesLayer);
-		//root.getChildren().add(bar);
 		root.getChildren().add(rotateButtons);
 		root.getChildren().add(saveButton);
 		root.getChildren().add(closeButton);
