@@ -24,7 +24,7 @@ public class SaveStage {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent event) {
 						try {
-							gameManager.saveGame(nameInput.getText());
+							gameManager.saveGame("savedGames/" + nameInput.getText());
 							System.out.println("Saved!");
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block

@@ -13,9 +13,14 @@ import javafx.scene.image.Image;
 
 public class LoadStage extends Application {
 	
-	Canvas[] graphicDefaults = new Canvas[3];
+	Canvas[] defaultPreviews = new Canvas[3];
 	Button[] defaultButtons = new Button[3];
 	Button loadBtn;
+	
+	final int BUTTON_WIDTH = 100;
+	final int BUTTON_HEIGHT= 35;
+	final int PREVIEW_WIDTH = 200;
+	final int PREVIEW_HEIGHT = 160;
 	
 	//TODO: Exception
 	public void start(final Stage loadStage) throws Exception {
@@ -24,10 +29,10 @@ public class LoadStage extends Application {
 		loadStage.setHeight(400);
 		
 		for (int i=0; i<3; i++) {
-			graphicDefaults[i] = new Canvas(200, 160);
-			graphicDefaults[i].setTranslateX(50*(i+1) + 200*i);
-			graphicDefaults[i].setTranslateY(50);
-			graphicDefaults[i].getGraphicsContext2D().drawImage(new Image("file:assets/TableroGeneric.png"),0,0);
+			defaultPreviews[i] = new Canvas(PREVIEW_WIDTH, PREVIEW_HEIGHT);
+			defaultPreviews[i].setTranslateX(50*(i+1) + PREVIEW_WIDTH*i);
+			defaultPreviews[i].setTranslateY(50);
+			defaultPreviews[i].getGraphicsContext2D().drawImage(new Image("file:assets/TableroGeneric.png"),0,0);
 		}
 		
 		defaultButtons[0] = new Button("Tutankamon");
@@ -36,36 +41,23 @@ public class LoadStage extends Application {
 		for (int i=0; i<3; i++) {
 			defaultButtons[i].setTranslateX(100*(i+1) + 150*i);
 			defaultButtons[i].setTranslateY(225);
-			defaultButtons[i].setPrefSize(100, 35);
+			defaultButtons[i].setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		}
 		
 		loadBtn = new Button("Load Game");
 		loadBtn.setTranslateX(175); loadBtn.setTranslateY(315);
-		loadBtn.setPrefSize(100, 35);
+		loadBtn.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		final TextField nameInput = new TextField();
-		nameInput.setPrefSize(350, 35);
+		nameInput.setPrefSize(350, BUTTON_HEIGHT);
 		nameInput.setTranslateX(275); nameInput.setTranslateY(315);
 		
-//		for (int i = 0; i < 3; i++) {
-//			defaultButtons[i].setOnAction(
-//					new EventHandler<ActionEvent>() {
-//						public void handle(ActionEvent e) {
-//							try {
-//								Main.start("default" + i);// no me deja poner el for por esto
-//							} catch (Exception e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//							}
-//							loadStage.close();
-//						}
-//					});
-//		}
+		//Ver el tema de un for{}
 		
 		defaultButtons[0].setOnAction(
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new BoardStage("default1", loadStage);
+							new BoardStage("defaultConfigs/default1", loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -78,7 +70,7 @@ public class LoadStage extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new BoardStage("default2", loadStage);
+							new BoardStage("defaultConfigs/default2", loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -91,7 +83,7 @@ public class LoadStage extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new BoardStage("default3", loadStage);
+							new BoardStage("defaultConfigs/default3", loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -104,7 +96,7 @@ public class LoadStage extends Application {
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 						try {
-							new BoardStage(nameInput.getText(), loadStage);
+							new BoardStage("savedGames/" + nameInput.getText(), loadStage);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -113,7 +105,7 @@ public class LoadStage extends Application {
 					}
 				});
 
-		root.getChildren().addAll(graphicDefaults);
+		root.getChildren().addAll(defaultPreviews);
 		root.getChildren().addAll(defaultButtons);
 		root.getChildren().add(loadBtn);
 		root.getChildren().add(nameInput);
