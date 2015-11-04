@@ -6,10 +6,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+
+import java.io.IOException;
 
 public class LoadStage extends Application {
 	
@@ -97,10 +100,17 @@ public class LoadStage extends Application {
 					public void handle(ActionEvent e) {
 						try {
 							new BoardStage("savedGames/" + nameInput.getText(), loadStage);
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						} catch (IOException fileNotFound){
+                            Alert notfound = new Alert(Alert.AlertType.ERROR);
+                            notfound.setTitle("File Not Found");
+                            notfound.setHeaderText(null);
+                            notfound.setContentText("File: '"+ nameInput.getText()+ "' was not found.\nPlease check if the filename is correct");
+                            notfound.showAndWait();
+                            LoadStage.launch();
+
+						} catch (Exception e1){
+                            //otras excepciones
+                        }
 						loadStage.close();
 					}
 				});
