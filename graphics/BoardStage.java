@@ -122,7 +122,7 @@ public class BoardStage {
         saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent e) {
-					new SaveStage(gameManager);
+				new SaveStage(gameManager);
 				}
         });
 
