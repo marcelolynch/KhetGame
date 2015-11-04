@@ -33,10 +33,10 @@ public class BoardStage {
     final int BUTTON_SIZE = 75;
     final int SQUARE_SIZE = 75;
 
-    public BoardStage(String fileName, Stage loadScreen) throws Exception, IOException {
+    public BoardStage(String fileName, final Stage loadScreen) throws Exception, IOException {
         this.loadScreen = loadScreen;
 
-        Stage primaryStage = new Stage();
+        final Stage primaryStage = new Stage();
         Group root = new Group();
 
         graphicBoard = new Canvas(750, 600);
@@ -47,8 +47,7 @@ public class BoardStage {
 
 
         rotateButtons = new Canvas(200, 80);
-        rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0,
-                0);
+        rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
         rotateButtons.setTranslateY(graphicBoard.getHeight() + 10);
         rotateButtons.setTranslateX(20);
 
@@ -95,35 +94,34 @@ public class BoardStage {
                     } else if (e.getButton() == MouseButton.SECONDARY) {
                         gameManager.resetTurn();
                     }
+           
                     drawGame();
 
                     // A esta altura el juego pudo haber cambiado el estado
                     if (gameManager.hasWinner()) {
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("Fin del Juego");
-                        alert.setHeaderText(null);
-                        alert.setContentText(
-                                "FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
-                        alert.showAndWait();
-                        closeButton.toFront();
-                        rotateButtons.toBack();
+                    	showWinner();
                     }
                 }
             }
         });
 
-
-
         rotateButtons.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
-                gameManager.handleRotation(e.getX() < 98);
-                drawGame();
+            	if(!gameManager.hasWinner()) {
+            		gameManager.handleRotation(e.getX() < 98);
+                	drawGame();
+                	if (gameManager.hasWinner()) {
+                		showWinner();
+                	}
+            	}
             }
         });
 
         saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
-                new SaveStage(gameManager);
+            	if (!gameManager.hasWinner()) {
+            		new SaveStage(gameManager);
+            	}
             }
         });
 
@@ -144,7 +142,18 @@ public class BoardStage {
         primaryStage.show();
     }
 
-    private void drawGame() {
+    private void showWinner() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Fin del Juego");
+        alert.setHeaderText(null);
+        alert.setContentText(
+                "FIN DEL JUEGO: Ganador: " + gameManager.getWinnerTeam());
+        alert.showAndWait();
+        closeButton.toFront();
+        rotateButtons.toBack();		
+	}
+
+	private void drawGame() {
         piecesGC.clearRect(0, 0, piecesLayer.getWidth(), piecesLayer.getHeight());
         drawer.draw(piecesGC);
 

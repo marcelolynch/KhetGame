@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 
 public class SaveStage {
 
-    public SaveStage(GameManager gameManager) {
-        Stage saveWindow = new Stage();
+    public SaveStage(final GameManager gameManager) {
+        final Stage saveWindow = new Stage();
         VBox saveLayout = new VBox(10);
         Button saveBtn = new Button("Save");
         final TextField nameInput = new TextField();
