@@ -2,10 +2,19 @@ package graphics;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
+
+import javax.management.timer.Timer;
+
+import poo.khet.AIMover;
+import poo.khet.BeamCannon;
 import poo.khet.Board;
 import poo.khet.Game;
+import poo.khet.GameState;
+import poo.khet.Piece;
 import poo.khet.FileManager;
 import poo.khet.Team;
+import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
 
@@ -22,18 +31,19 @@ import poo.khet.gameutils.Position;
  * posiciones del tablero o de los ca&ntilde;ones, mediante el metodo {@code handle(Position)}, o
  * bien una rotaci&oacute;n mediante {@code handlePosition(boolean clockwise)}
  * 
- * @author Marcelo
  * @see {@link Position}
  */
 public class GameManager implements ErrorConstants {
     enum Stage {
-        CHOICE, ACTION
+        CHOICE, ACTION, STANDBY
     }
 
     private Game game;
     private Stage stage;
     private Position activeSquare;
     private GameDrawer gameDrawer;
+    private GameMode mode;
+    private AIMover AI;
 
     // TODO: excepciones
     /**
@@ -49,10 +59,11 @@ public class GameManager implements ErrorConstants {
 
         game = new Game(FileManager.loadGameFile(name));
         gameDrawer = new GameDrawer(game);
-
+        mode = game.getGameMode();
+        if (mode == GameMode.PVE) {
+        	AI = new AIMover(game);
+        }
     }
-
-
 
     GameDrawer getDrawer() {
         return this.gameDrawer;
@@ -160,8 +171,12 @@ public class GameManager implements ErrorConstants {
             throw new IllegalArgumentException("null parameter"); // TODO: Dejar que tire el
                                                                   // NullPointer?
         }
-
-        if (currentStage() == Stage.ACTION) {
+        
+        if (currentStage() == Stage.STANDBY) {
+        	AI.makeMove();
+        	setStage(Stage.CHOICE);
+        }
+        else if (currentStage() == Stage.ACTION) {
             if (game.isValidMove(activeSquare, position)) {
                 System.out.println("MOVING PIECE");
                 game.move(activeSquare, position);
@@ -240,14 +255,16 @@ public class GameManager implements ErrorConstants {
         return game.getWinnerTeam();
     }
 
-    // TODO: si es PVE que mueva la compu
     private void nextTurn() {
         game.nextTurn();
         resetTurn();
-        // if (game.getGameMode() == GameMode.PVE) {
-        // AIMover.makeMove();
-        // }
-
+        if (mode == GameMode.PVE) {
+        	setStage(Stage.STANDBY);
+        }
     }
+
+	public boolean isChosen() {
+		return currentStage() == Stage.ACTION;
+	}
 
 }

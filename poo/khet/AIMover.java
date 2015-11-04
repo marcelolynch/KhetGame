@@ -16,25 +16,24 @@ public class AIMover implements CannonPositions, BoardDimensions {
 
     public AIMover(Game game) {
         this.game = game;
-        auxiliarBoard = new Board(game.getBoard().getPiecesPosition());
-        beamManager = new BeamManager(auxiliarBoard);
     }
-
 
     /**
      * Se encarga de elegir la mejor jugada posible, con un criterio establecido, y de realizarla,
      * luego llama a game para que finalize el turno
      */
     public void makeMove() {
+    	auxiliarBoard = new Board(game.getBoard().getPiecesPosition());
+        beamManager = new BeamManager(auxiliarBoard);
         List<Action> possibleMoves = possibleMoves();
         possibleMoves.addAll(possibleRotations());
         Action secondChoice = null;
         boolean foundSecondChoice = false;
         for (Action action : possibleMoves) {
             BeamAction beamFate = simulateMove(action);
-            if (beamFate == BeamAction.DESTROYED_PIECE && auxiliarBoard
-                    .getOccupantIn(beamManager.getLastPos()).getTeam().equals(Team.SILVER)) {
-                action.executeActionIn(game.getBoard());
+            if (beamFate == BeamAction.DESTROYED_PIECE && 
+            		auxiliarBoard.getOccupantIn(beamManager.getLastPos()).getTeam().equals(Team.SILVER)) {
+                action.updateGame(game);
                 game.nextTurn();
                 return;
             } else if (!foundSecondChoice && beamFate != BeamAction.DESTROYED_PIECE) {
@@ -45,22 +44,12 @@ public class AIMover implements CannonPositions, BoardDimensions {
             restore.executeActionIn(auxiliarBoard);
         }
         if (foundSecondChoice) {
-            secondChoice.executeActionIn(game.getBoard());
-            secondChoice.executeActionIn(auxiliarBoard);
+            secondChoice.updateGame(game);
         } else {
-            Action finalChoice = possibleMoves.get(brain.nextInt(possibleMoves.size() - 1)); // como
-                                                                                             // no
-                                                                                             // encontro
-                                                                                             // ninguna
-                                                                                             // "buena"
-                                                                                             // ,
-                                                                                             // agarra
-                                                                                             // cualquiera
-            finalChoice.executeActionIn(game.getBoard());
-            finalChoice.executeActionIn(auxiliarBoard);
+            Action finalChoice = possibleMoves.get(brain.nextInt(possibleMoves.size() - 1));
+            finalChoice.updateGame(game);
         }
         game.nextTurn();
-        return;
     }
 
     /**
@@ -69,7 +58,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
      * @param action
      * @return
      */
-    public BeamAction simulateMove(Action action) {
+    private BeamAction simulateMove(Action action) {
         action.executeActionIn(auxiliarBoard);
         BeamCannon cannon = game.getBeamCannon(team);
         Beam beam = cannon.generateBeam();
@@ -79,7 +68,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
 
 
 
-    public List<Action> possibleMoves() {
+    private List<Action> possibleMoves() {
         List<Action> possibleMoves = new ArrayList<Action>();
 
         for (int i = 0; i < ROWS; i++) {
@@ -95,7 +84,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
         return possibleMoves;
     }
 
-    Position getRandomEndInBounds(Position start) {
+    private Position getRandomEndInBounds(Position start) {
         Position end = getRandomEnd(start);
         while (!auxiliarBoard.isInBounds(end)) {
             end = getRandomEnd(start);
@@ -109,13 +98,13 @@ public class AIMover implements CannonPositions, BoardDimensions {
      * @return una posici�n aleatoria adyacente a �sta, pues nextInt(3) me da un n�mero entre 0 y 2,
      *         y al restarle 1, me da uno entre -1 y 1.
      */
-    Position getRandomEnd(Position start) {
+    private Position getRandomEnd(Position start) {
         return new Position(start.getRow() + brain.nextInt(3) - 1,
                 start.getCol() + brain.nextInt(3) - 1);
     }
 
 
-    public List<Action> possibleRotations() {
+    private List<Action> possibleRotations() {
         List<Action> possibleRotations = new ArrayList<Action>();
 
         for (int i = 0; i < ROWS; i++) {
@@ -135,8 +124,8 @@ public class AIMover implements CannonPositions, BoardDimensions {
      * @param start
      * @return una rotacion
      */
-    Rotation randomRotation(Position pos) {
-        boolean clockwise = brain.nextInt(6) % 2 == 0; // de �sta forma hay un 50% de probabilidad
+    private Rotation randomRotation(Position pos) {
+        boolean clockwise = brain.nextInt() % 2 == 0; // de �sta forma hay un 50% de probabilidad
                                                        // que rote de forma horaria y 50% que rote
                                                        // de forma antihoraria
         return new Rotation(pos, clockwise);

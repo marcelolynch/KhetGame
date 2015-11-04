@@ -4,7 +4,6 @@ import poo.khet.gameutils.Position;
 
 public class Rotation extends Action {
     private boolean isClockwise;
-    // esto es feo, habria que hacer un enum
 
     public Rotation(Position start, boolean isClockwise) {
         super(start);
@@ -34,6 +33,8 @@ public class Rotation extends Action {
         return new Rotation(this.getStart(), !this.isClockwise());
     }
 
-
-
+	@Override
+	void updateGame(Game game) {
+		game.rotate(getStart(), isClockwise());
+	}
 }

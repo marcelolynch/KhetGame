@@ -108,7 +108,7 @@ public class Board implements CannonPositions {
         return boardConfig;
     }
 
-    private void placePieces(Map<Position, Piece> pieces) {
+    public void placePieces(Map<Position, Piece> pieces) {
         for (Position pos : pieces.keySet()) {
             placePiece(pos, pieces.get(pos));
         }

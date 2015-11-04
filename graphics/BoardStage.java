@@ -149,7 +149,7 @@ public class BoardStage {
         drawer.draw(piecesGC);
 
         // Resalta pieza seleccionada
-        if (!gameManager.isChoosing()) {
+        if (gameManager.isChosen()) {
             Position selected = gameManager.getActiveSquare();
             piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol() * SQUARE_SIZE,
                     selected.getRow() * SQUARE_SIZE);

@@ -19,6 +19,7 @@ public abstract class Action {
     }
 
     abstract void executeActionIn(Board board);
+    abstract void updateGame(Game game);
 
     /**
      * es solo una idea jaja
