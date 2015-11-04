@@ -20,7 +20,6 @@ import poo.khet.Team;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
-
 public class GameDrawer implements CannonPositions {
 
     static final int COLUMNS = 10;
@@ -49,9 +48,6 @@ public class GameDrawer implements CannonPositions {
     public GameDrawer(Editor editor) {
         mapFiller();
         this.board = editor.getBoard();
-        this.redCannon = editor.getBeamCannon(Team.RED);
-        this.silverCannon = editor.getBeamCannon(Team.SILVER);
-        this.beamTrace = editor.getLastBeamTrace();
     }
     // ------------------------------
 

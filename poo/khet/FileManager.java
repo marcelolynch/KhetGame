@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Map;
+
+import poo.khet.gameutils.Position;
 
 /**
  * Clase con metodos para guardar y cargar archivos del juego, a partir de la clase GameSetup.
@@ -22,7 +25,7 @@ public class FileManager {
      * @throws ClassNotFoundException
      */
 
-    public static GameState loadGameFile(String name) throws IOException, ClassNotFoundException {
+    public static GameState loadGameSave(String name) throws IOException, ClassNotFoundException {
         File toRead = new File(name);
         FileInputStream fis = new FileInputStream(toRead);
         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -32,6 +35,16 @@ public class FileManager {
         return setup;
     }
 
+	public static Map<Position, Piece> loadBoardSetup(String name) throws IOException, ClassNotFoundException {
+		File toRead = new File(name);
+        FileInputStream fis = new FileInputStream(toRead);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Map<Position, Piece> setup = (Map<Position, Piece>) ois.readObject();
+        ois.close();
+        fis.close();
+        return setup;
+	}
+	
     /**
      * Guarda en un archivo el estado del juego.
      * 
@@ -43,6 +56,13 @@ public class FileManager {
     public static void writeGameFile(String name, GameState setup) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(name));
         oos.writeObject(setup);
+        oos.flush();
+        oos.close();
+    }
+    
+    public static void writeGameFile(String name, Map<Position, Piece> boardSetup) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(name));
+        oos.writeObject(boardSetup);
         oos.flush();
         oos.close();
     }

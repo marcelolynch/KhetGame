@@ -15,11 +15,10 @@ public class EditorManager implements ErrorConstants {
 	private Position activeSquare;
 	private GameDrawer gameDrawer;
 	
-	//TODO: excepciones
-	public EditorManager(String name) throws ClassNotFoundException, IOException{	
+	public EditorManager() {	
 		stage = Stage.CHOICE;
 		
-		editor = new Editor(FileManager.loadGameFile(name));
+		editor = new Editor();
 		gameDrawer = new GameDrawer(editor);
 	}
 
@@ -48,7 +47,7 @@ public class EditorManager implements ErrorConstants {
 
 	public int handle(Position position){
 		if(position == null){
-			throw new IllegalArgumentException("null parameter"); //TODO: Dejar que tire el NullPointer?
+			throw new IllegalArgumentException("null parameter");
 		}		
 		
 		if (currentStage() == Stage.ACTION) {
@@ -63,11 +62,6 @@ public class EditorManager implements ErrorConstants {
 				return INVALID_MOVE_SELECTED;
 			}
 		} 
-		else if(editor.isCannonPosition(position)){
-			//TODO: no anda
-			editor.switchCannon();	
-			resetTurn();
-		}
 		else if (editor.isValidSelection(position)){
 			activeSquare = position;
 			setStage(Stage.ACTION);
@@ -100,8 +94,6 @@ public class EditorManager implements ErrorConstants {
 	
 	//TODO: excepciones
 	public void saveGame(String name) throws FileNotFoundException, IOException {	
-		FileManager.writeGameFile(name, editor.getGameState());
+		FileManager.writeGameFile(name, editor.getBoardSetup());
 	}
-
-	
 }

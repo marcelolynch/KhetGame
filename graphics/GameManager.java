@@ -2,16 +2,10 @@ package graphics;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
-
-import javax.management.timer.Timer;
 
 import poo.khet.AIMover;
-import poo.khet.BeamCannon;
 import poo.khet.Board;
 import poo.khet.Game;
-import poo.khet.GameState;
-import poo.khet.Piece;
 import poo.khet.FileManager;
 import poo.khet.Team;
 import poo.khet.gameutils.GameMode;
@@ -57,7 +51,7 @@ public class GameManager implements ErrorConstants {
     public GameManager(String name) throws ClassNotFoundException, IOException {
         stage = Stage.CHOICE;
 
-        game = new Game(FileManager.loadGameFile(name));
+        game = new Game(FileManager.loadGameSave(name));
         gameDrawer = new GameDrawer(game);
         mode = game.getGameMode();
         if (mode == GameMode.PVE) {

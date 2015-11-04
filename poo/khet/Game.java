@@ -1,6 +1,8 @@
 package poo.khet;
 
 import java.util.List;
+import java.util.Map;
+
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
@@ -14,6 +16,15 @@ public class Game implements CannonPositions {
     private GameMode mode;
     private Team winnerTeam;
 
+    public Game(Map<Position, Piece> boardSetup, GameMode gameMode) {
+    	board = new Board(boardSetup);
+    	beamManager = new BeamManager(board);
+    	redCannon = new BeamCannon(Team.RED);
+    	silverCannon = new BeamCannon(Team.SILVER);
+    	movingTeam = Team.SILVER; //siempre empieza Silver
+    	mode = gameMode;
+    }
+    
     public Game(GameState setup) {
         board = new Board(setup.getBoardConfig());
         beamManager = new BeamManager(board);
@@ -22,7 +33,7 @@ public class Game implements CannonPositions {
         movingTeam = setup.getMovingTeam();
         mode = setup.getGameMode();
     }
-
+    
     public Board getBoard() {
         return board;
     }
