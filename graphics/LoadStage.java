@@ -64,8 +64,7 @@ public class LoadStage extends Application {
                 try {
                     new BoardStage("defaultConfigs/default1", loadStage);
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    throwUnexpectedErrorAlert();
                 }
                 loadStage.hide();
             }
@@ -76,8 +75,7 @@ public class LoadStage extends Application {
                 try {
                     new BoardStage("defaultConfigs/default2", loadStage);
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    throwUnexpectedErrorAlert();
                 }
                 loadStage.hide();
             }
@@ -88,8 +86,7 @@ public class LoadStage extends Application {
                 try {
                     new BoardStage("defaultConfigs/default3", loadStage);
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    throwUnexpectedErrorAlert();
                 }
                 loadStage.hide();
             }
@@ -107,9 +104,12 @@ public class LoadStage extends Application {
                     notfound.setContentText("File: '" + nameInput.getText()
                             + "' was not found.\nPlease check if the filename is correct");
                     notfound.showAndWait();
-                } catch (Exception e1) {
-                    // otras excepciones
+                } catch (ClassNotFoundException classNotFound) {
+                    throwInvalidFileAlert();
+                } catch (Exception e1){
+                    throwUnexpectedErrorAlert();
                 }
+
             }
         });
 
@@ -124,7 +124,29 @@ public class LoadStage extends Application {
         loadStage.show();
     }
 
+    /**
+     * Se emite una alerta en caso de que el archivo que se desea abrir exista pero no corresponda a un
+     * archivo valido de Keth Game
+     */
+    private void throwInvalidFileAlert(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid File");
+        alert.setHeaderText(null);
+        alert.setContentText("This file is not a Keth Game valid file.\n Please try again.");
+        alert.showAndWait();
+    }
 
+    /**Se emite una alerta en caso de que haya ocurrido un error inesperado al intentar abrir
+     * configuraciones iniciales u otro archivo.
+     *
+     */
+    private void throwUnexpectedErrorAlert(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Unexpected Error");
+        alert.setHeaderText(null);
+        alert.setContentText("There was an unexpected error loading the file.\nPlease try again");
+        alert.showAndWait();
+    }
     public static void main(String[] args) {
         launch(args);
     }
