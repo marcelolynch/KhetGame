@@ -2,10 +2,6 @@ package graphics;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import com.sun.javafx.geom.transform.CanTransformVec3d;
-
-import jdk.internal.org.objectweb.asm.Handle;
 import poo.khet.Board;
 import poo.khet.Game;
 import poo.khet.FileManager;
