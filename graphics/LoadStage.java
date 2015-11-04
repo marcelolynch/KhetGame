@@ -6,10 +6,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+
+import java.io.IOException;
 
 public class LoadStage extends Application {
 	
@@ -32,7 +35,7 @@ public class LoadStage extends Application {
 			defaultPreviews[i] = new Canvas(PREVIEW_WIDTH, PREVIEW_HEIGHT);
 			defaultPreviews[i].setTranslateX(50*(i+1) + PREVIEW_WIDTH*i);
 			defaultPreviews[i].setTranslateY(50);
-			defaultPreviews[i].getGraphicsContext2D().drawImage(new Image("file:assets/TableroGeneric.png"),0,0);
+			defaultPreviews[i].getGraphicsContext2D().drawImage(new Image("file:assets/DefaultPreview" + (i+1) + ".png"),0,0);
 		}
 		
 		defaultButtons[0] = new Button("Tutankamon");
@@ -97,10 +100,17 @@ public class LoadStage extends Application {
 					public void handle(ActionEvent e) {
 						try {
 							new BoardStage("savedGames/" + nameInput.getText(), loadStage);
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						} catch (IOException fileNotFound){
+                            Alert notfound = new Alert(Alert.AlertType.ERROR);
+                            notfound.setTitle("File Not Found");
+                            notfound.setHeaderText(null);
+                            notfound.setContentText("File: '"+ nameInput.getText()+ "' was not found.\nPlease check if the filename is correct");
+                            notfound.showAndWait();
+                            LoadStage.launch();
+
+						} catch (Exception e1){
+                            //otras excepciones
+                        }
 						loadStage.close();
 					}
 				});

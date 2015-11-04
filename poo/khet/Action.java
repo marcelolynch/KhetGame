@@ -10,11 +10,9 @@ public abstract class Action {
 		this.start = start;
 	}
 
-
 	Position getStart() {
 		return start;
 	}
-
 
 	void setStart(Position start) {
 		this.start = start;

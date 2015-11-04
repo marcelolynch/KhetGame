@@ -89,7 +89,15 @@ public class Game implements CannonPositions {
 		
 		Piece p = board.getOccupantIn(init);
 		
-		return board.canPlace(p, dest);
+		boolean doableMove;
+		if(board.isEmptyPosition(dest)){
+			doableMove = board.canPlace(p, dest);
+		}
+		else{
+			doableMove = board.canPlace(p, dest) && board.canPlace(board.getOccupantIn(dest), init); //Enroque
+		}
+		
+		return doableMove;
 	}
 	
 	public void move(Position init, Position dest) {

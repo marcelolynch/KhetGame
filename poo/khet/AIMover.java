@@ -3,9 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Position;
 
-public class AIMover implements CannonPositions {	
+public class AIMover implements CannonPositions,BoardDimensions {	
 	private Game game;
 	static Team team=Team.RED;
 	private Random brain=new Random();
@@ -43,10 +44,11 @@ public class AIMover implements CannonPositions {
 			}
 		if(foundSecondChoice){
 			secondChoice.executeActionIn(game.getBoard());
-
+			secondChoice.executeActionIn(auxiliarBoard);
 		}else{
 		Action finalChoice=possibleMoves.get(brain.nextInt(possibleMoves.size()-1)); // como no encontro ninguna "buena" , agarra cualquiera
 		finalChoice.executeActionIn(game.getBoard());
+		finalChoice.executeActionIn(auxiliarBoard);
 		}
 		game.nextTurn();
 		return;	
@@ -69,8 +71,8 @@ public class AIMover implements CannonPositions {
 	public List<Action> possibleMoves(){
 		List<Action> possibleMoves = new ArrayList<Action>();
 			
-		for(int i = 0; i < Board.ROWS ; i++){
-			for(int j = 0; j < Board.COLUMNS ; j++){
+		for(int i = 0; i < ROWS ; i++){
+			for(int j = 0; j < COLUMNS ; j++){
 				Position start = new Position(i,j);
 				Position end=getRandomEndInBounds(start);
 					
@@ -102,8 +104,8 @@ public class AIMover implements CannonPositions {
 	public List<Action> possibleRotations(){
 		List<Action> possibleRotations = new ArrayList<Action>();
 		
-		for(int i = 0; i < Board.ROWS ; i++){
-			for(int j = 0; j < Board.COLUMNS ; j++){
+		for(int i = 0; i < ROWS ; i++){
+			for(int j = 0; j < COLUMNS ; j++){
 				Position start = new Position(i,j);
 				if (game.isValidSelection(start)) {
 					possibleRotations.add(randomRotation(start));

@@ -13,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import poo.khet.gameutils.Position;
 
+import java.io.IOException;
+
 public class BoardStage {
 	
 	Stage loadScreen;
@@ -31,7 +33,7 @@ public class BoardStage {
 	final int BUTTON_SIZE = 75;
 	final int SQUARE_SIZE = 75;
 	
-	public BoardStage(String fileName, Stage loadScreen) throws Exception{
+	public BoardStage(String fileName, Stage loadScreen) throws Exception, IOException{
 		this.loadScreen = loadScreen;
 		
 		Stage primaryStage = new Stage();
@@ -62,7 +64,7 @@ public class BoardStage {
 		Canvas bar  = new Canvas(750,90);
 		bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), -1, 0);
 		bar.setTranslateY(graphicBoard.getHeight());
-	
+
 		gameManager = new GameManager(fileName);
 		
 		//Cambiar aca para que ande el editor, y cambiar el tipo de gameManager arriba
@@ -122,7 +124,7 @@ public class BoardStage {
         saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
         		new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent e) {
-					new SaveStage(gameManager);
+				new SaveStage(gameManager);
 				}
         });
 
