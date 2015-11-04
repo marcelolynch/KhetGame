@@ -5,7 +5,6 @@ import java.io.IOException;
 import poo.khet.Board;
 import poo.khet.Editor;
 import poo.khet.FileManager;
-import poo.khet.Team;
 import poo.khet.gameutils.Position;
 
 public class EditorManager implements ErrorConstants {

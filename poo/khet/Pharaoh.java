@@ -11,13 +11,6 @@ public class Pharaoh extends Piece {
 	@Override
 	boolean receiveBeam(Beam beam) {
 		beam.deactivate();
-		//Se envian las notificaciones al NotificationCenter
-		if(getTeam().equals(Team.RED)){
-			NotificationCenter.saveNotification(Notification.RED_PHARAOH_DEAD);
-		} else {
-			NotificationCenter.saveNotification(Notification.SILVER_PHARAOH_DEAD);
-		}
-		
 		return false;
 	}
 
