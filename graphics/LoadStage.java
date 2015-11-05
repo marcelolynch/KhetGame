@@ -64,7 +64,7 @@ public class LoadStage extends Application {
         defaultButtons[0].setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
-                    new BoardStage("defaultConfigs/default1", loadStage);
+                    new BoardStage("defaultConfigs/def1", GameMode.PVP, loadStage);
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }
@@ -75,7 +75,7 @@ public class LoadStage extends Application {
         defaultButtons[1].setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
-                    new BoardStage("defaultConfigs/default2", loadStage);
+                    new BoardStage("defaultConfigs/def2", GameMode.PVP, loadStage);
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }
@@ -86,7 +86,7 @@ public class LoadStage extends Application {
         defaultButtons[2].setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
-                    new BoardStage("defaultConfigs/default3", loadStage);
+                    new BoardStage("defaultConfigs/def3", GameMode.PVP, loadStage);
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }

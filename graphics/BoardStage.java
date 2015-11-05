@@ -67,8 +67,7 @@ public class BoardStage {
         saveButton.setTranslateX(750 - BUTTON_SIZE - 20);
 
         closeButton = new Canvas(BUTTON_SIZE, BUTTON_SIZE);
-        closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/CloseButton.png"), 0,
-                0);
+        closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/CloseButton.png"), 0, 0);
         closeButton.setTranslateY(graphicBoard.getHeight() + 10);
         closeButton.setTranslateX(saveButton.getTranslateX() - BUTTON_SIZE - 20);
 
