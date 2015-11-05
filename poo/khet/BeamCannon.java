@@ -6,7 +6,6 @@ import poo.khet.gameutils.Direction;
 
 public class BeamCannon implements Serializable {
 
-    // TODO
     private static final long serialVersionUID = 1L;
 
     private Team team;
@@ -14,8 +13,7 @@ public class BeamCannon implements Serializable {
     private Direction facing;
     private boolean clockwiseSwitch;
 
-    public BeamCannon(Team team) {
-        this.team = team;
+    public BeamCannon() {
         clockwiseSwitch = false;
         if (team == Team.RED) {
             facing = Direction.NORTH;
@@ -28,9 +26,6 @@ public class BeamCannon implements Serializable {
         return facing;
     }
 
-    public Team getTeam() {
-        return team;
-    }
 
     Beam generateBeam() {
         return new Beam(getFacing());
@@ -50,15 +45,15 @@ public class BeamCannon implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || !(o instanceof BeamCannon)) {
+        if (o == null || !(o.getClass() == this.getClass())) {
             return false;
         }
         BeamCannon b = (BeamCannon) o;
-        return b.getTeam().equals(this.getTeam()) && b.getFacing().equals(this.getFacing());
+        return b.getFacing().equals(this.getFacing());
     }
 
     @Override
     public int hashCode() {
-        return 31 * getTeam().hashCode() + getFacing().hashCode();
+        return getFacing().hashCode();
     }
 }

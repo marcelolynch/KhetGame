@@ -16,8 +16,8 @@ public class Game implements CannonPositions {
     private GameMode mode;
     private Team winnerTeam;
 
-    public Game(Map<Position, Piece> boardSetup, GameMode gameMode) {
-    	board = new Board(boardSetup);
+    public Game(Map<Position, Piece> initialBoardSetup, GameMode gameMode) {
+    	board = new Board(initialBoardSetup);
     	beamManager = new BeamManager(board);
     	redCannon = new BeamCannon(Team.RED);
     	silverCannon = new BeamCannon(Team.SILVER);
@@ -25,13 +25,13 @@ public class Game implements CannonPositions {
     	mode = gameMode;
     }
     
-    public Game(GameState setup) {
-        board = new Board(setup.getBoardConfig());
+    public Game(GameState state) {
+        board = new Board(state.getBoardConfig());
         beamManager = new BeamManager(board);
-        redCannon = setup.getRedCannon();
-        silverCannon = setup.getSilverCannon();
-        movingTeam = setup.getMovingTeam();
-        mode = setup.getGameMode();
+        redCannon = state.getRedCannon();
+        silverCannon = state.getSilverCannon();
+        movingTeam = state.getMovingTeam();
+        mode = state.getGameMode();
     }
     
     public Board getBoard() {
