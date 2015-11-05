@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
 import java.io.IOException;
@@ -34,6 +35,16 @@ public class BoardStage {
     final int SQUARE_SIZE = 75;
 
     public BoardStage(String fileName, final Stage loadScreen) throws Exception, IOException {
+        gameManager = new GameManager(fileName);
+        setStage(loadScreen);
+    }
+    
+    public BoardStage(String fileName, GameMode mode, final Stage loadScreen) throws Exception, IOException {
+    	gameManager = new GameManager(fileName, mode);
+    	setStage(loadScreen);
+    }
+    
+    private void setStage(final Stage loadScreen) {
         this.loadScreen = loadScreen;
 
         final Stage primaryStage = new Stage();
@@ -44,7 +55,6 @@ public class BoardStage {
 
         piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
         piecesGC = piecesLayer.getGraphicsContext2D();
-
 
         rotateButtons = new Canvas(200, 80);
         rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
@@ -65,8 +75,6 @@ public class BoardStage {
         Canvas bar = new Canvas(750, 90);
         bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), -1, 0);
         bar.setTranslateY(graphicBoard.getHeight());
-
-        gameManager = new GameManager(fileName);
 
         // Cambiar aca para que ande el editor, y cambiar el tipo de gameManager arriba
         // gameManager = new EditorManager(fileName);
@@ -140,6 +148,7 @@ public class BoardStage {
         primaryStage.setScene(new Scene(root, graphicBoard.getWidth() + 50,
                 graphicBoard.getHeight() + rotateButtons.getHeight() + 50));
         primaryStage.show();
+
     }
 
     private void showWinner() {

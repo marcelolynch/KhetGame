@@ -49,9 +49,18 @@ public class GameManager implements ErrorConstants {
      * @throws IOException - de no encontrarse el archivo
      */
     public GameManager(String name) throws ClassNotFoundException, IOException {
-        stage = Stage.CHOICE;
-
         game = new Game(FileManager.loadGameSave(name));
+        setManager();
+    }
+    
+    //TODO: documentar
+    public GameManager(String name, GameMode mode) throws ClassNotFoundException, IOException {
+    	game = new Game(FileManager.loadBoardSetup(name), mode);
+    	setManager();
+    }
+    
+    private void setManager() {
+        stage = Stage.CHOICE;
         gameDrawer = new GameDrawer(game);
         mode = game.getGameMode();
         if (mode == GameMode.PVE) {

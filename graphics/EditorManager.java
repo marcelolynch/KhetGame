@@ -83,8 +83,8 @@ public class EditorManager implements ErrorConstants {
 	 * Indica si la etapa es de eleccion de piezas (por claridad)
 	 * @return
 	 */
-	public boolean isChoosing(){
-		return currentStage() == Stage.CHOICE;
+	public boolean isChosen(){
+		return currentStage() == Stage.ACTION;
 	}
 	
 	public void resetTurn() {

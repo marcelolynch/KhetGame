@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 
 import java.io.IOException;
 
+import poo.khet.gameutils.GameMode;
+
 public class LoadStage extends Application {
 
     Canvas[] defaultPreviews = new Canvas[3];
