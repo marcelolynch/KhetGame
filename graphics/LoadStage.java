@@ -64,7 +64,7 @@ public class LoadStage extends Application {
         defaultButtons[0].setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
-                    new BoardStage("defaultConfigs/def1", GameMode.PVE, loadStage);
+                    new BoardStage("defaultConfigs/def1", GameMode.PVP, loadStage);
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }

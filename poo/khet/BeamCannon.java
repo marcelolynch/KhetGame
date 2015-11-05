@@ -4,29 +4,25 @@ import java.io.Serializable;
 
 import poo.khet.gameutils.Direction;
 
-public class BeamCannon implements Serializable {
+public abstract class BeamCannon implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private Team team;
 
     private Direction facing;
     private boolean clockwiseSwitch;
 
     public BeamCannon() {
         clockwiseSwitch = false;
-        if (team == Team.RED) {
-            facing = Direction.NORTH;
-        } else {
-            facing = Direction.SOUTH;
-        }
     }
 
     public Direction getFacing() {
         return facing;
     }
 
-
+    protected void setFacing(Direction dir) {
+    	facing = dir;
+    }
+    
     Beam generateBeam() {
         return new Beam(getFacing());
     }

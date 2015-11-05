@@ -14,8 +14,10 @@ import poo.khet.CannonPositions;
 import poo.khet.Editor;
 import poo.khet.Game;
 import poo.khet.Pyramid;
+import poo.khet.RedCannon;
 import poo.khet.Pharaoh;
 import poo.khet.Scarab;
+import poo.khet.SilverCannon;
 import poo.khet.Team;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
@@ -199,16 +201,15 @@ public class GameDrawer implements CannonPositions {
         imageMap.put(new Pharaoh(Team.SILVER), new Image("file:assets/pieces/pharaoh/silver.png"));
 
         // Cañones
-        cannonImg.put(new BeamCannon(Team.RED), new Image("file:assets/cannons/red_regular.png"));
-        cannonImg.put(new BeamCannon(Team.SILVER),
-                new Image("file:assets/cannons/silver_regular.png"));
+        cannonImg.put(new RedCannon(), new Image("file:assets/cannons/red_regular.png"));
+        cannonImg.put(new SilverCannon(), new Image("file:assets/cannons/silver_regular.png"));
 
         // Cañones rotados
-        BeamCannon redSwitched = new BeamCannon(Team.RED);
+        BeamCannon redSwitched = new RedCannon();
         redSwitched.switchFacing();
         cannonImg.put(redSwitched, new Image("file:assets/cannons/red_switched.png"));
 
-        BeamCannon silverSwitched = new BeamCannon(Team.SILVER);
+        BeamCannon silverSwitched = new SilverCannon();
         silverSwitched.switchFacing();
         cannonImg.put(silverSwitched, new Image("file:assets/cannons/silver_switched.png"));
     }

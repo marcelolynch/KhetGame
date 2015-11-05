@@ -9,8 +9,8 @@ import poo.khet.gameutils.Position;
 public class Game implements CannonPositions {
 
     private Board board;
-    private BeamCannon redCannon;
-    private BeamCannon silverCannon;
+    private RedCannon redCannon;
+    private SilverCannon silverCannon;
     private BeamManager beamManager;
     private Team movingTeam;
     private GameMode mode;
@@ -19,8 +19,8 @@ public class Game implements CannonPositions {
     public Game(Map<Position, Piece> initialBoardSetup, GameMode gameMode) {
     	board = new Board(initialBoardSetup);
     	beamManager = new BeamManager(board);
-    	redCannon = new BeamCannon(Team.RED);
-    	silverCannon = new BeamCannon(Team.SILVER);
+    	redCannon = new RedCannon();
+    	silverCannon = new SilverCannon();
     	movingTeam = Team.SILVER; //siempre empieza Silver
     	mode = gameMode;
     }

@@ -12,12 +12,12 @@ public class GameState implements Serializable {
 
     private GameMode mode;
     private Map<Position, Piece> boardConfig;
-    private BeamCannon redCannon;
-    private BeamCannon silverCannon;
+    private RedCannon redCannon;
+    private SilverCannon silverCannon;
     private Team movingTeam;
 
     public GameState(GameMode mode, Map<Position, Piece> boardConfig, Team movingTeam,
-            BeamCannon redCannon, BeamCannon silverCannon) {
+            RedCannon redCannon, SilverCannon silverCannon) {
         this.mode = mode;
         this.boardConfig = boardConfig;
         this.movingTeam = movingTeam;
@@ -37,11 +37,11 @@ public class GameState implements Serializable {
         return boardConfig;
     }
 
-    public BeamCannon getRedCannon() {
+    public RedCannon getRedCannon() {
         return redCannon;
     }
 
-    public BeamCannon getSilverCannon() {
+    public SilverCannon getSilverCannon() {
         return silverCannon;
     }
 }
