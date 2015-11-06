@@ -131,7 +131,8 @@ public class LoadStage extends Application implements GraphicDimensions {
                 } catch (ClassNotFoundException classNotFound) {
                     throwInvalidFileAlert();
                 } catch (Exception e1){
-                    throwUnexpectedErrorAlert();
+                    e1.printStackTrace();
+                	throwUnexpectedErrorAlert();
                 }
 
             }

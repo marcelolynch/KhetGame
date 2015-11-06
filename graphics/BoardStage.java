@@ -69,16 +69,15 @@ public class BoardStage implements GraphicDimensions {
         saveButton.setTranslateX(closeButton.getTranslateX() - SQUARE_BUTTON_SIZE - 20);
 
         Canvas bar = new Canvas(750, 90);
-        bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), 0, 0);
+        bar.getGraphicsContext2D().drawImage(new Image("file:assets/bar.png"), 0, 0);
         bar.setTranslateY(graphicBoard.getHeight());
 
-        // root.getChildren().add(bar);
+        root.getChildren().add(bar);
         root.getChildren().add(graphicBoard);
         root.getChildren().add(piecesLayer);
         root.getChildren().add(rotateButtons);
         root.getChildren().add(saveButton);
         root.getChildren().add(closeButton);
-        closeButton.toBack();
 
         drawer = gameManager.getDrawer();
         drawGame();
@@ -161,11 +160,21 @@ public class BoardStage implements GraphicDimensions {
 
         // Resalta pieza seleccionada
         if (gameManager.isChosen()) {
+        	rotateButtons.toFront();
             Position selected = gameManager.getActiveSquare();
             piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol() * SQUARE_SIZE,
                     selected.getRow() * SQUARE_SIZE);
         }
-    }
+        
+        else if(gameManager.inStandby()){
+        	saveButton.toBack();
+        	rotateButtons.toBack();
+        }
+        else{
+        	rotateButtons.toBack();
+        	saveButton.toFront();
+        }
+   }
 
     /**
      * Devuelve una coordenada a partir de la posicion del mouse

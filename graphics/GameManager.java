@@ -269,4 +269,8 @@ public class GameManager implements ErrorConstants {
 		return currentStage() == Stage.ACTION;
 	}
 
+	public boolean inStandby() {
+		return currentStage() == Stage.STANDBY;
+	}
+
 }

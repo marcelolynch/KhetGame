@@ -29,7 +29,7 @@ public class SaveStage {
                     Alert notfound = new Alert(Alert.AlertType.ERROR);
                     notfound.setTitle("Could Not Save Game");
                     notfound.setHeaderText(null);
-                    notfound.setContentText(nameInput.getText() + "' could not be written.");
+                    notfound.setContentText(nameInput.getText() + " could not be written.");
                     notfound.showAndWait();
                 }
             }
