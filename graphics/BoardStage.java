@@ -58,15 +58,15 @@ public class BoardStage implements GraphicDimensions {
         rotateButtons.setTranslateY(graphicBoard.getHeight() + 10);
         rotateButtons.setTranslateX(20);
 
-        saveButton = new Canvas(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
-        saveButton.getGraphicsContext2D().drawImage(new Image("file:assets/SaveButton.png"), 0, 0);
-        saveButton.setTranslateY(graphicBoard.getHeight() + 10);
-        saveButton.setTranslateX(750 - SQUARE_BUTTON_SIZE - 20);
-
         closeButton = new Canvas(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
         closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/CloseButton.png"), 0, 0);
         closeButton.setTranslateY(graphicBoard.getHeight() + 10);
-        closeButton.setTranslateX(saveButton.getTranslateX() - SQUARE_BUTTON_SIZE - 20);
+        closeButton.setTranslateX(750 - SQUARE_BUTTON_SIZE - 20);
+        
+        saveButton = new Canvas(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
+        saveButton.getGraphicsContext2D().drawImage(new Image("file:assets/SaveButton.png"), 0, 0);
+        saveButton.setTranslateY(graphicBoard.getHeight() + 10);
+        saveButton.setTranslateX(closeButton.getTranslateX() - SQUARE_BUTTON_SIZE - 20);
 
         Canvas bar = new Canvas(750, 90);
         bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), 0, 0);
@@ -87,8 +87,8 @@ public class BoardStage implements GraphicDimensions {
             public void handle(MouseEvent e) {
                 if (!gameManager.hasWinner()) {
                     Position selectedPos = getPositionFromMouse(e.getX(), e.getY());
-                    piecesGC.clearRect((selectedPos.getRow() * 75),
-                            (selectedPos.getCol() * 75), 75, 75);
+                    piecesGC.clearRect((selectedPos.getRow() * SQUARE_SIZE),
+                            (selectedPos.getCol() * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE);
 
                     if (e.getButton() == MouseButton.PRIMARY) {
                         gameManager.handle(selectedPos);

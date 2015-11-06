@@ -44,10 +44,11 @@ public class AIMover implements CannonPositions, BoardDimensions {
             if (beamFate == BeamAction.DESTROYED_PIECE
                     && isOpponentPiece(beamManager.getLastPos())) {
                 destroyChoice = action;
-            } else if (secondChoice == null) {
-                // Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
+            } else if (beamFate != BeamAction.DESTROYED_PIECE) {
                 secondChoice = action;
+                // Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
             }
+
             // Revierte la jugada simulada para seguir simulando otras
             Action restore = action.getRevertedAction(action);
             restore.executeActionIn(auxiliarBoard);
@@ -57,6 +58,11 @@ public class AIMover implements CannonPositions, BoardDimensions {
             destroyChoice.updateGame(game);
         } else {
             secondChoice.updateGame(game);
+            //no es imposible llegar a lo de finalchoice?
+//            else {
+//                Action finalChoice = possibleMoves.get(brain.nextInt(possibleMoves.size() - 1));
+//                finalChoice.updateGame(game);
+//            }
         }
         game.nextTurn();// No lo tendria que llamar el gameManager a esto?
     }
