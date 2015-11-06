@@ -1,9 +1,17 @@
-package poo.khet;
+package poo.khet.AI;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import poo.khet.Beam;
+import poo.khet.BeamAction;
+import poo.khet.BeamCannon;
+import poo.khet.BeamManager;
+import poo.khet.Board;
+import poo.khet.CannonPositions;
+import poo.khet.Game;
+import poo.khet.Team;
 import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Position;
 

@@ -3,11 +3,11 @@ package graphics;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import poo.khet.AIMover;
 import poo.khet.Board;
 import poo.khet.Game;
 import poo.khet.FileManager;
 import poo.khet.Team;
+import poo.khet.AI.AIMover;
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
@@ -171,8 +171,7 @@ public class GameManager implements ErrorConstants {
      */
     public int handle(Position position) {
         if (position == null) {
-            throw new IllegalArgumentException("null parameter"); // TODO: Dejar que tire el
-                                                                  // NullPointer?
+            throw new IllegalArgumentException("null parameter"); 
         }
         
         if (currentStage() == Stage.STANDBY) {

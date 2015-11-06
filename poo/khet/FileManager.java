@@ -35,6 +35,7 @@ public class FileManager {
         return setup;
     }
 
+	@SuppressWarnings("unchecked")
 	public static Map<Position, Piece> loadBoardSetup(String name) throws IOException, ClassNotFoundException {
 		File toRead = new File(name);
         FileInputStream fis = new FileInputStream(toRead);
@@ -44,7 +45,7 @@ public class FileManager {
         fis.close();
         return setup;
 	}
-	
+
     /**
      * Guarda en un archivo el estado del juego.
      * 

@@ -4,7 +4,6 @@ import poo.khet.gameutils.Direction;
 
 public class Anubis extends Piece {
 
-    // TODO:
     private static final long serialVersionUID = 1L;
 
     private Shield shield;
@@ -33,11 +32,13 @@ public class Anubis extends Piece {
     }
 
     @Override
+	public
     void rotateClockwise() {
         shield.rotateClockwise();
     }
 
     @Override
+	public
     void rotateCounterClockwise() {
         shield.rotateCounterClockwise();
     }

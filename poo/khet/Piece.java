@@ -44,9 +44,9 @@ public abstract class Piece implements Serializable {
 
     abstract boolean canBeSwapped();
 
-    abstract void rotateClockwise();
+    public abstract void rotateClockwise();
 
-    abstract void rotateCounterClockwise();
+    public abstract void rotateCounterClockwise();
 
     @Override
     public boolean equals(Object obj) {

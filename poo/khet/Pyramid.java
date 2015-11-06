@@ -4,7 +4,6 @@ import poo.khet.gameutils.Direction;
 
 public class Pyramid extends Piece {
 
-    // TODO:
     private static final long serialVersionUID = 1L;
 
     private Mirror mirror;
@@ -42,11 +41,13 @@ public class Pyramid extends Piece {
     }
 
     @Override
+	public
     void rotateClockwise() {
         mirror.rotateClockwise();
     }
 
     @Override
+	public
     void rotateCounterClockwise() {
         mirror.rotateCounterClockwise();
     }

@@ -102,14 +102,8 @@ public class Game implements CannonPositions {
 
         Piece p = board.getOccupantIn(init);
 
-        boolean doableMove;
-        if (board.isEmptyPosition(dest)) {
-            doableMove = board.canPlace(p, dest);
-        } else {
-            doableMove = board.canPlace(p, dest) && board.canPlace(board.getOccupantIn(dest), init); // Enroque
-        }
-
-        return doableMove;
+        return board.canPlace(p, dest); 
+        
     }
 
     public void move(Position init, Position dest) {
@@ -165,11 +159,9 @@ public class Game implements CannonPositions {
 
         BeamAction beamFate = throwBeam(getMovingTeam());
         if (beamFate == BeamAction.DESTROYED_PIECE) {
-            System.out.println("Destroyed " + beamManager.getLastPos()); // TODO: Delete syso
             Piece withdrawn = board.withdrawFrom(beamManager.getLastPos());
 
-            if (withdrawn instanceof Pharaoh) { // instanceof justificado
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            if (withdrawn instanceof Pharaoh) { // TODO: instanceof justificado
                 winnerTeam = (withdrawn.getTeam() == Team.SILVER ? Team.RED : Team.SILVER);
             }
         }

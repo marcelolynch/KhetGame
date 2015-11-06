@@ -3,12 +3,10 @@ package poo.khet;
 import java.util.HashMap;
 import java.util.Map;
 
+import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Position;
 
-public class Board implements CannonPositions {
-
-    public static final int COLUMNS = 10;
-    public static final int ROWS = 8;
+public class Board implements CannonPositions, BoardDimensions {
 
     private Map<Position, Square> grid;
 
@@ -37,7 +35,7 @@ public class Board implements CannonPositions {
             }
         }
 
-        // Casillas Reservadas
+        // Casillas Reservadas. Se pisan las casillas ya asignadas.
         grid.put(new Position(0, 8), new ReservedSquare(Team.SILVER));
         grid.put(new Position(7, 8), new ReservedSquare(Team.SILVER));
         grid.put(new Position(0, 1), new ReservedSquare(Team.RED));
@@ -54,6 +52,7 @@ public class Board implements CannonPositions {
      * @return <tt>true</tt> si es licito moverla ahi; <tt>false</tt> de otro modo
      */
     public boolean canPlace(Piece piece, Position position) {
+    	assertNotNullPosition(position);
         if (!isInBounds(position)) {
             return false;
         }
@@ -61,39 +60,31 @@ public class Board implements CannonPositions {
         return selected.canAccomodate(piece);
     }
 
-    public boolean isInBounds(Position pos) {
-        return grid.containsKey(pos);
+    public boolean isInBounds(Position position) {
+    	assertNotNullPosition(position);
+        return grid.containsKey(position);
     }
 
     public Piece withdrawFrom(Position position) {
+    	assertOccupiedPosition(position);
         return grid.get(position).withdrawOccupant();
     }
 
     public boolean isEmptyPosition(Position position) {
-        if (!isInBounds(position)) {
-            throw new IllegalArgumentException("Not a valid (in-board) position");
-        }
+    	assertInBounds(position);
         return grid.get(position).isEmpty();
     }
 
     public Piece getOccupantIn(Position position) {
-        if (isEmptyPosition(position)) {
-            throw new IllegalStateException(); // TODO: Excepcion
-        }
+    	assertOccupiedPosition(position);
         return grid.get(position).getOccupant();
     }
 
-    public void placePiece(Position pos, Piece piece) {
-        if (isInBounds(pos) && isEmptyPosition(pos)) {
-            grid.get(pos).setOccupant(piece);
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public void placePiece(Position position, Piece piece) {
+    	assertEmptyPosition(position);
+        grid.get(position).setOccupant(piece);
     }
 
-    // Se podría sobrecargar con un método que sea getPiecesPosition(Team) y te devuelve solo las
-    // piezas de Team
-    // si es que esto ayudaría a la AI, sino parece no servir.
     public Map<Position, Piece> getPiecesPosition() {
         Map<Position, Piece> boardConfig = new HashMap<Position, Piece>();
         for (int i = 0; i < ROWS; i++) {
@@ -111,6 +102,34 @@ public class Board implements CannonPositions {
     public void placePieces(Map<Position, Piece> pieces) {
         for (Position pos : pieces.keySet()) {
             placePiece(pos, pieces.get(pos));
+        }
+    }
+
+    private void assertNotNullPosition(Position position) {
+       	if (position == null) {
+    		throw new IllegalArgumentException("Null position");
+    	}
+    }
+
+    private void assertInBounds(Position position) {
+    	if (!isInBounds(position)) {
+    		throw new IllegalArgumentException("Not a valid (in-board) position");
+    	}
+    }
+
+    private void assertEmptyPosition(Position position) {
+    	assertNotNullPosition(position);
+    	assertInBounds(position);
+    	if (!isEmptyPosition(position)) {
+    		throw new IllegalStateException("The square in " + position + " is not empty");
+    	}
+    }
+
+    private void assertOccupiedPosition(Position position) {
+    	assertNotNullPosition(position);
+    	assertInBounds(position);
+        if (isEmptyPosition(position)) {
+            throw new IllegalStateException("The square in " + position + " is empty");
         }
     }
 }

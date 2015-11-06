@@ -1,11 +1,12 @@
-package poo.khet;
+package poo.khet.AI;
 
+import poo.khet.Board;
+import poo.khet.Game;
 import poo.khet.gameutils.Position;
 
-public abstract class Action {
+abstract class Action {
     private Position start;
 
-    // Es responsabilidad de Move ver si el movimiento es valido? me parece que no
     Action(Position start) {
         this.start = start;
     }
@@ -14,19 +15,7 @@ public abstract class Action {
         return start;
     }
 
-    void setStart(Position start) {
-        this.start = start;
-    }
-
     abstract void executeActionIn(Board board);
     abstract void updateGame(Game game);
-
-    /**
-     * es solo una idea jaja
-     * 
-     * @param action
-     * @return
-     */
     abstract Action getRevertedAction(Action action);
-
 }

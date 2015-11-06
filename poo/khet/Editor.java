@@ -60,7 +60,6 @@ public class Editor implements CannonPositions {
 		
 		Piece p = board.withdrawFrom(init);
 		
-		//TODO: corregir que no se pueda swappear en lugares reservados si la pieza no es del color
 		if (!board.isEmptyPosition(dest)) { // hay swap
 			board.placePiece(init, board.withdrawFrom(dest));
 		}
@@ -86,6 +85,7 @@ public class Editor implements CannonPositions {
 	
 	private Map<Position, Piece> getInitialSetup() {
 		Map<Position, Piece> pMap= new HashMap<Position, Piece>();
+
 		pMap.put(new Position(7,2), new Pyramid(Team.RED, Direction.WEST));
 		pMap.put(new Position(7,3), new Anubis(Team.RED, Direction.NORTH));
 		pMap.put(new Position(7,4), new Pharaoh(Team.RED));
@@ -110,7 +110,7 @@ public class Editor implements CannonPositions {
 		pMap.put(new Position(0,5), new Pharaoh(Team.SILVER));
 		pMap.put(new Position(0,6), new Anubis(Team.SILVER, Direction.SOUTH));
 		pMap.put(new Position(0,7), new Pyramid(Team.SILVER, Direction.EAST));
-		
+
 		return pMap;
 	}
 }

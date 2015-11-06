@@ -1,8 +1,11 @@
-package poo.khet;
+package poo.khet.AI;
 
+import poo.khet.Board;
+import poo.khet.Game;
+import poo.khet.Piece;
 import poo.khet.gameutils.Position;
 
-public class Move extends Action {
+class Move extends Action {
     private Position end;
 
     public Move(Position start, Position end) {
@@ -12,10 +15,6 @@ public class Move extends Action {
 
     public Position getDest() {
         return end;
-    }
-
-    public void setDest(Position dest) {
-        this.end = dest;
     }
 
     @Override

@@ -17,7 +17,6 @@ import poo.khet.gameutils.Direction;
  */
 public abstract class Accessory implements Serializable {
 
-    // TODO:
     private static final long serialVersionUID = 1L;
     /**
      * La orientacion del accesorio

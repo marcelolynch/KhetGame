@@ -4,7 +4,6 @@ import poo.khet.gameutils.Direction;
 
 public class Scarab extends Piece {
 
-    // TODO:
     private static final long serialVersionUID = 1L;
 
     private Mirror[] mirrors;
@@ -18,12 +17,14 @@ public class Scarab extends Piece {
     }
 
     @Override
+	public
     void rotateClockwise() {
         mirrors[0].rotateClockwise();
         mirrors[1].rotateClockwise();
     }
 
     @Override
+	public
     void rotateCounterClockwise() {
         mirrors[0].rotateCounterClockwise();
         mirrors[1].rotateCounterClockwise();

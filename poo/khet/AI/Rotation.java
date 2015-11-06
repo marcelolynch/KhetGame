@@ -1,8 +1,11 @@
-package poo.khet;
+package poo.khet.AI;
 
+import poo.khet.Board;
+import poo.khet.Game;
+import poo.khet.Piece;
 import poo.khet.gameutils.Position;
 
-public class Rotation extends Action {
+class Rotation extends Action {
     private boolean isClockwise;
 
     public Rotation(Position start, boolean isClockwise) {
@@ -12,10 +15,6 @@ public class Rotation extends Action {
 
     public boolean isClockwise() {
         return isClockwise;
-    }
-
-    public void setClockwise(boolean isClockwise) {
-        this.isClockwise = isClockwise;
     }
 
     @Override

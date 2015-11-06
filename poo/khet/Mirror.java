@@ -14,7 +14,6 @@ import poo.khet.gameutils.Direction;
  */
 public class Mirror extends Accessory {
 
-    // TODO:
     private static final long serialVersionUID = 1L;
 
     /**

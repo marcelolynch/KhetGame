@@ -11,19 +11,16 @@ public abstract class BeamCannon implements Serializable {
     private Direction facing;
     private boolean clockwiseSwitch;
 
-    public BeamCannon() {
+    public BeamCannon(Direction direction) {
         clockwiseSwitch = false;
+        facing = direction;
     }
 
     public Direction getFacing() {
         return facing;
     }
 
-    protected void setFacing(Direction dir) {
-    	facing = dir;
-    }
-    
-    Beam generateBeam() {
+    public Beam generateBeam() {
         return new Beam(getFacing());
     }
 

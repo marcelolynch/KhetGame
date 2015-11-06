@@ -20,10 +20,12 @@ public class Pharaoh extends Piece {
 	}
 
 	@Override
+	public
 	void rotateClockwise() {
 	}
 
 	@Override
+	public
 	void rotateCounterClockwise() {
 	}
 	
