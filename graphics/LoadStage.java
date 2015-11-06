@@ -17,7 +17,7 @@ import java.io.IOException;
 
 import poo.khet.gameutils.GameMode;
 
-public class LoadStage extends Application {
+public class LoadStage extends Application implements GraphicDimensions {
 
     Canvas[] defaultPreviews = new Canvas[3];
     Button[] defaultButtons = new Button[3];
@@ -25,11 +25,7 @@ public class LoadStage extends Application {
     CheckBox twoPlayers;
     CheckBox onePlayer;
     TextField nameInput;
-    
-    final int BUTTON_WIDTH = 100;
-    final int BUTTON_HEIGHT = 35;
-    final int PREVIEW_WIDTH = 200;
-    final int PREVIEW_HEIGHT = 160;
+
 
     // TODO: Exception
     public void start(final Stage loadStage) throws Exception {

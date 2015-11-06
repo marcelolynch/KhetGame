@@ -16,7 +16,7 @@ import poo.khet.gameutils.Position;
 
 import java.io.IOException;
 
-public class BoardStage {
+public class BoardStage implements GraphicDimensions {
 
     Stage loadScreen;
 
@@ -30,9 +30,6 @@ public class BoardStage {
     Canvas saveButton;
     Canvas closeButton;
     GameDrawer drawer;
-
-    final int BUTTON_SIZE = 75;
-    final int SQUARE_SIZE = 75;
 
     public BoardStage(String fileName, final Stage loadScreen) throws Exception, IOException {
         gameManager = new GameManager(fileName);
@@ -61,22 +58,19 @@ public class BoardStage {
         rotateButtons.setTranslateY(graphicBoard.getHeight() + 10);
         rotateButtons.setTranslateX(20);
 
-        saveButton = new Canvas(BUTTON_SIZE, BUTTON_SIZE);
+        saveButton = new Canvas(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
         saveButton.getGraphicsContext2D().drawImage(new Image("file:assets/SaveButton.png"), 0, 0);
         saveButton.setTranslateY(graphicBoard.getHeight() + 10);
-        saveButton.setTranslateX(750 - BUTTON_SIZE - 20);
+        saveButton.setTranslateX(750 - SQUARE_BUTTON_SIZE - 20);
 
-        closeButton = new Canvas(BUTTON_SIZE, BUTTON_SIZE);
+        closeButton = new Canvas(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
         closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/CloseButton.png"), 0, 0);
         closeButton.setTranslateY(graphicBoard.getHeight() + 10);
-        closeButton.setTranslateX(saveButton.getTranslateX() - BUTTON_SIZE - 20);
+        closeButton.setTranslateX(saveButton.getTranslateX() - SQUARE_BUTTON_SIZE - 20);
 
         Canvas bar = new Canvas(750, 90);
-        bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), -1, 0);
+        bar.getGraphicsContext2D().drawImage(new Image("file:assets/fondo.png"), 0, 0);
         bar.setTranslateY(graphicBoard.getHeight());
-
-        // Cambiar aca para que ande el editor, y cambiar el tipo de gameManager arriba
-        // gameManager = new EditorManager(fileName);
 
         // root.getChildren().add(bar);
         root.getChildren().add(graphicBoard);
@@ -93,8 +87,8 @@ public class BoardStage {
             public void handle(MouseEvent e) {
                 if (!gameManager.hasWinner()) {
                     Position selectedPos = getPositionFromMouse(e.getX(), e.getY());
-                    piecesGC.clearRect((selectedPos.getRow() * 75 - 1),
-                            (selectedPos.getCol() * 75 - 1), 77, 77);
+                    piecesGC.clearRect((selectedPos.getRow() * 75),
+                            (selectedPos.getCol() * 75), 75, 75);
 
                     if (e.getButton() == MouseButton.PRIMARY) {
                         gameManager.handle(selectedPos);
@@ -115,7 +109,7 @@ public class BoardStage {
         rotateButtons.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
             	if(!gameManager.hasWinner()) {
-            		gameManager.handleRotation(e.getX() < 98);
+            		gameManager.handleRotation(e.getX() < 100);
                 	drawGame();
                 	if (gameManager.hasWinner()) {
                 		showWinner();

@@ -38,29 +38,31 @@ public class AIMover implements CannonPositions, BoardDimensions {
         Action destroyChoice = null;
         Action secondChoice = null;
         Collections.shuffle(possibleActions);
-        
+
         for (Action action : possibleActions) {
             BeamAction beamFate = simulateAction(action);
-            if (beamFate == BeamAction.DESTROYED_PIECE && isOpponentPiece(beamManager.getLastPos())) {
+            if (beamFate == BeamAction.DESTROYED_PIECE
+                    && isOpponentPiece(beamManager.getLastPos())) {
                 destroyChoice = action;
             } else if (secondChoice == null) {
-                //Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
+                // Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
                 secondChoice = action;
             }
-            //Revierte la jugada simulada para seguir simulando otras
+            // Revierte la jugada simulada para seguir simulando otras
             Action restore = action.getRevertedAction(action);
             restore.executeActionIn(auxiliarBoard);
+            // Salir del for apenas se consigue destroyChoice? me cago en la eficiencia
         }
         if (destroyChoice != null) {
             destroyChoice.updateGame(game);
         } else {
-            secondChoice.updateGame(game);            
+            secondChoice.updateGame(game);
         }
         game.nextTurn();// No lo tendria que llamar el gameManager a esto?
     }
 
     private boolean isOpponentPiece(Position pos) {
-        return auxiliarBoard.getOccupantIn(pos).getTeam().equals(Team.SILVER); 
+        return auxiliarBoard.getOccupantIn(pos).getTeam().equals(Team.SILVER);
     }
 
     private BeamAction simulateAction(Action action) {
@@ -70,8 +72,6 @@ public class AIMover implements CannonPositions, BoardDimensions {
         Position startingPosition = RED_CANNON_POSITION;
         return beamManager.manageBeam(beam, startingPosition);
     }
-
-
 
     private List<Action> possibleMoves() {
         List<Action> possibleMoves = new ArrayList<Action>();
@@ -116,19 +116,4 @@ public class AIMover implements CannonPositions, BoardDimensions {
         }
         return possibleRotations;
     }
-
-    /**
-     * Rota de manera aleatoria la pieza ubicada en la posici�n pos del tablero.
-     * 
-     * @param start
-     * @return una rotacion
-     */
-    // private Rotation randomRotation(Position pos) {
-    // boolean clockwise = brain.nextInt() % 2 == 0; // de �sta forma hay un 50% de probabilidad
-    // // que rote de forma horaria y 50% que rote
-    // // de forma antihoraria
-    // return new Rotation(pos, clockwise);
-    // }
-
-
 }

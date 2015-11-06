@@ -19,14 +19,11 @@ import poo.khet.Pharaoh;
 import poo.khet.Scarab;
 import poo.khet.SilverCannon;
 import poo.khet.Team;
+import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
-public class GameDrawer implements CannonPositions {
-
-    static final int COLUMNS = 10;
-    static final int ROWS = 8;
-    static final int SQUARE_SIZE = 75;
+public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDimensions{
 
     Map<Piece, Image> imageMap = new HashMap<Piece, Image>();
     Map<BeamCannon, Image> cannonImg = new HashMap<BeamCannon, Image>();

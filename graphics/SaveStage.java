@@ -24,14 +24,12 @@ public class SaveStage {
             public void handle(ActionEvent event) {
                 try {
                     gameManager.saveGame("savedGames/" + nameInput.getText());
-                    System.out.println("Saved!");
                     saveWindow.close();
                 } catch (IOException e) {
                     Alert notfound = new Alert(Alert.AlertType.ERROR);
                     notfound.setTitle("Could Not Save Game");
                     notfound.setHeaderText(null);
-                    notfound.setContentText(
-                            "File: '" + nameInput.getText() + "' could not be written.");
+                    notfound.setContentText(nameInput.getText() + "' could not be written.");
                     notfound.showAndWait();
                 }
             }
