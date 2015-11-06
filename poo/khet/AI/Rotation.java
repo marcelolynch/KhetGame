@@ -34,6 +34,9 @@ class Rotation extends Action {
 
 	@Override
 	void updateGame(Game game) {
+	    //TODO: Sacar syso
+	    System.out.println("AI -ROTO- LA PIEZA EN" + "("+ this.getStart().getRow() + ", " + this.getStart().getCol() + ")" 
+	            + "CLOCKWISE: " + isClockwise);
 		game.rotate(getStart(), isClockwise());
 	}
 }

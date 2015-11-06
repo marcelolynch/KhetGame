@@ -40,7 +40,7 @@ public class LoadStage extends Application {
         //Botones configuraciones iniciales
         for (int i = 0; i < 3; i++) {
             defaultPreviews[i] = new Canvas(PREVIEW_WIDTH, PREVIEW_HEIGHT);
-            defaultPreviews[i].setTranslateX(50 * (i + 1) + PREVIEW_WIDTH * i);
+            defaultPreviews[i].setTranslateX(50 + 50 * i + PREVIEW_WIDTH * i);
             defaultPreviews[i].setTranslateY(50);
             defaultPreviews[i].getGraphicsContext2D()
                     .drawImage(new Image("file:assets/DefaultPreview" + (i + 1) + ".png"), 0, 0);
@@ -50,7 +50,7 @@ public class LoadStage extends Application {
         defaultButtons[1] = new Button("Ramses");
         defaultButtons[2] = new Button("Cleopatra");
         for (int i = 0; i < 3; i++) {
-            defaultButtons[i].setTranslateX(100 * (i + 1) + 150 * i);
+            defaultButtons[i].setTranslateX(100 + 100 * i + 150 * i);
             defaultButtons[i].setTranslateY(225);
             defaultButtons[i].setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         }
