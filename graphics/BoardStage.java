@@ -68,7 +68,7 @@ public class BoardStage implements GraphicDimensions {
         saveButton.setTranslateY(graphicBoard.getHeight() + 10);
         saveButton.setTranslateX(closeButton.getTranslateX() - SQUARE_BUTTON_SIZE - 20);
 
-        Canvas bar = new Canvas(750, 90);
+        Canvas bar = new Canvas(750, 120);
         bar.getGraphicsContext2D().drawImage(new Image("file:assets/bar.png"), 0, 0);
         bar.setTranslateY(graphicBoard.getHeight());
 

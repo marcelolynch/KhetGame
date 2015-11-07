@@ -17,7 +17,7 @@ import poo.khet.gameutils.Position;
 
 public class AIMover implements CannonPositions, BoardDimensions {
     private Game game;
-    static Team team = Team.RED;
+    static Team team = Team.RED; // Siempre juega con el equipo Rojo
     private BeamManager beamManager;
     private Board auxiliarBoard;
 
@@ -52,17 +52,13 @@ public class AIMover implements CannonPositions, BoardDimensions {
             // Revierte la jugada simulada para seguir simulando otras
             Action restore = action.getRevertedAction(action);
             restore.executeActionIn(auxiliarBoard);
-            // Salir del for apenas se consigue destroyChoice? me cago en la eficiencia
         }
         if (destroyChoice != null) {
             destroyChoice.updateGame(game);
-        } else {
+        } else if (secondChoice != null) {
             secondChoice.updateGame(game);
-            //no es imposible llegar a lo de finalchoice?
-//            else {
-//                Action finalChoice = possibleMoves.get(brain.nextInt(possibleMoves.size() - 1));
-//                finalChoice.updateGame(game);
-//            }
+        } else {
+            possibleActions.get(0).updateGame(game);
         }
         game.nextTurn();// No lo tendria que llamar el gameManager a esto?
     }
@@ -84,10 +80,12 @@ public class AIMover implements CannonPositions, BoardDimensions {
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
-                Position start = new Position(i, j);
-                for (Position each : getAdyacentEnds(start)) {
-                    if (game.isValidSelection(start) && game.isValidMove(start, each)) {
-                        possibleMoves.add(new Move(start, each));
+                Position from = new Position(i, j);
+                if (game.isValidSelection(from)) {
+                    for (Position to : getAdjacentPositions(from)) {
+                        if (game.isValidMove(from, to)) {
+                            possibleMoves.add(new Move(from, to));
+                        }
                     }
                 }
             }
@@ -95,7 +93,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
         return possibleMoves;
     }
 
-    private List<Position> getAdyacentEnds(Position start) {
+    private List<Position> getAdjacentPositions(Position start) {
         List<Position> ends = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -115,6 +113,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
             for (int j = 0; j < COLUMNS; j++) {
                 Position start = new Position(i, j);
                 if (game.isValidSelection(start)) {
+                    // Rotacion Clockwise y Counterclockwise
                     possibleRotations.add(new Rotation(start, true));
                     possibleRotations.add(new Rotation(start, false));
                 }

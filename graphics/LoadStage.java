@@ -18,7 +18,8 @@ import java.io.IOException;
 import poo.khet.gameutils.GameMode;
 
 public class LoadStage extends Application implements GraphicDimensions {
-
+    
+    Canvas background = new Canvas(800, 450);
     Canvas[] defaultPreviews = new Canvas[3];
     Button[] defaultButtons = new Button[3];
     Button loadBtn;
@@ -32,6 +33,9 @@ public class LoadStage extends Application implements GraphicDimensions {
         Group root = new Group();
         loadStage.setWidth(800);
         loadStage.setHeight(450);
+        
+        //Imagen de fondo
+        background.getGraphicsContext2D().drawImage(new Image("file:assets/LoadBack.png"), 0, 0);
 
         //Botones configuraciones iniciales
         for (int i = 0; i < 3; i++) {
@@ -137,7 +141,8 @@ public class LoadStage extends Application implements GraphicDimensions {
 
             }
         });
-
+        
+        root.getChildren().add(background);
         root.getChildren().addAll(defaultPreviews);
         root.getChildren().addAll(defaultButtons);
         root.getChildren().add(loadBtn);
