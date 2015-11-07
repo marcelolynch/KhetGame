@@ -14,37 +14,8 @@ public class Pharaoh extends Piece {
 	}
 
 	@Override
-	boolean receiveBeam(Beam beam) {
-		beam.deactivate();
-		return false;
-	}
-
-	@Override
 	boolean canBeSwapped() {
 		return false;
 	}
 
-	@Override
-	public
-	void rotateClockwise() {
-	}
-
-	@Override
-	public
-	void rotateCounterClockwise() {
-	}
-	
-	@Override
-	public boolean equals(Object o){
-		if(o == null || !(o instanceof Pharaoh)){
-			return false;
-		}
-		Pharaoh other = (Pharaoh)o;
-		return other.getTeam().equals(this.getTeam());
-	}
-	
-	@Override
-	public int hashCode(){
-		return getTeam().hashCode();
-	}
 }

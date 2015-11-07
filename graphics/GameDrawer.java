@@ -193,7 +193,7 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
      * Carga los recursos (imagenes) en el mapa de imagenes
      * @see #imageMap
      */
-    void mapFiller() {
+    private void mapFiller() {
         // Piezas
         imageMap.put(new Anubis(Team.RED, Direction.NORTH),
                 new Image("file:assets/pieces/anubis/red_north.png"));
@@ -252,11 +252,11 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
         imageMap.put(new Pharaoh(Team.RED), new Image("file:assets/pieces/pharaoh/red.png"));
         imageMap.put(new Pharaoh(Team.SILVER), new Image("file:assets/pieces/pharaoh/silver.png"));
 
-        // Cañones
+        // Caï¿½ones
         cannonImg.put(new RedCannon(), new Image("file:assets/cannons/red_regular.png"));
         cannonImg.put(new SilverCannon(), new Image("file:assets/cannons/silver_regular.png"));
 
-        // Cañones rotados
+        // Caï¿½ones rotados
         BeamCannon redSwitched = new RedCannon();
         redSwitched.switchFacing();
         cannonImg.put(redSwitched, new Image("file:assets/cannons/red_switched.png"));

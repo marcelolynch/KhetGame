@@ -1,13 +1,19 @@
 package poo.khet;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Una pieza es un componente del juego que tiene un equipo,
- * y puede recibir rayos y procesarlos y modificarlos de distintas
- * maneras segun los accesorios
+ * y un conjunto de {@link Accessories}. La pieza puede "rotar"
+ * rotando sus accesorios en ambas direcciones.
  * 
- * @see Beam
+ * La pieza puede recibir un {@link Beam} y ser afectado por el o no,
+ * segun si los accesorios que contiene pueden procesar el rayo entrante 
+ * o no
+ * 
+ * @see Accessory
  */
 public abstract class Piece implements Serializable {
 
@@ -18,6 +24,10 @@ public abstract class Piece implements Serializable {
      */
     private final Team team;
 
+    
+    private final Set<Accessory> accessories;
+    
+   
     /**
      * Construye una nueva pieza del equipo especificado
      * @param team - el equipo al que pertenece la pieza
@@ -27,10 +37,15 @@ public abstract class Piece implements Serializable {
         if (team == null) {
             throw new IllegalArgumentException();
         }
-
+        accessories = new HashSet<Accessory>();
         this.team = team;
     }
 
+    
+    protected void addAccessory(Accessory a){
+    	accessories.add(a);
+    }
+    
     /**
      * Indica el equipo al que pertenece esta pieza
      * @return - el equipo
@@ -51,13 +66,23 @@ public abstract class Piece implements Serializable {
 
     /**
      * Procesa el <code>Beam</code> que se pasa como par&aacute;metro, modific&aacute;ndolo
-     * de ser necesario. El valor de retorno indica si la pieza fue o no afectada por el rayo
+     * de ser necesario. El valor de retorno indica si la pieza fue o no afectada por el rayo,
+     * es decir, si algun accesorio pudo recibir el rayo o no
      * 
      * @param beam - el rayo a procesar
      * @returns <tt>true</tt> si la <tt>Pieza</tt> pudo contener o reflejar el rayo; <tt>false</tt> 
      *          se vio afectada por el rayo
      */
-    abstract boolean receiveBeam(Beam beam);
+    boolean receiveBeam(Beam beam){
+    	for(Accessory each: accessories){  		
+    		if(each.canProcessBeam(beam)){
+    			each.processBeam(beam);
+    			return true;
+    		}
+    	}
+    	beam.deactivate(); //Impacta contra la pieza
+    	return false;
+    }
 
     /**
      * Indica si la pieza es intercambiable (enrocable) ante una pieza que puede intercambiar
@@ -69,12 +94,20 @@ public abstract class Piece implements Serializable {
     /**
      * Rota la pieza en el sentido de las agujas del reloj
      */
-    public abstract void rotateClockwise();
+    public void rotateClockwise(){
+    	for(Accessory each: accessories){
+    		each.rotateClockwise();
+    	}
+    }
 
     /**
      * Rota la pieza en el sentido contrario a las agujas del reloj
      */
-    public abstract void rotateCounterClockwise();
+    public void rotateCounterClockwise(){
+    	for(Accessory each: accessories){
+    		each.rotateCounterClockwise();
+    	}
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -89,7 +122,11 @@ public abstract class Piece implements Serializable {
         }
 
         Piece p = (Piece) obj;
-        return getTeam().equals(p.getTeam());
+        return getTeam().equals(p.getTeam()) && accessories.equals(p.accessories);
     }
-
+    
+    @Override
+    public int hashCode(){
+    	return getTeam().hashCode()*31 + accessories.hashCode();
+    }
 }
