@@ -7,7 +7,7 @@ import poo.khet.Editor;
 import poo.khet.FileManager;
 import poo.khet.gameutils.Position;
 
-public class EditorManager implements ErrorConstants {
+public class EditorManager {
 	enum Stage{ CHOICE, ACTION }  
 	
 	private Editor editor;
@@ -45,7 +45,7 @@ public class EditorManager implements ErrorConstants {
 		return activeSquare;
 	}
 
-	public int handle(Position position){
+	public GameMessages handle(Position position){
 		if(position == null){
 			throw new IllegalArgumentException("null parameter");
 		}		
@@ -59,7 +59,7 @@ public class EditorManager implements ErrorConstants {
 			} 
 			else {
 				System.out.println("INVALID MOVE SELECT");
-				return INVALID_MOVE_SELECTED;
+				return GameMessages.INVALID_MOVE_SELECTED;
 			}
 		} 
 		else if (editor.isValidSelection(position)){
@@ -67,16 +67,16 @@ public class EditorManager implements ErrorConstants {
 			setStage(Stage.ACTION);
 		}
 		
-		return OK;
+		return GameMessages.OK;
 	}
 
-	public int handleRotation(boolean clockwise){
+	public GameMessages handleRotation(boolean clockwise){
 		if (currentStage() == Stage.ACTION) {
 			editor.rotate(activeSquare, clockwise);
 			resetTurn();
-			return OK;
+			return GameMessages.OK;
 		}
-		return CANT_ROTATE_RIGHT_NOW;
+		return GameMessages.CANT_ROTATE_RIGHT_NOW;
 	}
 	
 	/**

@@ -56,9 +56,6 @@ class Move extends Action {
 
     @Override
     void updateGame(Game game) {
-        //TODO: Sacar syso
-        System.out.println("AI -MOVIO- DE " + "("+ this.getStart().getRow() + ", " + this.getStart().getCol() + ") a ("
-                + this.getDest().getRow() + ", " + this.getDest().getCol() + ")");
         game.move(this.getStart(), this.getDest());
     }
 
