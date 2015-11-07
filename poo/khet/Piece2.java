@@ -1,8 +1,10 @@
 package poo.khet;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.sun.javafx.geom.AreaOp.AddOp;
 
 
 /**
@@ -26,8 +28,9 @@ public abstract class Piece2 implements Serializable {
     private final Team team;
 
     
-    private final List<Accessory> accessories;
+    private final Set<Accessory> accessories;
     
+   
     /**
      * Construye una nueva pieza del equipo especificado
      * @param team - el equipo al que pertenece la pieza
@@ -37,10 +40,15 @@ public abstract class Piece2 implements Serializable {
         if (team == null) {
             throw new IllegalArgumentException();
         }
-        accessories = new ArrayList<Accessory>();
+        accessories = new HashSet<Accessory>();
         this.team = team;
     }
 
+    
+    protected void addAccessory(Accessory a){
+    	accessories.add(a);
+    }
+    
     /**
      * Indica el equipo al que pertenece esta pieza
      * @return - el equipo
@@ -69,16 +77,13 @@ public abstract class Piece2 implements Serializable {
      *          se vio afectada por el rayo
      */
     boolean receiveBeam(Beam beam){
-    	boolean contained = false;
-    	for(int i = 0; !contained && i < accessories.size() ; i++){
-    		Accessory a = accessories.get(i);
-    		
-    		if(a.canProcessBeam(beam)){
-    			a.processBeam(beam);
-    			contained = true;
+    	for(Accessory each: accessories){  		
+    		if(each.canProcessBeam(beam)){
+    			each.processBeam(beam);
+    			return true;
     		}
     	}
-    	return contained;
+    	return false;
     }
 
     /**
@@ -121,5 +126,9 @@ public abstract class Piece2 implements Serializable {
         Piece2 p = (Piece2) obj;
         return getTeam().equals(p.getTeam()) && accessories.equals(p.accessories);
     }
-
+    
+    @Override
+    public int hashCode(){
+    	return getTeam().hashCode()*31 + accessories.hashCode();
+    }
 }
