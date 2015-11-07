@@ -1,8 +1,8 @@
 package poo.khet;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Una pieza es un componente del juego que tiene un equipo,
@@ -25,7 +25,7 @@ public abstract class Piece implements Serializable {
     private final Team team;
 
     
-    private final Set<Accessory> accessories;
+    private final List<Accessory> accessories;
     
    
     /**
@@ -37,13 +37,15 @@ public abstract class Piece implements Serializable {
         if (team == null) {
             throw new IllegalArgumentException();
         }
-        accessories = new HashSet<Accessory>();
+        accessories = new ArrayList<Accessory>();
         this.team = team;
     }
 
     
     protected void addAccessory(Accessory a){
-    	accessories.add(a);
+    	if(!accessories.contains(a)){ //Tengo que emular un set asi por la mutabilidad de los elementos
+    		accessories.add(a);		//De todas maneras son pocos accesorios por pieza, no impacta en la eficiencia
+    	}
     }
     
     /**

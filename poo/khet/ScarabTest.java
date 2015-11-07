@@ -40,6 +40,20 @@ public class ScarabTest {
         assertEquals(Direction.NORTH, westBeam.getDirection());
 
     }
+    @Test
+    
+    public void testEq() {
+    	Scarab scarabA = new Scarab(Team.RED, Direction.EAST);
+    	Scarab scarabB = new Scarab(Team.RED, Direction.EAST);
+    	assertEquals(scarabA, scarabB);
+    	
+    	scarabA.rotateClockwise();
+    	assertNotEquals(scarabA, scarabB);
+    	
+    	scarabB.rotateClockwise();
+    	assertEquals(scarabA, scarabB);
+
+    }
 
     @Test
     public void testCanMove() {

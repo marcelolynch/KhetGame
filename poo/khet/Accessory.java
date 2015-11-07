@@ -83,7 +83,7 @@ public abstract class Accessory implements Serializable {
     }
 
     public int hashCode() {
-        return 1;
+        return facing.hashCode();
     }
 
 }
