@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import poo.khet.Piece;
 import poo.khet.Anubis;
-import poo.khet.Beam;
 import poo.khet.BeamCannon;
 import poo.khet.BeamManager;
 import poo.khet.Board;
