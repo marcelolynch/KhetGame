@@ -44,12 +44,23 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
     private Map<BeamCannon, Image> cannonImg = new HashMap<BeamCannon, Image>();
 
     
-    
+    /** Imagen del rayo impactando */
     private Image beamImg = new Image("file:assets/beam/BeamPoint.png");
 
+    /** El tablero que se dibujar&aacute; */
     private Board board;
+    
+    /** Referencia al ca&ntilde;on del equipo rojo en el juego en curso*/
     private BeamCannon redCannon;
+    
+    /** Referencia al ca&ntilde;on plateado */
     private BeamCannon silverCannon;
+    
+    /**
+     * Una lista de las posiciones por donde pas&oacute; el ultimo rayo emitido
+     * 
+     * @see Game#getBeamTrace()
+     */
     private List<Position> beamTrace;
 
     
@@ -59,7 +70,7 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
         this.board = game.getBoard();
         this.redCannon = game.getBeamCannon(Team.RED);
         this.silverCannon = game.getBeamCannon(Team.SILVER);
-        this.beamTrace = game.getLastBeamTrace();
+        this.beamTrace = game.getBeamTrace();
     }
     
     

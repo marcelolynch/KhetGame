@@ -208,7 +208,7 @@ public class Game implements CannonPositions {
         return position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION);
     }
 
-    public List<Position> getLastBeamTrace() {
+    public List<Position> getBeamTrace() {
         return beamManager.getBeamTrace();
     }
 
