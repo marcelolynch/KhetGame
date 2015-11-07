@@ -121,8 +121,6 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
         int deltaCol = now.getCol() - prev.getCol();
         int deltaRow = now.getRow() - prev.getRow();
 
-        System.out.println("DeltaC = " + deltaCol + " DeltaR = " + deltaRow);
-
         if (deltaCol != 0) {
             return beamH;
         } else if (deltaRow != 0) {
