@@ -3,10 +3,10 @@ package poo.khet.gameutils;
 import java.io.Serializable;
 
 /**
- * Representa una ubicacion respecto de un <code>Board</code> mediante coordenadas que
+ * Representa una ubicaci&oacute;n respecto de un <code>Board</code> mediante coordenadas que
  * indican Fila y Columna.
  * <p>
- * Nota: La posición (0,0) es aquella que se encuentra en el extremo superior izquierdo de un Board.
+ * Nota: La <tt>Position</tt> (0,0) es aquella que se encuentra en el extremo superior izquierdo de un Board.
  * @see poo.khet.Board
  */
 public class Position implements Serializable {
@@ -18,12 +18,12 @@ public class Position implements Serializable {
     private int row;
 
     /**
-     * Numero de columna
+     * N&uacute;mero de columna
      */
     private int col;
 
     /**
-     * Crea una nueva posicion a partir de un numero de fila y columna dados.
+     * Crea una nueva <tt>Position</tt> a partir de un n&uacute;mero de fila y columna dados.
      * @param row Numero de fila
      * @param col Numero de columna
      */
@@ -33,33 +33,33 @@ public class Position implements Serializable {
     }
 
     /**
-     * Crea la posicion (0,0)
+     * Crea la <tt>Position</tt> (0,0)
      */
     public Position() {
         this(0, 0);
     }
 
     /**
-     * Devuelve el numero de la fila
-     * @return el numero de la fila
+     * Devuelve el n&uacute;mero de la fila
+     * @return el n&uacute;mero de la fila
      */
     public int getRow() {
         return row;
     }
 
     /**
-     * Devuelve el numero de la columna
-     * @return el numero de la Columna
+     * Devuelve el n&uacute;mero de la columna
+     * @return el n&uacute;mero de la Columna
      */
     public int getCol() {
         return col;
     }
 
     /**
-     * Verifica si una posicion es adyacente a otra, es decir si se encuentra
+     * Verifica si una <tt>Position</tt> es adyacente a otra, es decir si se encuentra
      * a una unidad (fila o columna) de distancia.
-     * @param otherPos Posicion respecto de la cual se quiere comparar
-     * @return <b><tt>true</tt></b> si la posicion es adyacente, <b><tt>false</tt></b> en caso contrario.
+     * @param otherPos <tt>Position</tt> respecto de la cual se quiere comparar
+     * @return <b><tt>true</tt></b> si la <tt>Position</tt> es adyacente, <b><tt>false</tt></b> en caso contrario.
      */
     public boolean isAdjacent(Position otherPos) {
         if (this.equals(otherPos)) {
@@ -73,10 +73,10 @@ public class Position implements Serializable {
     }
 
     /**
-     * Devuelve la coordenada que se encuentra a una unidad (fila o columna) de distancia segun la direccion
+     * Devuelve la <tt>Position</tt> que se encuentra a una unidad (fila o columna) de distancia segun la {@link Direction}
      * especificada.
      * 
-     * @param direction Direccion en la cual cambia la coordenada
+     * @param direction <tt>Direction</tt> en la cual cambia la coordenada
      */
     public Position getPosInDirection(Direction direction) {
         if (direction == null)
