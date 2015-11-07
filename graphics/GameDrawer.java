@@ -25,16 +25,35 @@ import poo.khet.gameutils.Position;
 
 public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDimensions{
 
-    Map<Piece, Image> imageMap = new HashMap<Piece, Image>();
-    Map<BeamCannon, Image> cannonImg = new HashMap<BeamCannon, Image>();
+	/**
+	 * Este mapa guarda una imagen por cada pieza posible:
+	 * la pieza se identifica por su tipo, equipo y orientacion,
+	 * y funciona como <i>key</i> del mapa. El <i>value</i> asociado es
+	 * de tipo {@link Image}, y sera lo que se dibujara en pantalla representando
+	 * a la pieza
+	 * 
+	 * @see Image
+	 */
+    private Map<Piece, Image> imageMap = new HashMap<Piece, Image>();
+    
+    /**
+     * Mapa analogo a {@link #imageMap}, para los ca&ntilde;ones
+     * 
+     * @see #imageMap
+     */
+    private Map<BeamCannon, Image> cannonImg = new HashMap<BeamCannon, Image>();
 
-    Image beamImg = new Image("file:assets/beam/BeamPoint.png");
+    
+    
+    private Image beamImg = new Image("file:assets/beam/BeamPoint.png");
 
-    Board board;
-    BeamCannon redCannon;
-    BeamCannon silverCannon;
-    List<Position> beamTrace;
+    private Board board;
+    private BeamCannon redCannon;
+    private BeamCannon silverCannon;
+    private List<Position> beamTrace;
 
+    
+    
     public GameDrawer(Game game) {
         mapFiller();
         this.board = game.getBoard();
@@ -42,6 +61,8 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
         this.silverCannon = game.getBeamCannon(Team.SILVER);
         this.beamTrace = game.getLastBeamTrace();
     }
+    
+    
 
     // Para el EDITORRR
     public GameDrawer(Editor editor) {
@@ -81,14 +102,6 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
             }
         }
     }
-
-    public void drawBeam2(GraphicsContext gc) {
-
-        for (Position each : beamTrace) {
-            gc.drawImage(beamImg, each.getCol() * SQUARE_SIZE, each.getRow() * SQUARE_SIZE);
-        }
-    }
-
 
     public void drawBeam(GraphicsContext gc) {
         Position prev = null;
@@ -131,10 +144,10 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
         }
     }
 
+    
     /**
-     * Cargar recursos en un mapa de imagenes
-     * 
-     * @param imageMap - el mapa
+     * Carga los recursos (imagenes) en un el mapa de imagenes
+     * @see #imageMap
      */
     void mapFiller() {
         // Piezas

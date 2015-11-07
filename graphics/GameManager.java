@@ -1,8 +1,6 @@
 package graphics;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import poo.khet.Board;
 import poo.khet.Game;
 import poo.khet.GameState;
@@ -114,6 +112,13 @@ public class GameManager implements ErrorConstants {
         }
     }
 
+    
+    /**
+     * Devuelve el GameDrawer correspondiente al juego que se esta manejando
+     * @return El <i>drawer</i> del juego
+     * 
+     * @see GameDrawer
+     */
     GameDrawer getDrawer() {
         return this.gameDrawer;
     }
