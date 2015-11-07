@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import poo.khet.Board;
 import poo.khet.Game;
+import poo.khet.GameState;
 import poo.khet.FileManager;
 import poo.khet.Team;
 import poo.khet.AI.AIMover;
@@ -22,8 +23,8 @@ import poo.khet.gameutils.Position;
  * sentido de rotacion de la misma.
  * 
  * Las elecciones del usuario se comunican mediante {@link Position}s, que corresponderan a
- * posiciones del tablero o de los ca&ntilde;ones, mediante el metodo {@code handle(Position)}, o
- * bien una rotaci&oacute;n mediante {@code handlePosition(boolean clockwise)}
+ * posiciones del tablero o de los ca&ntilde;ones, mediante el metodo {@link #handle(Position)}, o
+ * bien una rotaci&oacute;n mediante {@link #handlePosition(boolean clockwise)}
  * 
  * @see {@link Position}
  */
@@ -32,33 +33,78 @@ public class GameManager implements ErrorConstants {
         CHOICE, ACTION, STANDBY
     }
 
+    /**
+     * El juego a manejar
+     */
     private Game game;
+ 
+    
+    /**
+     * La etapa en que se encuentra el turno: <i>CHOICE</i> corresponder&aacute; a esperar
+     * una elecci&oacute;n del usuario (selecci&oacute;n de pieza o switcheo del ca&ntilde;on,
+     * en la etapa de <i>ACTION</i> se espera una decision de movimiento o rotacion de la pieza
+     * previamente seleccionada, y la etapa de <i>STANDBY</i> existe justo antes de que se accione
+     * el movimiento de la inteligencia artificial (esperando un input antes de ejecutarla).
+     */
     private Stage stage;
+    
+    /**
+     * Indica, en la etapa de <i>ACTION</i>, la posici&oacute;n de la pieza seleccionada por el usuario,
+     * que ser&aacute; la que mover&aacute; o rotar&aacute; con la siguiente decisi&oacute;n
+     */
     private Position activeSquare;
-    private GameDrawer gameDrawer;
+    
+    
+    /**
+     * El modo de juego: dos jugadores, o jugador contra la inteligencia artificial
+     * @see GameMode
+     */
     private GameMode mode;
+
+    /**
+     * Utilidad para dibujar el tablero
+     */
+    private GameDrawer gameDrawer;
+    
+    /**
+     * La inteligencia artificial, encargada de ejecutar movimientos
+     * entre los turnos del jugador humano.
+     */
     private AIMover AI;
 
     // TODO: excepciones
     /**
-     * Construye un nuevo GameManager a partir de un archivo de configuracion cuyo nombre se pasa
+     * Construye un nuevo GameManager a partir de un archivo GameState cuyo nombre se pasa
      * como par&aacute;metro.
      * 
      * @param name - El nombre del archivo de configuracion a cargar
      * @throws ClassNotFoundException //TODO: ??????
      * @throws IOException - de no encontrarse el archivo
+     * @see GameState
      */
     public GameManager(String name) throws ClassNotFoundException, IOException {
         game = new Game(FileManager.loadGameSave(name));
         setManager();
     }
     
-    //TODO: documentar
+    
+    /**
+     * Construye un nuevo GameManager a partir de un archivo que guarde una disposici&oacute;n inicial
+     * de las piezas, y un modo de juego. El juego comienza asi desde cero con esa disposici&oacute;n inicial.
+     * @param name - el nombre del archivo donde se guardo esa configuracion
+     * @param mode - modo de juego
+     * @throws ClassNotFoundException
+     * @throws IOException
+     * @see GameMode
+     */
     public GameManager(String name, GameMode mode) throws ClassNotFoundException, IOException {
     	game = new Game(FileManager.loadBoardSetup(name), mode);
     	setManager();
     }
     
+    /**
+     * Setea las configuraciones iniciales generales
+     */
     private void setManager() {
         stage = Stage.CHOICE;
         gameDrawer = new GameDrawer(game);
@@ -167,7 +213,7 @@ public class GameManager implements ErrorConstants {
      *         <br>
      *         Se retorna <code><i>OK</i></code> si la acci&oacute;n fue procesada correctamente.
      * 
-     * @see {@link ErrorConstants}
+     * @see  ErrorConstants
      */
     public int handle(Position position) {
         if (position == null) {
@@ -212,7 +258,7 @@ public class GameManager implements ErrorConstants {
      *        horaria, <code><b>false</b></code> en caso contrario.
      * @return <code><i>OK</i></code> si se efectu&oacute; la rotaci&oacute;n, <code></i>
      *         CANT_ROTATE_RIGHT_NOW<code></i> en caso contrario.
-     * @see {@link ErrorConstants}
+     * @see ErrorConstants
      */
     public int handleRotation(boolean clockwise) {
         if (currentStage() == Stage.ACTION) {
@@ -224,16 +270,42 @@ public class GameManager implements ErrorConstants {
     }
 
     /**
-     * Indica si la etapa es de eleccion de pieza (o ca&ntilde;&oacute;n a rotar)
+     * Indica si la etapa es de elecci&oacute;n de pieza (o ca&ntilde;&oacute;n a rotar)
      * 
      * @return - <code>true</code> si la etapa es de elecci&oacute;n, <code>false</code> en caso
      *         contrario
+     * @see GameManager#handle(Position)
      */
+    
     public boolean isChoosing() {
         return currentStage() == Stage.CHOICE;
     }
 
 
+    /**
+     * Indica si ya hay una pieza seleccionada - Se esta esperando una acci&oacute;n (una llamada a {@link #handle(Position)})
+     * @return <code>true</code> si la etapa es de acci&oacute;n - <code>false</code> en caso contrario
+     * @see GameManager#handle(Position)
+     */
+	public boolean isChosen() {
+		return currentStage() == Stage.ACTION;
+	}
+
+	
+	/**
+	 * Indica si el GameManager esta en standby, es decir, esperando una llamada a handle()
+	 * para ejecutar la proxima jugada del jugador automatico (esto solo tiene sentido para
+	 * partidas contra la inteligencia artificial, y existe por claridad). Se est&aacute;
+	 * esperando una llamada a {@link GameManager#handle(Position)} para hacerlo.
+	 * 
+	 * @return <code>true</code> si se esta en standby, <code>false</code> de lo contrario
+	 * @see GameManager#handle(Position)
+	 */
+	public boolean inStandby() {
+		return currentStage() == Stage.STANDBY;
+	}
+
+    
     /**
      * Devuelve el turno a la etapa inicial y deselecciona la pieza. El equipo que estaba jugando
      * debe volver a elegir una pieza antes de efectuar una acci&oacute;n.
@@ -242,35 +314,51 @@ public class GameManager implements ErrorConstants {
         activeSquare = null;
         setStage(Stage.CHOICE);
     }
-
-
-    // TODO: excepciones
-    public void saveGame(String name) throws FileNotFoundException, IOException {
-        FileManager.writeGameFile(name, game.getGameState());
-    }
-
-    public boolean hasWinner() {
-        return game.hasWinner();
-    }
-
-    public Team getWinnerTeam() {
-        return game.getWinnerTeam();
-    }
-
+    
+    
+    /**
+     * Cambia el turno: se espera ahora una <i>elecci&oacute;n</i> del equipo opuesto al que
+     * estaba jugando hasta ahora. 
+     */
     private void nextTurn() {
         game.nextTurn();
         resetTurn();
         if (mode == GameMode.PVE) {
-        	setStage(Stage.STANDBY);
+        	setStage(Stage.STANDBY); //Voy a esperar un input cualquiera antes de ejecutar el proximo turno
         }
     }
 
-	public boolean isChosen() {
-		return currentStage() == Stage.ACTION;
-	}
+    
+    /**
+     * Indica si el juego ya tiene un ganador o si todavia esta en curso (no hay ganador)
+     * @return <code>true</code> si el juego ya termino, y hay un ganador, </code>false</code> si el juego sigue activo.
+     */
+    public boolean hasWinner() {
+        return game.hasWinner();
+    }
 
-	public boolean inStandby() {
-		return currentStage() == Stage.STANDBY;
-	}
+    
+    /**
+     * Devuelve el equipo ganador del juego, una vez terminado el mismo
+     * @return - el equipo ganador
+     * @throws IllegalStateException - si el juego todav&iacute;a no termino (no existe ganador)
+     */
+    public Team getWinnerTeam() throws IllegalStateException {
+        return game.getWinnerTeam();
+    }
+
+        
+    // TODO: excepciones
+    /**
+     * Guarda el juego en un archivo con el nombre especificado en el par&aacute;metro <b>name</b>
+     * @param name - el nombre del archivo a guardar
+     * @throws IOException - de haber un error en la escritura del archivo
+     * 
+     * @see GameState
+     */
+    public void saveGame(String name) throws IOException {
+        FileManager.writeGameFile(name, game.getGameState());
+    }
+
 
 }
