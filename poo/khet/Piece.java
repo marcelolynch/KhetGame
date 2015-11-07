@@ -51,11 +51,11 @@ public abstract class Piece implements Serializable {
 
     /**
      * Procesa el <code>Beam</code> que se pasa como par&aacute;metro, modific&aacute;ndolo
-     * de ser necesario
+     * de ser necesario. El valor de retorno indica si la pieza fue o no afectada por el rayo
      * 
      * @param beam - el rayo a procesar
-     * @returns <tt>true</tt> si la <tt>Pieza</tt> sigue en juego; <tt>false</tt> si murio por el
-     *          rayo
+     * @returns <tt>true</tt> si la <tt>Pieza</tt> pudo contener o reflejar el rayo; <tt>false</tt> 
+     *          se vio afectada por el rayo
      */
     abstract boolean receiveBeam(Beam beam);
 
