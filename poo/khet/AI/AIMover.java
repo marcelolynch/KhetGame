@@ -3,7 +3,6 @@ package poo.khet.AI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import poo.khet.Beam;
 import poo.khet.BeamAction;
@@ -73,9 +72,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
 	        } else if (secondChoice != null) {
 	            secondChoice.updateGame(game);
 	        } else {
-	        	Random random = new Random();
-	        	int randomIndex = random.nextInt(possibleActions.size());
-	            possibleActions.get(randomIndex).updateGame(game);
+	            possibleActions.get(0).updateGame(game);
 	        }
         }else {
         	game.getBeamCannon(Team.RED).switchFacing();
@@ -83,6 +80,14 @@ public class AIMover implements CannonPositions, BoardDimensions {
         game.nextTurn();// No lo tendria que llamar el gameManager a esto?
     }
 
+    
+    /**
+     * Genera un nuevo <code>Beam</code> desde el caÃ±on rojo con la orientación inversa  y devuelve el efecto que tuvo el
+     * <code>Beam</code> en dicho tablero.
+     * 
+     * @return BeamAction efecto del Beam en el tablero
+     * @see BeamManager
+     */
     private BeamAction simulateCannonRotation() {
         BeamCannon cannon = game.getBeamCannon(team);
         Beam beam = getOppositeBeam(cannon);
@@ -91,7 +96,11 @@ public class AIMover implements CannonPositions, BoardDimensions {
 	}
 
 
-
+    /**
+     * Se encarga de generar un <code>Beam</code> desde el caÃ±on rojo con la orientación inversa.
+     * @param cannon
+     * @return
+     */
 	private Beam getOppositeBeam(BeamCannon cannon) {
 		BeamCannon auxiliarCannon = new RedCannon();
 		if(auxiliarCannon.getFacing() == cannon.getFacing()){
