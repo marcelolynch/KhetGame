@@ -10,7 +10,7 @@ import poo.khet.AI.AIMover;
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
-
+//TODO: cambiar la doc para hablar de los enums en vez de las constantes de error
 /**
  * {@code GameManager} se encarga de mediar entre las acciones del usuario y el {@link Game} en
  * s&iacute;.<br>
@@ -26,7 +26,7 @@ import poo.khet.gameutils.Position;
  * 
  * @see {@link Position}
  */
-public class GameManager implements ErrorConstants {
+public class GameManager {
     enum Stage {
         CHOICE, ACTION, STANDBY
     }
@@ -205,7 +205,7 @@ public class GameManager implements ErrorConstants {
      * se indica el error mediante el valor de retorno
      * 
      * @param position - la posicion a ser interpretada y manejada
-     * @return Se devuelven distintas {@link ErrorConstants} seg&uacute;n si la posici&oacute;n
+     * @return Se devuelven distintas {@link GameMessages} seg&uacute;n si la posici&oacute;n
      *         cambi&oacute; el estado del juego o no:
      *         <p>
      * 
@@ -218,9 +218,9 @@ public class GameManager implements ErrorConstants {
      *         <br>
      *         Se retorna <code><i>OK</i></code> si la acci&oacute;n fue procesada correctamente.
      * 
-     * @see  ErrorConstants
+     * @see  GameMessages
      */
-    public int handle(Position position) {
+    public GameMessages handle(Position position) {
         if (position == null) {
             throw new IllegalArgumentException("null parameter"); 
         }
@@ -237,7 +237,7 @@ public class GameManager implements ErrorConstants {
                 System.out.println(currentStage());
             } else {
                 System.out.println("INVALID MOVE SELECT");
-                return INVALID_MOVE_SELECTED;
+                return GameMessages.INVALID_MOVE_SELECTED;
             }
         } else if (game.isCannonPosition(position) && game.isSwitchable(position)) {
             game.switchCannon();
@@ -247,11 +247,11 @@ public class GameManager implements ErrorConstants {
                 activeSquare = position;
                 setStage(Stage.ACTION);
             } else {
-                return INVALID_TEAM_SELECTED;
+                return GameMessages.INVALID_TEAM_SELECTED;
             }
         }
 
-        return OK;
+        return GameMessages.OK;
     }
 
     /**
@@ -263,15 +263,15 @@ public class GameManager implements ErrorConstants {
      *        horaria, <code><b>false</b></code> en caso contrario.
      * @return <code><i>OK</i></code> si se efectu&oacute; la rotaci&oacute;n, <code></i>
      *         CANT_ROTATE_RIGHT_NOW<code></i> en caso contrario.
-     * @see ErrorConstants
+     * @see GameMessages
      */
-    public int handleRotation(boolean clockwise) {
+    public GameMessages handleRotation(boolean clockwise) {
         if (currentStage() == Stage.ACTION) {
             game.rotate(activeSquare, clockwise);
             nextTurn();
-            return OK;
+            return GameMessages.OK;
         }
-        return CANT_ROTATE_RIGHT_NOW;
+        return GameMessages.CANT_ROTATE_RIGHT_NOW;
     }
 
     /**

@@ -94,6 +94,7 @@ public class BoardStage implements GraphicDimensions {
                     } else if (e.getButton() == MouseButton.SECONDARY && !gameManager.inStandby()) {
                         gameManager.resetTurn();
                     }
+                    //TODO: podriamos agarrar lo que devuelve handle para mostrar un mensajito de error o algo asi
            
                     drawGame();
 
