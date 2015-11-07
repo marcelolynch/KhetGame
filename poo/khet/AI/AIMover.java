@@ -15,6 +15,14 @@ import poo.khet.Team;
 import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Position;
 
+/**
+ * AIMover es la clase encargada de generar y efectuar movimientos hechos por la computadora. Tiene
+ * una referencia al {@link Game} actual. Para decidir la jugada simula movimientos posibles sobre
+ * un tablero auxiliar (sin modificar el tablero del juego) y aplica diversos criterios para
+ * determinar la mejor opcion. Realiza la jugada sobre el juego que tiene referenciado, y luego
+ * cambia de turno.
+ *
+ */
 public class AIMover implements CannonPositions, BoardDimensions {
     private Game game;
     static Team team = Team.RED; // Siempre juega con el equipo Rojo
@@ -26,8 +34,10 @@ public class AIMover implements CannonPositions, BoardDimensions {
     }
 
     /**
-     * Se encarga de elegir la mejor jugada posible, con un criterio establecido, y de realizarla,
-     * luego llama a game para que finalize el turno
+     * Se encarga de simular todas las jugadas posibles que tiene el jugador rojo, y elegir
+     * aleatoriamente una en la que pueda destruir una pieza rival. En caso de no poder hacerlo,
+     * elige al azar otra jugada en la que no se destruya una pieza propia. Realiza la jugada en el
+     * Game dado, y termina el turno.
      */
     public void makeMove() {
         auxiliarBoard = new Board(game.getBoard().getPiecesPosition());
@@ -63,10 +73,27 @@ public class AIMover implements CannonPositions, BoardDimensions {
         game.nextTurn();// No lo tendria que llamar el gameManager a esto?
     }
 
+    /**
+     * Cheque si en la posicion dada hay una pieza del SILVER
+     * 
+     * @param pos posicion de la cual se quiere obtener la pieza
+     * @return <tt>true</tt> si la pieza es del SILVER <ff>false</ff> si la pieza es del RED
+     * 
+     */
     private boolean isOpponentPiece(Position pos) {
+        // pos isEmpty?
         return auxiliarBoard.getOccupantIn(pos).getTeam().equals(Team.SILVER);
     }
 
+    /**
+     * Ejecuta la <code>Action</code> dada como parametro en <code>auxiliarBoard</code>, y luego
+     * Genera un nuevo <code>Beam</code> desde el cañon rojo y devuelve el efecto que tuvo el
+     * <code>Beam</code> en dicho tablero.
+     * 
+     * @param action
+     * @return BeamAction efecto del Beam en el tablero
+     * @see BeamManager
+     */
     private BeamAction simulateAction(Action action) {
         action.executeActionIn(auxiliarBoard);
         BeamCannon cannon = game.getBeamCannon(team);
@@ -75,6 +102,13 @@ public class AIMover implements CannonPositions, BoardDimensions {
         return beamManager.manageBeam(beam, startingPosition);
     }
 
+    /**
+     * Genera una lista con todos los movimientos posibles y validos (no las rotaciones), de piezas
+     * del jugador actual.
+     * 
+     * @return List<Action> - Movimientos (<code>Move</code>) validos para cada pieza del jugador
+     *         actual.
+     */
     private List<Action> possibleMoves() {
         List<Action> possibleMoves = new ArrayList<Action>();
 
@@ -93,6 +127,14 @@ public class AIMover implements CannonPositions, BoardDimensions {
         return possibleMoves;
     }
 
+    /**
+     * Genera una lista con todas las posiciones, dentro de los limites del tablero, adyacentes a la
+     * posicion dada como parametro
+     * 
+     * @param start - Posicion de referencia para sacar las posiciones adyacentes
+     * @return List<Position> - Posiciones adyacentes dentro del tablero
+     * @see Board
+     */
     private List<Position> getAdjacentPositions(Position start) {
         List<Position> ends = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
@@ -106,6 +148,11 @@ public class AIMover implements CannonPositions, BoardDimensions {
         return ends;
     }
 
+    /**
+     * Genera una lista con todas las rotaciones posibles en cada pieza del jugador actual.
+     * 
+     * @return List<Action> - Rotaciones (<code>Rotation</code>) CW y CCW.
+     */
     private List<Action> possibleRotations() {
         List<Action> possibleRotations = new ArrayList<Action>();
 
