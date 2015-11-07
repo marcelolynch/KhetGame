@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.corba.se.impl.orbutil.graph.Graph;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import poo.khet.Piece;
 import poo.khet.Anubis;
+import poo.khet.Beam;
 import poo.khet.BeamCannon;
+import poo.khet.BeamManager;
 import poo.khet.Board;
 import poo.khet.CannonPositions;
 import poo.khet.Editor;
@@ -64,7 +68,11 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
     private List<Position> beamTrace;
 
     
-    
+    /**
+     * Construye un GameDrawer para el juego que dibujar&aacute; el juego que se
+     * pasa como par&aacute;metro.
+     * @param game - el juego a dibujar
+     */
     public GameDrawer(Game game) {
         mapFiller();
         this.board = game.getBoard();
@@ -74,20 +82,39 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
     }
     
     
-
-    // Para el EDITORRR
+    /**
+     * Construye un GameDrawer que dibujar&aacute; el tablero seg&uacute;n el tablero
+     * que va construyendo un {@link Editor}
+     * @param editor
+     * @see Editor
+     */
     public GameDrawer(Editor editor) {
         mapFiller();
         this.board = editor.getBoard();
     }
     // ------------------------------
 
+    /**
+     * Dibuja las piezas seg&uacute;n su posici&oacute;n y orientaci&oacute;n en el tablero, y la
+     * trayectoria del &uacute;ltimo rayo disparado, sobre un {@link GraphicsContext}
+     * @param gc - el {@link GraphicsContext} sobre el que se dibujar&aacute;
+     * @see #drawPieces(GraphicsContext)
+     * @see #drawBeam(GraphicsContext)
+     */
     public void draw(GraphicsContext gc) {
         drawPieces(gc);
         drawBeam(gc);
     }
 
-
+    
+    /**
+     * Dibuja las piezas seg&uacute;n su posici&oacute;n y orientaci&oacute;n en el tablero 
+     * sobre un {@link GraphicsContext}. Se dibuja segun las dimensiones del tablero indicadas 
+     * en {@link GraphicDimensions}
+     * 
+     * @param gc - el {@link GraphicsContext} en el que se dibujar&aacute; la trayectoria
+     * @see GraphicDimensions
+     */
     public void drawPieces(GraphicsContext gc) {
 
         gc.clearRect(SQUARE_SIZE * RED_CANNON_POSITION.getCol(),
@@ -114,6 +141,14 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
         }
     }
 
+    /**
+     * Dibuja la trayectoria del ultimo rayo disparado en un {@link GraphicsContext}.
+     * Se dibuja segun las dimensiones del tablero indicadas en {@link GraphicDimensions}
+     * 
+     * @param gc - el {@link GraphicsContext} en el que se dibujara la trayectoria
+     * @see BeamManager#getBeamTrace()
+     * @see GraphicDimensions
+     */
     public void drawBeam(GraphicsContext gc) {
         Position prev = null;
         Image toDraw;
@@ -157,7 +192,7 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
 
     
     /**
-     * Carga los recursos (imagenes) en un el mapa de imagenes
+     * Carga los recursos (imagenes) en el mapa de imagenes
      * @see #imageMap
      */
     void mapFiller() {
@@ -219,11 +254,11 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
         imageMap.put(new Pharaoh(Team.RED), new Image("file:assets/pieces/pharaoh/red.png"));
         imageMap.put(new Pharaoh(Team.SILVER), new Image("file:assets/pieces/pharaoh/silver.png"));
 
-        // CaÃ±ones
+        // Cañones
         cannonImg.put(new RedCannon(), new Image("file:assets/cannons/red_regular.png"));
         cannonImg.put(new SilverCannon(), new Image("file:assets/cannons/silver_regular.png"));
 
-        // CaÃ±ones rotados
+        // Cañones rotados
         BeamCannon redSwitched = new RedCannon();
         redSwitched.switchFacing();
         cannonImg.put(redSwitched, new Image("file:assets/cannons/red_switched.png"));
