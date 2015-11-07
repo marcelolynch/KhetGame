@@ -83,6 +83,7 @@ public abstract class Piece2 implements Serializable {
     			return true;
     		}
     	}
+    	beam.deactivate(); //Impacta contra la pieza
     	return false;
     }
 

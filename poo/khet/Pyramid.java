@@ -66,5 +66,4 @@ public class Pyramid extends Piece {
         return getTeam().hashCode() ^ mirror.hashCode();
     }
 
-
 }
