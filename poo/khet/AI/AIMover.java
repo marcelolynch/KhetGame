@@ -3,6 +3,7 @@ package poo.khet.AI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import poo.khet.Beam;
 import poo.khet.BeamAction;
@@ -11,6 +12,7 @@ import poo.khet.BeamManager;
 import poo.khet.Board;
 import poo.khet.CannonPositions;
 import poo.khet.Game;
+import poo.khet.RedCannon;
 import poo.khet.Team;
 import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Position;
@@ -42,38 +44,63 @@ public class AIMover implements CannonPositions, BoardDimensions {
     public void makeMove() {
         auxiliarBoard = new Board(game.getBoard().getPiecesPosition());
         beamManager = new BeamManager(auxiliarBoard);
-        List<Action> possibleActions = new ArrayList<>();
-        possibleActions.addAll(possibleMoves());
-        possibleActions.addAll(possibleRotations());
-        Action destroyChoice = null;
-        Action secondChoice = null;
-        Collections.shuffle(possibleActions);
-
-        for (Action action : possibleActions) {
-            BeamAction beamFate = simulateAction(action);
-            if (beamFate == BeamAction.DESTROYED_PIECE
-                    && isOpponentPiece(beamManager.getLastPos())) {
-                destroyChoice = action;
-            } else if (beamFate != BeamAction.DESTROYED_PIECE) {
-                secondChoice = action;
-                // Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
-            }
-
-            // Revierte la jugada simulada para seguir simulando otras
-            Action restore = action.getRevertedAction(action);
-            restore.executeActionIn(auxiliarBoard);
-        }
-        if (destroyChoice != null) {
-            destroyChoice.updateGame(game);
-        } else if (secondChoice != null) {
-            secondChoice.updateGame(game);
-        } else {
-            possibleActions.get(0).updateGame(game);
+        BeamAction beamDestiny = simulateCannonRotation();
+        if (beamDestiny != BeamAction.DESTROYED_PIECE
+                || !isOpponentPiece(beamManager.getLastPos())) { 
+	        List<Action> possibleActions = new ArrayList<>();
+	        possibleActions.addAll(possibleMoves());
+	        possibleActions.addAll(possibleRotations());
+	        Action destroyChoice = null;
+	        Action secondChoice = null;
+	        Collections.shuffle(possibleActions);
+	        
+	        for (Action action : possibleActions) {
+	            BeamAction beamFate = simulateAction(action);
+	            if (beamFate == BeamAction.DESTROYED_PIECE
+	                    && isOpponentPiece(beamManager.getLastPos())) {
+	                destroyChoice = action;
+	            } else if (beamFate != BeamAction.DESTROYED_PIECE) {
+	                secondChoice = action;
+	                // Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
+	            }
+	
+	            // Revierte la jugada simulada para seguir simulando otras
+	            Action restore = action.getRevertedAction(action);
+	            restore.executeActionIn(auxiliarBoard);
+	        }
+	        if (destroyChoice != null) {
+	            destroyChoice.updateGame(game);
+	        } else if (secondChoice != null) {
+	            secondChoice.updateGame(game);
+	        } else {
+	        	Random random = new Random();
+	        	int randomIndex = random.nextInt(possibleActions.size());
+	            possibleActions.get(randomIndex).updateGame(game);
+	        }
+        }else {
+        	game.getBeamCannon(Team.RED).switchFacing();
         }
         game.nextTurn();// No lo tendria que llamar el gameManager a esto?
     }
 
-    /**
+    private BeamAction simulateCannonRotation() {
+        BeamCannon cannon = game.getBeamCannon(team);
+        Beam beam = getOppositeBeam(cannon);
+        Position startingPosition = RED_CANNON_POSITION;
+        return beamManager.manageBeam(beam, startingPosition);
+	}
+
+
+
+	private Beam getOppositeBeam(BeamCannon cannon) {
+		BeamCannon auxiliarCannon = new RedCannon();
+		if(auxiliarCannon.getFacing() == cannon.getFacing()){
+			auxiliarCannon.switchFacing();
+		}
+		return auxiliarCannon.generateBeam();
+	}
+
+	/**
      * Cheque si en la posicion dada hay una pieza del SILVER
      * 
      * @param pos posicion de la cual se quiere obtener la pieza
