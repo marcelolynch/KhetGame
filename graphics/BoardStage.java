@@ -31,12 +31,12 @@ public class BoardStage implements GraphicDimensions {
     Canvas closeButton;
     GameDrawer drawer;
 
-    public BoardStage(String fileName, final Stage loadScreen) throws Exception, IOException {
+    public BoardStage(String fileName, final Stage loadScreen) throws ClassNotFoundException, IOException {
         gameManager = new GameManager(fileName);
         setStage(loadScreen);
     }
     
-    public BoardStage(String fileName, GameMode mode, final Stage loadScreen) throws Exception, IOException {
+    public BoardStage(String fileName, GameMode mode, final Stage loadScreen) throws ClassNotFoundException, IOException {
     	gameManager = new GameManager(fileName, mode);
     	setStage(loadScreen);
     }
