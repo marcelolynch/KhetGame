@@ -5,7 +5,7 @@ package poo.khet;
  * por el (no posee accesorios)
  *
  */
-public class Pharaoh2 extends Piece {
+public class Pharaoh2 extends Piece2 {
 	
 	private static final long serialVersionUID = 1L;
 
