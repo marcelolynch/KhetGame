@@ -3,9 +3,8 @@ package poo.khet;
 import poo.khet.gameutils.Direction;
 
 /**
- * La pieza Anubis puede bloquear un rayo si lo recibe en la direcci&oacute;n 
- * en la que esta orientado su {@link Shield}.
- * 
+ * La pieza Anubis tiene un {@link Shield} que determina su orientacion,
+ * y puede bloquear rayos recibidos por el mismo. Esta pieza puede ser enrocada
  * @see Shield
  */
 public class Anubis extends Piece {

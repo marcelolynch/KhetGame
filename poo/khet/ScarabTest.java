@@ -44,7 +44,7 @@ public class ScarabTest {
     
     public void testEq() {
     	Scarab scarabA = new Scarab(Team.RED, Direction.EAST);
-    	Scarab scarabB = new Scarab(Team.RED, Direction.EAST);
+    	Scarab scarabB = new Scarab(Team.RED, Direction.WEST);
     	assertEquals(scarabA, scarabB);
     	
     	scarabA.rotateClockwise();

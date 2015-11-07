@@ -1,14 +1,13 @@
 package poo.khet;
 
 /**
- * Casillero reservado para piezas de un equipo determinado.
- *
+ * Casillero reservado: solamente puede alojar piezas de cierto equipo
  */
 public class ReservedSquare extends Square {
     private Team team;
 
     /**
-     * Construye un casillero reservado vacio.
+     * Construye un casillero reservado vac&iacute;o.
      * 
      * @param team - equipo para el cual se reserva el casillero
      */

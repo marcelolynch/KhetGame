@@ -1,21 +1,21 @@
 package poo.khet;
 
 /**
- * Representa un casillero.
+ * Representa un casillero, que puede ser ocupado por una {@link Piece}
  * 
  */
 public class Square {
     private Piece occupant;
 
     /**
-     * Construye un casillero vacío.
+     * Construye un casillero vac&iacute;o.
      */
     Square() {
         occupant = null;
     }
 
     /**
-     * Construye un casillero ocupado por un <tt>Piece</tt>.
+     * Construye un casillero ocupado por la <tt>Piece</tt> indicada
      * 
      * @param piece - <tt>Piece</tt> a ocupar el casillero
      */
@@ -53,23 +53,23 @@ public class Square {
     }
 
     /**
-     * Revisa si el casillero está vacío.
+     * Indica si el casillero est&aacute; vac&iacute;o.
      * 
-     * @return true si el casillero está vacío; false sino
+     * @return <code>true</code> si el casillero est&aacute; vac&iacute;o, <code>false</code> de lo contrario
      */
     public boolean isEmpty() {
         return occupant == null;
     }
 
     /**
-     * Devuelve el ocupante del casillero.
+     * Devuelve la pieza que ocupa el casillero.
      * 
      * @return el ocupante del casillero
-     * @throws IllegalStateException si el casillero está vacío
+     * @throws IllegalStateException - si el casillero est&aacute; vac&iacute;o
      */
     public Piece getOccupant() {
         if (isEmpty()) {
-            throw new IllegalStateException("Casillero vacío");
+            throw new IllegalStateException("Casillero vacio");
         }
         return occupant;
     }
@@ -79,7 +79,6 @@ public class Square {
      * 
      * @param piece - la pieza a acomodar
      * @return <b>true</b> si es posible, <b>false</b> de lo contrario
-     * @author Chelo
      */
     public boolean canAccomodate(Piece piece) {
         // La casilla no tiene restricciones adicionales
