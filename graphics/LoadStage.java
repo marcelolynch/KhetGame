@@ -105,7 +105,7 @@ public class LoadStage extends Application implements GraphicDimensions {
         defaultButtons[1].setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
-                    new BoardStage("defaultConfigs/def2", getSelectedGameMode(), loadStage);
+                    new BoardStage("defaultConfigs/d2", getSelectedGameMode(), loadStage);
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }
@@ -116,7 +116,7 @@ public class LoadStage extends Application implements GraphicDimensions {
         defaultButtons[2].setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
-                    new BoardStage("defaultConfigs/def3", getSelectedGameMode(), loadStage);
+                    new BoardStage("defaultConfigs/d3", getSelectedGameMode(), loadStage);
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }
