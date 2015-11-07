@@ -91,7 +91,7 @@ public class BoardStage implements GraphicDimensions {
 
                     if (e.getButton() == MouseButton.PRIMARY) {
                         gameManager.handle(selectedPos);
-                    } else if (e.getButton() == MouseButton.SECONDARY) {
+                    } else if (e.getButton() == MouseButton.SECONDARY && !gameManager.inStandby()) {
                         gameManager.resetTurn();
                     }
            
@@ -173,6 +173,10 @@ public class BoardStage implements GraphicDimensions {
         else{
         	rotateButtons.toBack();
         	saveButton.toFront();
+        }
+        
+        if(gameManager.hasWinner()){
+        	saveButton.toBack();
         }
    }
 
