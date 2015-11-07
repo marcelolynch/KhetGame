@@ -46,11 +46,22 @@ public class AIMover implements CannonPositions, BoardDimensions {
         BeamAction beamDestiny = simulateCannonRotation();
         if (beamDestiny != BeamAction.DESTROYED_PIECE
                 || !isOpponentPiece(beamManager.getLastPos())) { 
-	        List<Action> possibleActions = new ArrayList<>();
-	        possibleActions.addAll(possibleMoves());
+	       Action choice = getChoice(auxiliarBoard,beamManager);
+	       choice.updateGame(game);
+        }else {
+        	game.getBeamCannon(Team.RED).switchFacing();
+        }
+        game.nextTurn();// No lo tendria que llamar el gameManager a esto?
+    }
+
+    
+    private Action getChoice(Board auxiliarBoard2, BeamManager beamManager2) {
+    	 List<Action> possibleActions = new ArrayList<>();
+    	    possibleActions.addAll(possibleMoves());
 	        possibleActions.addAll(possibleRotations());
 	        Action destroyChoice = null;
 	        Action secondChoice = null;
+	        Action finalChoice;
 	        Collections.shuffle(possibleActions);
 	        
 	        for (Action action : possibleActions) {
@@ -68,20 +79,16 @@ public class AIMover implements CannonPositions, BoardDimensions {
 	            restore.executeActionIn(auxiliarBoard);
 	        }
 	        if (destroyChoice != null) {
-	            destroyChoice.updateGame(game);
+	            finalChoice = destroyChoice;
 	        } else if (secondChoice != null) {
-	            secondChoice.updateGame(game);
+	            finalChoice = secondChoice;
 	        } else {
-	            possibleActions.get(0).updateGame(game);
-	        }
-        }else {
-        	game.getBeamCannon(Team.RED).switchFacing();
-        }
-        game.nextTurn();// No lo tendria que llamar el gameManager a esto?
-    }
+	            finalChoice=possibleActions.get(0);
+	        }   
+	        return finalChoice;
+	}
 
-    
-    /**
+	/**
      * Genera un nuevo <code>Beam</code> desde el caÃ±on rojo con la orientación inversa  y devuelve el efecto que tuvo el
      * <code>Beam</code> en dicho tablero.
      * 
