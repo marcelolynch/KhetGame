@@ -44,14 +44,13 @@ public class AIMover implements CannonPositions, BoardDimensions {
         auxiliarBoard = new Board(game.getBoard().getPiecesPosition());
         beamManager = new BeamManager(auxiliarBoard);
         BeamAction beamDestiny = simulateCannonRotation();
-        if (beamDestiny != BeamAction.DESTROYED_PIECE
-                || !isOpponentPiece(beamManager.getLastPos())) { 
-	       Action choice = getChoice(auxiliarBoard,beamManager);
-	       choice.updateGame(game);
-        }else {
-        	game.getBeamCannon(Team.RED).switchFacing();
+        if (beamDestiny == BeamAction.DESTROYED_PIECE
+                && !isOpponentPiece(beamManager.getLastPos())) { 
+	       game.switchCannon();
+        }else {;
+        	Action choice = getChoice(auxiliarBoard,beamManager);
+ 	       	choice.updateGame(game);
         }
-        game.nextTurn();// No lo tendria que llamar el gameManager a esto?
     }
 
     

@@ -227,6 +227,7 @@ public class GameManager {
         
         if (currentStage() == Stage.STANDBY) {
         	AI.makeMove();
+        	game.nextTurn();
         	setStage(Stage.CHOICE);
         }
         else if (currentStage() == Stage.ACTION) {
