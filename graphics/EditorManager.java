@@ -45,7 +45,7 @@ public class EditorManager {
 		return activeSquare;
 	}
 
-	public GameMessages handle(Position position){
+	public ManagerResponseCodes handle(Position position){
 		if(position == null){
 			throw new IllegalArgumentException("null parameter");
 		}		
@@ -59,7 +59,7 @@ public class EditorManager {
 			} 
 			else {
 				System.out.println("INVALID MOVE SELECT");
-				return GameMessages.INVALID_MOVE_SELECTED;
+				return ManagerResponseCodes.INVALID_MOVE_SELECTED;
 			}
 		} 
 		else if (editor.isValidSelection(position)){
@@ -67,16 +67,16 @@ public class EditorManager {
 			setStage(Stage.ACTION);
 		}
 		
-		return GameMessages.OK;
+		return ManagerResponseCodes.OK;
 	}
 
-	public GameMessages handleRotation(boolean clockwise){
+	public ManagerResponseCodes handleRotation(boolean clockwise){
 		if (currentStage() == Stage.ACTION) {
 			editor.rotate(activeSquare, clockwise);
 			resetTurn();
-			return GameMessages.OK;
+			return ManagerResponseCodes.OK;
 		}
-		return GameMessages.CANT_ROTATE_RIGHT_NOW;
+		return ManagerResponseCodes.CANT_ROTATE_RIGHT_NOW;
 	}
 	
 	/**

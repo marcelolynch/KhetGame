@@ -4,32 +4,14 @@
     file="/KhetGame/src/graphics/BoardStage.java" binary="false" label="boardStage" type="class" autoSize="true">    
     <position height="-1" width="-1" x="148" y="0"/>    
     <execution id="2">      
-      <position height="2998" width="90" x="5" y="132"/>    
+      <position height="1411" width="90" x="5" y="132"/>    
     </execution>  
   </object>  
   <object id="5" language="java" name="graphics.GameManager" project="KhetGame" 
     file="/KhetGame/src/graphics/GameManager.java" binary="false" label="gameManager" type="class" autoSize="false">    
     <position height="1020" width="294" x="94" y="0"/>    
     <execution id="4">      
-      <position height="2956" width="106" x="99" y="153"/>    
-    </execution>    
-    <execution id="29">      
-      <position height="21" width="0" x="0" y="2429"/>    
-    </execution>    
-    <execution id="31">      
-      <position height="21" width="0" x="0" y="2481"/>    
-    </execution>    
-    <execution id="33">      
-      <position height="21" width="0" x="0" y="2659"/>    
-    </execution>    
-    <execution id="35">      
-      <position height="21" width="0" x="0" y="2711"/>    
-    </execution>    
-    <execution id="37">      
-      <position height="21" width="0" x="0" y="2973"/>    
-    </execution>    
-    <execution id="39">      
-      <position height="21" width="0" x="0" y="3067"/>    
+      <position height="1369" width="106" x="99" y="153"/>    
     </execution>    
     <execution id="7">      
       <position height="21" width="0" x="0" y="195"/>    
@@ -47,7 +29,7 @@
       <position height="21" width="0" x="0" y="1480"/>    
     </execution>  
   </object>  
-  <object id="40" language="java" name="poo.khet.Game" project="KhetGame" file="/KhetGame/src/poo/khet/Game.java" 
+  <object id="28" language="java" name="poo.khet.Game" project="KhetGame" file="/KhetGame/src/poo/khet/Game.java" 
     binary="false" label="game" type="class" autoSize="false">    
     <position height="905" width="347" x="461" y="0"/>    
     <execution id="9">      
@@ -68,57 +50,50 @@
     <execution id="25">      
       <position height="21" width="0" x="0" y="1429"/>    
     </execution>    
-    <execution id="42">      
+    <execution id="30">      
       <position height="21" width="0" x="0" y="346"/>    
     </execution>    
-    <execution id="44">      
+    <execution id="32">      
       <position height="21" width="0" x="0" y="398"/>    
     </execution>  
   </object>  
-  <object id="51" language="java" name="poo.khet.gameutils.Position" project="KhetGame" 
+  <object id="39" language="java" name="poo.khet.gameutils.Position" project="KhetGame" 
     file="/KhetGame/src/poo/khet/gameutils/Position.java" binary="false" label="init" type="class" autoSize="true">    
     <position height="0" width="0" x="0" y="0"/>    
-    <execution id="46">      
+    <execution id="34">      
       <position height="21" width="0" x="0" y="429"/>    
     </execution>  
   </object>  
-  <object id="52" language="java" name="poo.khet.Board" project="KhetGame" file="/KhetGame/src/poo/khet/Board.java" 
+  <object id="40" language="java" name="poo.khet.Board" project="KhetGame" file="/KhetGame/src/poo/khet/Board.java" 
     binary="false" label="board" type="class" autoSize="false">    
     <position height="742" width="118" x="825" y="0"/>    
-    <execution id="48">      
+    <execution id="36">      
       <position height="21" width="0" x="0" y="471"/>    
     </execution>    
-    <execution id="50">      
+    <execution id="38">      
       <position height="338" width="0" x="0" y="513"/>    
     </execution>    
-    <execution id="54">      
+    <execution id="42">      
       <position height="21" width="0" x="0" y="555"/>    
     </execution>    
-    <execution id="56">      
+    <execution id="44">      
       <position height="21" width="0" x="0" y="607"/>    
     </execution>  
   </object>  
-  <object id="61" language="java" name="java.util.Map" project="KhetGame" 
-    file="C:/Program Files/Java/jre1.8.0_60/lib/rt.jar" binary="true" label="grid" type="interface" autoSize="false">    
-    <position height="679" width="151" x="886" y="0"/>    
-    <execution id="58">      
-      <position height="21" width="0" x="0" y="638"/>    
-    </execution>  
-  </object>  
-  <object id="62" language="java" name="poo.khet.Square" project="KhetGame" file="/KhetGame/src/poo/khet/Square.java" 
+  <object id="47" language="java" name="poo.khet.Square" project="KhetGame" file="/KhetGame/src/poo/khet/Square.java" 
     binary="false" label="selected" type="class" autoSize="false">    
     <position height="721" width="126" x="1002" y="0"/>    
-    <execution id="60">      
+    <execution id="46">      
       <position height="150" width="0" x="0" y="680"/>    
     </execution>    
-    <execution id="65">      
+    <execution id="50">      
       <position height="21" width="7" x="1157" y="767"/>    
     </execution>  
   </object>  
-  <object id="66" language="java" name="poo.khet.Piece" project="KhetGame" file="/KhetGame/src/poo/khet/Piece.java" 
+  <object id="51" language="java" name="poo.khet.Piece" project="KhetGame" file="/KhetGame/src/poo/khet/Piece.java" 
     binary="false" label="piece" type="class" autoSize="true">    
     <position height="0" width="0" x="0" y="0"/>    
-    <execution id="64">      
+    <execution id="49">      
       <position height="108" width="0" x="0" y="701"/>    
     </execution>  
   </object>  
@@ -171,72 +146,44 @@
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="27"/>  
   </message>  
-  <message id="28" operation="setStage(graphics.GameManager.Stage):void">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="29"/>  
-  </message>  
-  <message id="30" operation="currentStage():graphics.GameManager.Stage">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="31"/>  
-  </message>  
-  <message id="32" operation="nextTurn():void">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="33"/>  
-  </message>  
-  <message id="34" operation="currentStage():graphics.GameManager.Stage">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="35"/>  
-  </message>  
-  <message id="36" operation="nextTurn():void">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="37"/>  
-  </message>  
-  <message id="38" operation="setStage(graphics.GameManager.Stage):void">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="39"/>  
-  </message>  
-  <message id="41" operation="assertGameInProgress():void">    
+  <message id="29" operation="assertGameInProgress():void">    
     <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="30"/>  
+  </message>  
+  <message id="31" operation="isValidSelection(poo.khet.gameutils.Position):boolean">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="32"/>  
+  </message>  
+  <message id="33" operation="isAdjacent(poo.khet.gameutils.Position):boolean">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="34"/>  
+  </message>  
+  <message id="35" operation="getOccupantIn(poo.khet.gameutils.Position):poo.khet.Piece">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="36"/>  
+  </message>  
+  <message id="37" operation="canPlace(poo.khet.Piece,poo.khet.gameutils.Position):boolean">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="38"/>  
+  </message>  
+  <message id="41" operation="assertNotNullPosition(poo.khet.gameutils.Position):void">    
+    <end type="SOURCE" refId="38"/>    
     <end type="TARGET" refId="42"/>  
   </message>  
-  <message id="43" operation="isValidSelection(poo.khet.gameutils.Position):boolean">    
-    <end type="SOURCE" refId="9"/>    
+  <message id="43" operation="isInBounds(poo.khet.gameutils.Position):boolean">    
+    <end type="SOURCE" refId="38"/>    
     <end type="TARGET" refId="44"/>  
   </message>  
-  <message id="45" operation="isAdjacent(poo.khet.gameutils.Position):boolean">    
-    <end type="SOURCE" refId="9"/>    
+  <message id="45" operation="canAccomodate(poo.khet.Piece):boolean">    
+    <end type="SOURCE" refId="38"/>    
     <end type="TARGET" refId="46"/>  
   </message>  
-  <message id="47" operation="getOccupantIn(poo.khet.gameutils.Position):poo.khet.Piece">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="48"/>  
+  <message id="48" operation="canMove(poo.khet.Square):boolean">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="49"/>  
   </message>  
-  <message id="49" operation="canPlace(poo.khet.Piece,poo.khet.gameutils.Position):boolean">    
-    <end type="SOURCE" refId="9"/>    
+  <message id="52" operation="isEmpty():boolean">    
+    <end type="SOURCE" refId="49"/>    
     <end type="TARGET" refId="50"/>  
-  </message>  
-  <message id="53" operation="assertNotNullPosition(poo.khet.gameutils.Position):void">    
-    <end type="SOURCE" refId="50"/>    
-    <end type="TARGET" refId="54"/>  
-  </message>  
-  <message id="55" operation="isInBounds(poo.khet.gameutils.Position):boolean">    
-    <end type="SOURCE" refId="50"/>    
-    <end type="TARGET" refId="56"/>  
-  </message>  
-  <message id="57" operation="get(java.lang.Object):V">    
-    <end type="SOURCE" refId="50"/>    
-    <end type="TARGET" refId="58"/>  
-  </message>  
-  <message id="59" operation="canAccomodate(poo.khet.Piece):boolean">    
-    <end type="SOURCE" refId="50"/>    
-    <end type="TARGET" refId="60"/>  
-  </message>  
-  <message id="63" operation="canMove(poo.khet.Square):boolean">    
-    <end type="SOURCE" refId="60"/>    
-    <end type="TARGET" refId="64"/>  
-  </message>  
-  <message id="67" operation="isEmpty():boolean">    
-    <end type="SOURCE" refId="64"/>    
-    <end type="TARGET" refId="65"/>  
   </message>
 </sequence-diagram>
