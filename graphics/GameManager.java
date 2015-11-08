@@ -205,7 +205,7 @@ public class GameManager {
      * se indica el error mediante el valor de retorno
      * 
      * @param position - la posicion a ser interpretada y manejada
-     * @return Se devuelven distintas {@link GameMessages} seg&uacute;n si la posici&oacute;n
+     * @return Se devuelven distintas {@link ManagerResponseCodes} seg&uacute;n si la posici&oacute;n
      *         cambi&oacute; el estado del juego o no:
      *         <p>
      * 
@@ -218,9 +218,9 @@ public class GameManager {
      *         <br>
      *         Se retorna <code><i>OK</i></code> si la acci&oacute;n fue procesada correctamente.
      * 
-     * @see  GameMessages
+     * @see  ManagerResponseCodes
      */
-    public GameMessages handle(Position position) {
+    public ManagerResponseCodes handle(Position position) {
         if (position == null) {
             throw new IllegalArgumentException("null parameter"); 
         }
@@ -238,7 +238,7 @@ public class GameManager {
                 System.out.println(currentStage());
             } else {
                 System.out.println("INVALID MOVE SELECT");
-                return GameMessages.INVALID_MOVE_SELECTED;
+                return ManagerResponseCodes.INVALID_MOVE_SELECTED;
             }
         } else if (game.isCannonPosition(position) && game.isSwitchable(position)) {
             game.switchCannon();
@@ -248,11 +248,11 @@ public class GameManager {
                 activeSquare = position;
                 setStage(Stage.ACTION);
             } else {
-                return GameMessages.INVALID_TEAM_SELECTED;
+                return ManagerResponseCodes.INVALID_TEAM_SELECTED;
             }
         }
 
-        return GameMessages.OK;
+        return ManagerResponseCodes.OK;
     }
 
     /**
@@ -264,15 +264,15 @@ public class GameManager {
      *        horaria, <code><b>false</b></code> en caso contrario.
      * @return <code><i>OK</i></code> si se efectu&oacute; la rotaci&oacute;n, <code></i>
      *         CANT_ROTATE_RIGHT_NOW<code></i> en caso contrario.
-     * @see GameMessages
+     * @see ManagerResponseCodes
      */
-    public GameMessages handleRotation(boolean clockwise) {
+    public ManagerResponseCodes handleRotation(boolean clockwise) {
         if (currentStage() == Stage.ACTION) {
             game.rotate(activeSquare, clockwise);
             nextTurn();
-            return GameMessages.OK;
+            return ManagerResponseCodes.OK;
         }
-        return GameMessages.CANT_ROTATE_RIGHT_NOW;
+        return ManagerResponseCodes.CANT_ROTATE_RIGHT_NOW;
     }
 
     /**

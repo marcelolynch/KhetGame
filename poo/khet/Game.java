@@ -157,8 +157,8 @@ public class Game implements CannonPositions {
     public void nextTurn() {
         assertGameInProgress();
 
-        BeamAction beamFate = throwBeam(getMovingTeam());
-        if (beamFate == BeamAction.DESTROYED_PIECE) {
+        BeamFate beamFate = throwBeam(getMovingTeam());
+        if (beamFate == BeamFate.IMPACTED_PIECE) {
             Piece withdrawn = board.withdrawFrom(beamManager.getLastPos());
 
             if (withdrawn instanceof Pharaoh) { // TODO: instanceof justificado
@@ -170,7 +170,7 @@ public class Game implements CannonPositions {
         }
     }
 
-    private BeamAction throwBeam(Team team) {
+    private BeamFate throwBeam(Team team) {
         BeamCannon cannon = getBeamCannon(team);
         Beam beam = cannon.generateBeam();
 

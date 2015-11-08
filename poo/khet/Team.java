@@ -1,8 +1,10 @@
 package poo.khet;
 
 /**
- * Equipos que tiene el juego
+ * Identifica los dos equipos que tiene el juego
  */
 public enum Team {
-    RED, SILVER
-}
+    /** Equipo rojo */
+	RED, 
+	/** Equipo plateado */
+	SILVER}

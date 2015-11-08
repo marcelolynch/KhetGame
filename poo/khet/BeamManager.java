@@ -43,8 +43,8 @@ public class BeamManager {
      * @param initialPosition
      * @return El resultado obtenido en ese recorrido.
      */
-    public BeamAction manageBeam(Beam beam, Position initialPosition) {
-        BeamAction beamAction = null;
+    public BeamFate manageBeam(Beam beam, Position initialPosition) {
+        BeamFate beamAction = null;
         Position beamPos = initialPosition;
         beamTrace.clear();
 
@@ -53,13 +53,13 @@ public class BeamManager {
             beamTrace.add(beamPos);
             if (!board.isInBounds(beamPos)) {
                 beam.deactivate();
-                beamAction = BeamAction.OUT_OF_BOUNDS;
+                beamAction = BeamFate.OUT_OF_BOUNDS;
             } else if (!board.isEmptyPosition(beamPos)) {
             	boolean survivedBeam = board.getOccupantIn(beamPos).receiveBeam(beam);
                 if (survivedBeam) {
-                    beamAction = BeamAction.WAS_CONTAINED;
+                    beamAction = BeamFate.WAS_CONTAINED;
                 } else {
-                    beamAction = BeamAction.DESTROYED_PIECE;
+                    beamAction = BeamFate.IMPACTED_PIECE;
                 }
             }
         }

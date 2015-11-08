@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import poo.khet.Beam;
-import poo.khet.BeamAction;
+import poo.khet.BeamFate;
 import poo.khet.BeamCannon;
 import poo.khet.BeamManager;
 import poo.khet.Board;
@@ -43,8 +43,8 @@ public class AIMover implements CannonPositions, BoardDimensions {
     public void makeMove() {
         auxiliarBoard = new Board(game.getBoard().getPiecesPosition());
         beamManager = new BeamManager(auxiliarBoard);
-        BeamAction beamDestiny = simulateCannonRotation();
-        if (beamDestiny == BeamAction.DESTROYED_PIECE
+        BeamFate beamDestiny = simulateCannonRotation();
+        if (beamDestiny == BeamFate.IMPACTED_PIECE
                 && !isOpponentPiece(beamManager.getLastPos())) { 
 	       game.switchCannon();
         }else {;
@@ -64,11 +64,11 @@ public class AIMover implements CannonPositions, BoardDimensions {
 	        Collections.shuffle(possibleActions);
 	        
 	        for (Action action : possibleActions) {
-	            BeamAction beamFate = simulateAction(action);
-	            if (beamFate == BeamAction.DESTROYED_PIECE
+	            BeamFate beamFate = simulateAction(action);
+	            if (beamFate == BeamFate.IMPACTED_PIECE
 	                    && isOpponentPiece(beamManager.getLastPos())) {
 	                destroyChoice = action;
-	            } else if (beamFate != BeamAction.DESTROYED_PIECE) {
+	            } else if (beamFate != BeamFate.IMPACTED_PIECE) {
 	                secondChoice = action;
 	                // Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
 	            }
@@ -94,7 +94,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
      * @return BeamAction efecto del Beam en el tablero
      * @see BeamManager
      */
-    private BeamAction simulateCannonRotation() {
+    private BeamFate simulateCannonRotation() {
         BeamCannon cannon = game.getBeamCannon(team);
         Beam beam = getOppositeBeam(cannon);
         Position startingPosition = RED_CANNON_POSITION;
@@ -136,7 +136,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
      * @return BeamAction efecto del Beam en el tablero
      * @see BeamManager
      */
-    private BeamAction simulateAction(Action action) {
+    private BeamFate simulateAction(Action action) {
         action.executeActionIn(auxiliarBoard);
         BeamCannon cannon = game.getBeamCannon(team);
         Beam beam = cannon.generateBeam();
