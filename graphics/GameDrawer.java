@@ -113,7 +113,7 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
      * @param gc - el {@link GraphicsContext} en el que se dibujar&aacute; la trayectoria
      * @see GraphicDimensions
      */
-    public void drawPieces(GraphicsContext gc) {
+    private void drawPieces(GraphicsContext gc) {
 
         gc.clearRect(SQUARE_SIZE * RED_CANNON_POSITION.getCol(),
                 SQUARE_SIZE * RED_CANNON_POSITION.getRow(), SQUARE_SIZE, SQUARE_SIZE);
@@ -147,7 +147,7 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
      * @see BeamManager#getBeamTrace()
      * @see GraphicDimensions
      */
-    public void drawBeam(GraphicsContext gc) {
+    private void drawBeam(GraphicsContext gc) {
         Position prev = null;
         Image toDraw;
 

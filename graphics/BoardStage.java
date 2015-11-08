@@ -18,18 +18,14 @@ import java.io.IOException;
 
 public class BoardStage implements GraphicDimensions {
 
-    Stage loadScreen;
-
-    GameManager gameManager;
-    GraphicsContext piecesGC;
-    GraphicsContext beamGC;
-    Canvas graphicBoard;
-    Canvas piecesLayer;
-    Canvas beamLayer;
-    Canvas rotateButtons;
-    Canvas saveButton;
-    Canvas closeButton;
-    GameDrawer drawer;
+    private GameManager gameManager;
+    private GraphicsContext piecesGC;
+    private Canvas graphicBoard;
+    private Canvas piecesLayer;
+    private Canvas rotateButtons;
+    private Canvas saveButton;
+    private Canvas closeButton;
+    private GameDrawer drawer;
 
     public BoardStage(String fileName, final Stage loadScreen) throws ClassNotFoundException, IOException {
         gameManager = new GameManager(fileName);
@@ -42,8 +38,6 @@ public class BoardStage implements GraphicDimensions {
     }
     
     private void setStage(final Stage loadScreen) {
-        this.loadScreen = loadScreen;
-
         final Stage primaryStage = new Stage();
         Group root = new Group();
 

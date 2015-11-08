@@ -27,7 +27,7 @@ import poo.khet.gameutils.Position;
  * @see {@link Position}
  */
 public class GameManager {
-    enum Stage {
+    private enum Stage {
         CHOICE, ACTION, STANDBY
     }
 
@@ -108,7 +108,7 @@ public class GameManager {
         gameDrawer = new GameDrawer(game);
         mode = game.getGameMode();
         if (mode == GameMode.PVE) {
-        	AI = new AIMover(game);
+        	AI = new AIMover(game, Team.RED); // AI siempre del equipo rojo
         }
     }
 
@@ -119,7 +119,7 @@ public class GameManager {
      * 
      * @see GameDrawer
      */
-    GameDrawer getDrawer() {
+    public GameDrawer getDrawer() {
         return this.gameDrawer;
     }
 
@@ -224,7 +224,7 @@ public class GameManager {
         if (position == null) {
             throw new IllegalArgumentException("null parameter"); 
         }
-        
+
         if (currentStage() == Stage.STANDBY) {
         	AI.makeMove();
         	game.nextTurn();

@@ -12,6 +12,7 @@ import poo.khet.Board;
 import poo.khet.CannonPositions;
 import poo.khet.Game;
 import poo.khet.RedCannon;
+import poo.khet.SilverCannon;
 import poo.khet.Team;
 import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Position;
@@ -25,13 +26,14 @@ import poo.khet.gameutils.Position;
  *
  */
 public class AIMover implements CannonPositions, BoardDimensions {
-    private Game game;
-    static Team team = Team.RED; // Siempre juega con el equipo Rojo
+    private final Game game;
+    private final Team team;
     private BeamManager beamManager;
     private Board auxiliarBoard;
 
-    public AIMover(Game game) {
+    public AIMover(Game game, Team team) {
         this.game = game;
+        this.team = team;
     }
 
     /**
@@ -47,7 +49,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
         if (beamDestiny == BeamFate.IMPACTED_PIECE
                 && isOpponentPiece(beamManager.getLastPos())) { 
 	       game.switchCannon();
-        }else {;
+        } else {
         	Action choice = getChoice(auxiliarBoard,beamManager);
  	       	choice.updateGame(game);
         }
@@ -55,41 +57,41 @@ public class AIMover implements CannonPositions, BoardDimensions {
 
     
     private Action getChoice(Board auxiliarBoard2, BeamManager beamManager2) {
-    	 List<Action> possibleActions = new ArrayList<>();
-    	    possibleActions.addAll(possibleMoves());
-	        possibleActions.addAll(possibleRotations());
-	        Action destroyChoice = null;
-	        Action secondChoice = null;
-	        Action finalChoice;
-	        Collections.shuffle(possibleActions);
-	        
-	        for (Action action : possibleActions) {
-	            BeamFate beamFate = simulateAction(action);
-	            if (beamFate == BeamFate.IMPACTED_PIECE
-	                    && isOpponentPiece(beamManager.getLastPos())) {
-	                destroyChoice = action;
-	            } else if (beamFate != BeamFate.IMPACTED_PIECE) {
-	                secondChoice = action;
-	                // Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
-	            }
-	
-	            // Revierte la jugada simulada para seguir simulando otras
-	            Action restore = action.getRevertedAction(action);
-	            restore.executeActionIn(auxiliarBoard);
-	        }
-	        if (destroyChoice != null) {
-	            finalChoice = destroyChoice;
-	        } else if (secondChoice != null) {
-	            finalChoice = secondChoice;
-	        } else {
-	            finalChoice=possibleActions.get(0);
-	        }   
-	        return finalChoice;
+    	List<Action> possibleActions = new ArrayList<>();
+    	possibleActions.addAll(possibleMoves());
+        possibleActions.addAll(possibleRotations());
+        Action destroyChoice = null;
+        Action secondChoice = null;
+        Action finalChoice;
+        Collections.shuffle(possibleActions);
+        
+        for (Action action : possibleActions) {
+            BeamFate beamFate = simulateAction(action);
+            if (beamFate == BeamFate.IMPACTED_PIECE
+                    && isOpponentPiece(beamManager.getLastPos())) {
+                destroyChoice = action;
+            } else if (beamFate != BeamFate.IMPACTED_PIECE) {
+                secondChoice = action;
+                // Guarda una jugada aleatoria en caso de que no se pueda destruir una ficha rival
+            }
+
+            // Revierte la jugada simulada para seguir simulando otras
+            Action restore = action.getRevertedAction(action);
+            restore.executeActionIn(auxiliarBoard);
+        }
+        if (destroyChoice != null) {
+            finalChoice = destroyChoice;
+        } else if (secondChoice != null) {
+            finalChoice = secondChoice;
+        } else {
+            finalChoice=possibleActions.get(0);
+        }   
+        return finalChoice;
 	}
 
 	/**
-     * Genera un nuevo <code>Beam</code> desde el cañon rojo con la orientaci�n inversa  y devuelve el efecto que tuvo el
-     * <code>Beam</code> en dicho tablero.
+     * Genera un nuevo <code>Beam</code> desde el cañon correspondiente a su equipo con la orientaci�n inversa y 
+     * devuelve el efecto que tuvo el <code>Beam</code> en dicho tablero.
      * 
      * @return BeamAction efecto del Beam en el tablero
      * @see BeamManager
@@ -101,14 +103,14 @@ public class AIMover implements CannonPositions, BoardDimensions {
         return beamManager.manageBeam(beam, startingPosition);
 	}
 
-
-    /**
-     * Se encarga de generar un <code>Beam</code> desde el cañon rojo con la orientaci�n inversa.
+	/**
+     * Se encarga de generar un <code>Beam</code> desde el cañon correspondiente a su equipo 
+     * con la orientaci�n inversa.
      * @param cannon
      * @return
      */
 	private Beam getOppositeBeam(BeamCannon cannon) {
-		BeamCannon auxiliarCannon = new RedCannon();
+		BeamCannon auxiliarCannon = getCannon();
 		if(auxiliarCannon.getFacing() == cannon.getFacing()){
 			auxiliarCannon.switchFacing();
 		}
@@ -116,20 +118,21 @@ public class AIMover implements CannonPositions, BoardDimensions {
 	}
 
 	/**
-     * Cheque si en la posicion dada hay una pieza del SILVER
+     * Chequea si en la posicion dada hay una pieza del equipo contrario. Para esto se fija si hay
+     * una pieza de su equipo y niega el resuiltado.
      * 
      * @param pos posicion de la cual se quiere obtener la pieza
-     * @return <tt>true</tt> si la pieza es del SILVER <ff>false</ff> si la pieza es del RED
+     * @return <tt>true</tt> si la pieza es del equipo contrario <ff>false</ff> sino.
      * 
      */
     private boolean isOpponentPiece(Position pos) {
         // pos isEmpty?
-        return auxiliarBoard.getOccupantIn(pos).getTeam().equals(Team.SILVER);
+        return !auxiliarBoard.getOccupantIn(pos).getTeam().equals(team);
     }
 
     /**
      * Ejecuta la <code>Action</code> dada como parametro en <code>auxiliarBoard</code>, y luego
-     * Genera un nuevo <code>Beam</code> desde el cañon rojo y devuelve el efecto que tuvo el
+     * Genera un nuevo <code>Beam</code> desde el cañon de su equipo y devuelve el efecto que tuvo el
      * <code>Beam</code> en dicho tablero.
      * 
      * @param action
@@ -140,7 +143,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
         action.executeActionIn(auxiliarBoard);
         BeamCannon cannon = game.getBeamCannon(team);
         Beam beam = cannon.generateBeam();
-        Position startingPosition = RED_CANNON_POSITION;
+        Position startingPosition = getCannonPosition();
         return beamManager.manageBeam(beam, startingPosition);
     }
 
@@ -210,4 +213,32 @@ public class AIMover implements CannonPositions, BoardDimensions {
         }
         return possibleRotations;
     }
+    
+    /**
+     * Devuelve la posici&oacute;n del cañ&oacute;n correspondiente al equipo de la AI.
+     * @return Position - La posición del cañ&oacute;n correspondiente.
+     */
+    private Position getCannonPosition() {
+    	Position pos;
+		if (team == Team.SILVER) {
+			pos = SILVER_CANNON_POSITION;
+		} else {
+			pos = RED_CANNON_POSITION;
+		}
+		return pos;
+	}
+    
+    /**
+     * Crea un cañ&oacute; del equipo correspondiente a la AI.
+     * @return BeamCannon - El cañ&oacute; del equipo de la AI.
+     */
+	private BeamCannon getCannon() {
+		BeamCannon cannon;
+		if (team == Team.SILVER) {
+			cannon = new SilverCannon();
+		} else {
+			cannon = new RedCannon();
+		}
+		return cannon;
+	}
 }

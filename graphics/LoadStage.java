@@ -19,13 +19,13 @@ import poo.khet.gameutils.GameMode;
 
 public class LoadStage extends Application implements GraphicDimensions {
     
-    Canvas background = new Canvas(800, 450);
-    Canvas[] defaultPreviews = new Canvas[3];
-    Button[] defaultButtons = new Button[3];
-    Button loadBtn;
-    CheckBox twoPlayers;
-    CheckBox onePlayer;
-    TextField nameInput;
+    private Canvas background = new Canvas(800, 450);
+    private Canvas[] defaultPreviews = new Canvas[3];
+    private Button[] defaultButtons = new Button[3];
+    private Button loadBtn;
+    private CheckBox twoPlayers;
+    private CheckBox onePlayer;
+    private TextField nameInput;
 
 
     // TODO: Exception
