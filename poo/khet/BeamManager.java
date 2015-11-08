@@ -8,7 +8,7 @@ import poo.khet.gameutils.Position;
  * {@code BeamManager} lleva a cabo el lanzamiento y seguimiento de <code>Beam</code>s sobre un tablero dado,
  * y su interacci&oacute;n con las piezas que se encuentren en el mismo.
  *
- * Lleva un registro del recorrido que siguió el &uacute;ltimo <code>Beam</code> manejado.
+ * <p>Lleva un registro del recorrido que sigui&oacute; el &uacute;ltimo <code>Beam</code> manejado.
  * 
  * @see {@link Beam}
  */
