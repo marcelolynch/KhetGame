@@ -6,16 +6,47 @@ import java.util.Map;
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
+//TODO: JavaDoc de la clase
+
 public class Game implements CannonPositions {
 
+    /**
+     * Tablero de Juego
+     */
     private Board board;
+
+    /**
+     * Cañon del equipo <i>RED</i>
+     */
     private RedCannon redCannon;
+
+    /**
+     * Cañon del equipo <i>SILVER</i>
+     */
     private SilverCannon silverCannon;
     private BeamManager beamManager;
+
+    /**
+     * Equipo a quien le corresponde el turno actual
+     */
     private Team movingTeam;
+
+    /**
+     * Modo de juego actual <i>PVE</i> o <i>PVP</i>
+     */
     private GameMode mode;
+
+    /**
+     * Equipo ganador
+     */
     private Team winnerTeam;
 
+    /**
+     * Crea un juego a partir de un mapa que contiene las posiciones de las piezas
+     * y un modo de juego.
+     * @param initialBoardSetup mapa con las <code>Position</code> de las piezas
+     * @param gameMode modo de juego <i>PVE</i> o <i>PVP</i>
+     */
     public Game(Map<Position, Piece> initialBoardSetup, GameMode gameMode) {
     	board = new Board(initialBoardSetup);
     	beamManager = new BeamManager(board);
@@ -24,7 +55,11 @@ public class Game implements CannonPositions {
     	movingTeam = Team.SILVER; //siempre empieza Silver
     	mode = gameMode;
     }
-    
+
+    /**
+     * Crea un juego a partir de un {@link GameState} creado previamente.
+     * @param state
+     */
     public Game(GameState state) {
         board = new Board(state.getBoardConfig());
         beamManager = new BeamManager(board);
@@ -33,15 +68,27 @@ public class Game implements CannonPositions {
         movingTeam = state.getMovingTeam();
         mode = state.getGameMode();
     }
-    
+
+    /**
+     * Devuelve el {@link Board} del juego
+     * @return el tablero
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Devuelve el modo de juego <i>PVE</i> o <i>PVP</i>
+     * @return modo de juego
+     */
     public GameMode getGameMode() {
         return mode;
     }
 
+    /**
+     * Crea un nuevo {@link GameState} con información actual del <code>Game</code>.
+     * @return el estado de juego
+     */
     public GameState getGameState() {
         return new GameState(mode, board.getPiecesPosition(), getMovingTeam(), redCannon,
                 silverCannon);
@@ -88,7 +135,7 @@ public class Game implements CannonPositions {
     }
 
     /**
-     * Verifica si un {@link poo.khet.AI.Move} es válido a partir de una <code>Position</code> inicial
+     * Verifica si un movimiento es válido a partir de una <code>Position</code> inicial
      * y una final.
      * @param init <code>Position</code> inicial del movimiento
      * @param dest <code>Position</code> final del movimiento
@@ -301,6 +348,7 @@ public class Game implements CannonPositions {
      * Devuelve el {@link Team} ganador en caso de que lo haya.
      * @return el <code>Team</code> ganador
      * @throws IllegalStateException si no hay ningun ganador.
+     * @see #hasWinner()
      */
     public Team getWinnerTeam() {
         if (!hasWinner()) {
