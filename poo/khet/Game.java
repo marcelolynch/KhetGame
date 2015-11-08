@@ -47,8 +47,10 @@ public class Game implements CannonPositions {
                 silverCannon);
     }
 
-    // Algo as� -Chelo
-    // Tendria que ser llamado en casi todos lados. Creo que esta bien
+    /**
+     * Valida si el <code>Game</code> terminó, verificando si existe algun ganador.
+     * @throws IllegalStateException si el juego terminó
+     */
     private void assertGameInProgress() {
         if (hasWinner()) {
             throw new IllegalStateException("Illegal operation: game has ended");
@@ -85,6 +87,13 @@ public class Game implements CannonPositions {
         return true;
     }
 
+    /**
+     * Verifica si un {@link poo.khet.AI.Move} es válido a partir de una <code>Position</code> inicial
+     * y una final.
+     * @param init <code>Position</code> inicial del movimiento
+     * @param dest <code>Position</code> final del movimiento
+     * @return <tt>true</tt> si es lícito realizar el movimiento; <tt>false</tt> en caso contrario.
+     */
     public boolean isValidMove(Position init, Position dest) {
         assertGameInProgress();
 
@@ -106,6 +115,19 @@ public class Game implements CannonPositions {
         
     }
 
+    /**
+     * Mueve una {@link Piece} desde una {@link Position} a otra.
+     * <p>
+     * Si la <code>Position</code> de destino no tiene ningún ocupante, se coloca la pieza.
+     * <p>
+     * En caso de que la posicion de destino este ocupada por otra <code>Piece</code>
+     * se intercambian sus posiciones.
+     * @param init <code>Position</code> inicial del movimiento
+     * @param dest <code>Position</code> final del movimiento
+     * @throws IllegalArgumentException si las posiciones entregadas no representan un movimiento valido
+     * @see Board
+     * @see Position
+     */
     public void move(Position init, Position dest) {
         assertGameInProgress();
 
@@ -138,12 +160,21 @@ public class Game implements CannonPositions {
         }
     }
 
+    /**
+     * Devuelve el {@link Team} que esta jugando actualmente.
+     * @return equipo al que corresponde el turno actual.
+     */
     public Team getMovingTeam() {
         assertGameInProgress();
 
         return movingTeam;
     }
 
+    /**
+     * Retorna el {@link BeamCannon} del {@link Team} deseado.
+     * @param team equipo del cual se desea obtener el cañón
+     * @return el <code>BeamCannon</code>
+     */
     public BeamCannon getBeamCannon(Team team) {
         if (team == Team.RED) {
             return redCannon;
@@ -170,6 +201,11 @@ public class Game implements CannonPositions {
         }
     }
 
+    /**
+     * Emite un {@link Beam} desde el {@link BeamCannon} correspondiente a un {@link Team}.
+     * @param team equipo que desea lanzar el rayo
+     * @return un {@link BeamFate} con el destino del rayo
+     */
     private BeamFate throwBeam(Team team) {
         BeamCannon cannon = getBeamCannon(team);
         Beam beam = cannon.generateBeam();
@@ -179,7 +215,10 @@ public class Game implements CannonPositions {
         return beamManager.manageBeam(beam, startingPosition);
     }
 
-
+    /**
+     * Cambia el equipo que juega actualmente.
+     * @see Team
+     */
     private void changePlayer() {
         movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
     }
@@ -204,18 +243,37 @@ public class Game implements CannonPositions {
         }
     }
 
+    /**
+     * Consulta si la {@link Position} es aquella que corresponde a un {@link BeamCannon}.
+     * @param position <code>Position</code> a consultar
+     * @return <tt>true</tt> si la posicion corresponde al lugar de un cañón, <tt>false</tt>
+     * en caso contrario
+     */
     public boolean isCannonPosition(Position position) {
         return position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION);
     }
 
+    /**
+     * Devuelve el recorrido de un {@link Beam} en forma de una Lista de <code>Position</code>s.
+     * @return Lista que representa el recorrido de un rayo
+     */
     public List<Position> getBeamTrace() {
         return beamManager.getBeamTrace();
     }
 
+    /**
+     * Consulta si hay un {@link Team} ganador.
+     * @return <tt>true</tt> si hay un equipo ganador; <tt>false</tt> en caso contrario
+     */
     public boolean hasWinner() {
         return winnerTeam != null;
     }
 
+    /**
+     * Devuelve el {@link Team} ganador en caso de que lo haya.
+     * @return el <code>Team</code> ganador
+     * @throws IllegalStateException si no hay ningun ganador.
+     */
     public Team getWinnerTeam() {
         if (!hasWinner()) {
             throw new IllegalStateException();
