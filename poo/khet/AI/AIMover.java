@@ -45,7 +45,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
         beamManager = new BeamManager(auxiliarBoard);
         BeamFate beamDestiny = simulateCannonRotation();
         if (beamDestiny == BeamFate.IMPACTED_PIECE
-                && !isOpponentPiece(beamManager.getLastPos())) { 
+                && isOpponentPiece(beamManager.getLastPos())) { 
 	       game.switchCannon();
         }else {;
         	Action choice = getChoice(auxiliarBoard,beamManager);
@@ -88,7 +88,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
 	}
 
 	/**
-     * Genera un nuevo <code>Beam</code> desde el cañon rojo con la orientaci�n inversa  y devuelve el efecto que tuvo el
+     * Genera un nuevo <code>Beam</code> desde el cañon rojo con la orientaci�n inversa  y devuelve el efecto que tuvo el
      * <code>Beam</code> en dicho tablero.
      * 
      * @return BeamAction efecto del Beam en el tablero
@@ -103,7 +103,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
 
 
     /**
-     * Se encarga de generar un <code>Beam</code> desde el cañon rojo con la orientaci�n inversa.
+     * Se encarga de generar un <code>Beam</code> desde el cañon rojo con la orientaci�n inversa.
      * @param cannon
      * @return
      */
