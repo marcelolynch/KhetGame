@@ -65,11 +65,11 @@ public class Game implements CannonPositions {
      */
     public boolean isValidSelection(Position pos) {
         assertGameInProgress();
-
-        if (hasWinner()) {
-            return false;
+        
+        if (pos == null) {
+        	return false;
         }
-
+        
         if (!board.isInBounds(pos)) {
             return false;
         }
@@ -144,11 +144,18 @@ public class Game implements CannonPositions {
         board.placePiece(dest, p);
     }
 
+    /**
+     * Rota la {@link Piece} que se encuentra en la {@link Position] dada en sentido horario
+     * si clockwise es true, antihorario sino.
+     * @param pos - <code>Position</code> de la <code>Piece</code> a rotar
+     * @param clockwise - indica si se rotara en sentido horario
+     * @throws IllegalArgumentException si la posicion entregada es invalida
+     */
     public void rotate(Position pos, boolean clockwise) {
         assertGameInProgress();
 
         if (!isValidSelection(pos)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Posición inválida");
         }
 
         Piece p = board.getOccupantIn(pos);
@@ -185,6 +192,18 @@ public class Game implements CannonPositions {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * Representa el cambio de turno.
+     * <p>
+     * Lanza el rayo y en caso de que &eacute;ste haya impactado de forma letal contra una 
+     * {@link Piece} la retira del juego. Si la <code>Piece</code> es un {@link Pharaoh},
+     * se termina el juego y se declara ganador al <code>Team</code> con el <code>Pharaoh</code>
+     * en pie. Consultar con {@link #hasWinner()} y {@link #getWinnerTeam()}.
+     * <p>
+     * Si ambos <code>Pharaoh</code> est&aacute;n en pie se cambia de equipo, es decir que
+     * le corresponder&aacute; realizar un movimiento al equipo contrario que al que haya
+     * realizado el &uacute;ltimo movimiento.
+     */
     public void nextTurn() {
         assertGameInProgress();
 
@@ -223,6 +242,9 @@ public class Game implements CannonPositions {
         movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
     }
 
+    /**
+     * Rota el cañ&oacute; del equipo que juega actualmente.
+     */
     public void switchCannon() {
         assertGameInProgress();
 
@@ -230,6 +252,12 @@ public class Game implements CannonPositions {
         current.switchFacing();
     }
 
+    /**
+     * Consulta si el {@link BeamCannon} que se encuentra en la {@link Position} es rotable, 
+     * es decir si corresponde al equipo jugando actualmente.
+     * @param position - la posici&oacute; del cañ&oacute;n a rotar
+     * @return <code>true</code> si el cañ$oacute; es rotable, <code>false</code> sino.
+     */
     public boolean isSwitchable(Position position) {
         assertGameInProgress();
 
