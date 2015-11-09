@@ -41,11 +41,9 @@ public abstract class Piece implements Serializable {
         this.team = team;
     }
 
-    
+
     protected void addAccessory(Accessory a){
-    	if(!accessories.contains(a)){ //Tengo que emular un set asi por la mutabilidad de los elementos
-    		accessories.add(a);		//De todas maneras son pocos accesorios por pieza, no impacta en la eficiencia
-    	}
+    	accessories.add(a);
     }
     
     /**

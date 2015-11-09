@@ -99,7 +99,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
     private BeamFate simulateCannonRotation() {
         BeamCannon cannon = game.getBeamCannon(team);
         Beam beam = getOppositeBeam(cannon);
-        Position startingPosition = RED_CANNON_POSITION;
+        Position startingPosition = getCannonPosition();
         return beamManager.manageBeam(beam, startingPosition);
 	}
 
