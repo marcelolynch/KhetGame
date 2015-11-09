@@ -28,8 +28,7 @@ public class LoadStage extends Application implements GraphicDimensions {
     private TextField nameInput;
 
 
-    // TODO: Exception
-    public void start(final Stage loadStage) throws Exception {
+    public void start(final Stage loadStage) {
         Group root = new Group();
         loadStage.setWidth(800);
         loadStage.setHeight(450);
@@ -95,6 +94,10 @@ public class LoadStage extends Application implements GraphicDimensions {
             public void handle(ActionEvent e) {
                 try {
                     new BoardStage("defaultConfigs/d1", getSelectedGameMode(), loadStage);
+                } catch (IOException fileNotFound) {
+                    throwNotFoundFileAlert();
+                } catch (ClassNotFoundException classNotFound) {
+                    throwInvalidFileAlert();
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }
@@ -106,6 +109,10 @@ public class LoadStage extends Application implements GraphicDimensions {
             public void handle(ActionEvent e) {
                 try {
                     new BoardStage("defaultConfigs/d2", getSelectedGameMode(), loadStage);
+                } catch (IOException fileNotFound) {
+                    throwNotFoundFileAlert();
+                } catch (ClassNotFoundException classNotFound) {
+                    throwInvalidFileAlert();
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }
@@ -117,6 +124,10 @@ public class LoadStage extends Application implements GraphicDimensions {
             public void handle(ActionEvent e) {
                 try {
                     new BoardStage("defaultConfigs/d3", getSelectedGameMode(), loadStage);
+                } catch (IOException fileNotFound) {
+                    throwNotFoundFileAlert();
+                } catch (ClassNotFoundException classNotFound) {
+                    throwInvalidFileAlert();
                 } catch (Exception e1) {
                     throwUnexpectedErrorAlert();
                 }

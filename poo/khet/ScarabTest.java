@@ -57,8 +57,10 @@ public class ScarabTest {
 
     @Test
     public void testCanMove() {
-        Square nonSwapSq = new Square(new Scarab(Team.RED, Direction.NORTH));
-        Square swapSq = new Square(new Pyramid(Team.RED, Direction.NORTH));
+        Square nonSwapSq = new Square();
+        nonSwapSq.setOccupant(new Scarab(Team.RED, Direction.NORTH));
+        Square swapSq = new Square();
+        swapSq.setOccupant(new Pyramid(Team.RED, Direction.NORTH));
 
         assertFalse(scarab.canMove(nonSwapSq));
         assertTrue(scarab.canMove(swapSq));

@@ -15,15 +15,6 @@ public class Square {
     }
 
     /**
-     * Construye un casillero ocupado por la <tt>Piece</tt> indicada
-     * 
-     * @param piece - <tt>Piece</tt> a ocupar el casillero
-     */
-    Square(Piece piece) {
-        setOccupant(piece);
-    }
-
-    /**
      * Coloca la pieza en el casillero.
      * 
      * @param piece - la pieza a colocar

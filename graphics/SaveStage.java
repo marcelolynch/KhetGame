@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+//TODO: sacar insets poner settranslates
 public class SaveStage {
 
     public SaveStage(final GameManager gameManager) {

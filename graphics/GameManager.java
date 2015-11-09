@@ -354,7 +354,6 @@ public class GameManager {
     }
 
         
-    // TODO: excepciones
     /**
      * Guarda el juego en un archivo con el nombre especificado en el par&aacute;metro <b>name</b>
      * @param name - el nombre del archivo a guardar
