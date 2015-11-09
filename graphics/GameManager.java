@@ -4,9 +4,9 @@ import java.io.IOException;
 import poo.khet.Board;
 import poo.khet.Game;
 import poo.khet.GameState;
-import poo.khet.FileManager;
 import poo.khet.Team;
 import poo.khet.AI.AIMover;
+import poo.khet.gameutils.FileManager;
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
@@ -103,8 +103,8 @@ public class GameManager {
      * Setea las configuraciones iniciales generales
      */
     private void setManager() {
-        stage = Stage.CHOICE;
-        gameDrawer = new GameDrawer(game);
+    	setStage(Stage.CHOICE);
+    	gameDrawer = new GameDrawer(game);
         mode = game.getGameMode();
         if (mode == GameMode.PVE) {
         	AI = new AIMover(game, Team.RED); // AI siempre del equipo rojo
@@ -183,7 +183,7 @@ public class GameManager {
 
 
     /**
-     * El m&aacute;todo <code>handle</code> ejecuta la siguiente acci&oacute;n del juego segun la
+     * El m&eacute;todo <code>handle</code> ejecuta la siguiente acci&oacute;n del juego segun la
      * posici&oacute;n seleccionada por el usuario para manejar.
      * <p>
      * Si el turno esta en etapa de selecci&oacute;n (<code>Stage.CHOICE</code>) y se activa una
@@ -231,12 +231,9 @@ public class GameManager {
         }
         else if (currentStage() == Stage.ACTION) {
             if (game.isValidMove(activeSquare, position)) {
-                System.out.println("MOVING PIECE");
                 game.move(activeSquare, position);
                 nextTurn();
-                System.out.println(currentStage());
             } else {
-                System.out.println("INVALID MOVE SELECT");
                 return ManagerResponseCodes.INVALID_MOVE_SELECTED;
             }
         } else if (game.isCannonPosition(position) && game.isSwitchable(position)) {
@@ -266,7 +263,7 @@ public class GameManager {
      * @see ManagerResponseCodes
      */
     public ManagerResponseCodes handleRotation(boolean clockwise) {
-        if (currentStage() == Stage.ACTION) {
+        if (isWaitingAction()) {
             game.rotate(activeSquare, clockwise);
             nextTurn();
             return ManagerResponseCodes.OK;
@@ -292,7 +289,7 @@ public class GameManager {
      * @return <code>true</code> si la etapa es de acci&oacute;n - <code>false</code> en caso contrario
      * @see GameManager#handle(Position)
      */
-	public boolean isChosen() {
+	public boolean isWaitingAction() {
 		return currentStage() == Stage.ACTION;
 	}
 

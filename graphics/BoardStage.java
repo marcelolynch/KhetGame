@@ -154,7 +154,7 @@ public class BoardStage implements GraphicDimensions {
         drawer.draw(piecesGC);
 
         // Resalta pieza seleccionada
-        if (gameManager.isChosen()) {
+        if (gameManager.isWaitingAction()) {
         	rotateButtons.toFront();
             Position selected = gameManager.getActiveSquare();
             piecesGC.drawImage(new Image("file:assets/select.png"), selected.getCol() * SQUARE_SIZE,

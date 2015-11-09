@@ -1,4 +1,4 @@
-package poo.khet;
+package poo.khet.gameutils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
-import poo.khet.gameutils.Position;
+
+import poo.khet.GameState;
+import poo.khet.Piece;
 
 /**
  * {@code FileManager} se encarga de guardar datos en archivos y recuperar datos guardados previamente.

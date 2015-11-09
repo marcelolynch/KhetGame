@@ -19,7 +19,7 @@ import poo.khet.gameutils.GameMode;
 
 public class LoadStage extends Application implements GraphicDimensions {
     
-    private Canvas background = new Canvas(800, 450);
+    private Canvas background = new Canvas(LOAD_WINDOW_WIDTH, LOAD_WINDOW_HEIGHT);
     private Canvas[] defaultPreviews = new Canvas[3];
     private Button[] defaultButtons = new Button[3];
     private Button loadBtn;
@@ -30,8 +30,8 @@ public class LoadStage extends Application implements GraphicDimensions {
 
     public void start(final Stage loadStage) {
         Group root = new Group();
-        loadStage.setWidth(800);
-        loadStage.setHeight(450);
+        loadStage.setWidth(LOAD_WINDOW_WIDTH);
+        loadStage.setHeight(LOAD_WINDOW_HEIGHT);
         
         //Imagen de fondo
         background.getGraphicsContext2D().drawImage(new Image("file:assets/LoadBack.png"), 0, 0);
@@ -88,8 +88,6 @@ public class LoadStage extends Application implements GraphicDimensions {
             }            
         });
         
-        // Ver el tema de un for{}
-        //Acciones Botones Config Default
         defaultButtons[0].setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {

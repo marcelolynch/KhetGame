@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import poo.khet.Board;
 import poo.khet.Editor;
-import poo.khet.FileManager;
+import poo.khet.gameutils.FileManager;
 import poo.khet.gameutils.Position;
 
 public class EditorManager {

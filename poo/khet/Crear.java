@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import poo.khet.gameutils.Direction;
+import poo.khet.gameutils.FileManager;
 import poo.khet.gameutils.Position;
 
+//TODO: Borrar
 public class Crear {
 
 	/**
