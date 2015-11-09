@@ -70,7 +70,6 @@ public class GameManager {
      */
     private AIMover AI;
 
-    // TODO: excepciones
     /**
      * Construye un nuevo GameManager a partir de un archivo GameState cuyo nombre se pasa
      * como par&aacute;metro.

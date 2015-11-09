@@ -92,7 +92,6 @@ public class EditorManager {
 		setStage(Stage.CHOICE);
 	}
 	
-	//TODO: excepciones
 	public void saveGame(String name) throws FileNotFoundException, IOException {	
 		FileManager.writeGameFile(name, editor.getBoardSetup());
 	}
