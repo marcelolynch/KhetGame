@@ -41,28 +41,28 @@ public class BoardStage implements GraphicDimensions {
         final Stage primaryStage = new Stage();
         Group root = new Group();
 
-        graphicBoard = new Canvas(750, 600);
+        graphicBoard = new Canvas(BOARD_W, BOARD_H);
         graphicBoard.getGraphicsContext2D().drawImage(new Image("file:assets/Board.png"), 0, 0);
 
         piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
         piecesGC = piecesLayer.getGraphicsContext2D();
 
-        rotateButtons = new Canvas(200, 80);
+        rotateButtons = new Canvas(ROTATE_BTN_W, ROTATE_BTN_H);
         rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
         rotateButtons.setTranslateY(graphicBoard.getHeight() + 10);
         rotateButtons.setTranslateX(20);
 
-        closeButton = new Canvas(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
+        closeButton = new Canvas(SQUARE_BTN_SIZE, SQUARE_BTN_SIZE);
         closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/CloseButton.png"), 0, 0);
         closeButton.setTranslateY(graphicBoard.getHeight() + 10);
-        closeButton.setTranslateX(750 - SQUARE_BUTTON_SIZE - 20);
+        closeButton.setTranslateX(BOARD_WINDOW_W - SQUARE_BTN_SIZE - 20);
         
-        saveButton = new Canvas(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
+        saveButton = new Canvas(SQUARE_BTN_SIZE, SQUARE_BTN_SIZE);
         saveButton.getGraphicsContext2D().drawImage(new Image("file:assets/SaveButton.png"), 0, 0);
         saveButton.setTranslateY(graphicBoard.getHeight() + 10);
-        saveButton.setTranslateX(closeButton.getTranslateX() - SQUARE_BUTTON_SIZE - 20);
+        saveButton.setTranslateX(closeButton.getTranslateX() - SQUARE_BTN_SIZE - 20);
 
-        Canvas bar = new Canvas(750, 120);
+        Canvas bar = new Canvas(BOARD_WINDOW_W, BOARD_WINDOW_H - BOARD_H);
         bar.getGraphicsContext2D().drawImage(new Image("file:assets/bar.png"), 0, 0);
         bar.setTranslateY(graphicBoard.getHeight());
 
@@ -103,7 +103,7 @@ public class BoardStage implements GraphicDimensions {
         rotateButtons.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
             	if(!gameManager.hasWinner()) {
-            		gameManager.handleRotation(e.getX() < 100);
+            		gameManager.handleRotation(e.getX() < ROTATE_BTN_W / 2);
                 	drawGame();
                 	if (gameManager.hasWinner()) {
                 		showWinner();
@@ -128,8 +128,8 @@ public class BoardStage implements GraphicDimensions {
             }
         });
 
-        primaryStage.setWidth(750);
-        primaryStage.setHeight(720);
+        primaryStage.setWidth(BOARD_WINDOW_W);
+        primaryStage.setHeight(BOARD_WINDOW_H);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Khet - The Laser Game");
         primaryStage.setScene(new Scene(root, graphicBoard.getWidth() + 50,

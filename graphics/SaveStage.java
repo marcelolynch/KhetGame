@@ -12,13 +12,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-//TODO: sacar insets poner settranslates
+/**
+ * Ventanta de guardado del juego. Se encarga de recibir el nombre del archivo a guardar y 
+ * llama a {@code GameManager} para indicarle que guarde el {@code GameState} actual.
+ * Arroja una alerta en caso de no poder guardar la partida.
+ *
+ */
 public class SaveStage {
 
     public SaveStage(final GameManager gameManager) {
         final Stage saveWindow = new Stage();
-        VBox saveLayout = new VBox(10);
-        Button saveBtn = new Button("Save");
+        final VBox saveLayout = new VBox(10);
+        final Button saveBtn = new Button("Save");
         final TextField nameInput = new TextField();
 
         saveBtn.setOnAction(new EventHandler<ActionEvent>() {
