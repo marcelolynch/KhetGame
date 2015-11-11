@@ -6,8 +6,6 @@ import java.util.Map;
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
-//TODO: JavaDoc de la clase
-
 /**
  * La clase <code>Game</code> modela el estado puntual y el desarrollo de un juego de Khet en curso.
  * Maneja los movimientos efectuados en cada turno sobre el tablero, la ejecuci&oacute;n de los ca&ntilde;ones 

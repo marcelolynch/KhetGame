@@ -15,7 +15,7 @@ import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
 import java.io.IOException;
-
+//TODO: JavaDoc
 public class BoardStage implements GraphicDimensions {
 
     private GameManager gameManager;

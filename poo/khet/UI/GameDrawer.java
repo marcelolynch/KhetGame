@@ -4,16 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
 import poo.khet.Piece;
 import poo.khet.Anubis;
 import poo.khet.BeamCannon;
 import poo.khet.BeamManager;
 import poo.khet.Board;
 import poo.khet.CannonPositions;
-import poo.khet.Editor;
 import poo.khet.Game;
 import poo.khet.Pyramid;
 import poo.khet.RedCannon;
@@ -25,6 +24,7 @@ import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
+//TODO: javadoc clase 
 public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDimensions{
 
 	/**
@@ -78,19 +78,6 @@ public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDime
         this.silverCannon = game.getBeamCannon(Team.SILVER);
         this.beamTrace = game.getBeamTrace();
     }
-    
-    
-    /**
-     * Construye un GameDrawer que dibujar&aacute; el tablero seg&uacute;n el tablero
-     * que va construyendo un {@link Editor}
-     * @param editor
-     * @see Editor
-     */
-    public GameDrawer(Editor editor) {
-        mapFiller();
-        this.board = editor.getBoard();
-    }
-    // ------------------------------
 
     /**
      * Dibuja las piezas seg&uacute;n su posici&oacute;n y orientaci&oacute;n en el tablero, y la
