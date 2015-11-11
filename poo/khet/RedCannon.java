@@ -6,6 +6,8 @@ import poo.khet.gameutils.Direction;
  * Ca&ntilde;on del equipo rojo. Siempre comienza con orientacion <i><code>NORTH</code></i>
  * @see BeamCannon
  */
+
+//TODO: team del cannon
 public class RedCannon extends BeamCannon {
 
 	private static final long serialVersionUID = 1L;

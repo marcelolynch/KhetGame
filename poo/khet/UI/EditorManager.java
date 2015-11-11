@@ -1,4 +1,4 @@
-package graphics;
+package poo.khet.UI;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import poo.khet.Editor;
 import poo.khet.gameutils.FileManager;
 import poo.khet.gameutils.Position;
 
+//TODO: borrar
 public class EditorManager {
 	enum Stage{ CHOICE, ACTION }  
 	
@@ -52,13 +53,10 @@ public class EditorManager {
 		
 		if (currentStage() == Stage.ACTION) {
 			if (editor.isValidMove(activeSquare, position)) {
-				System.out.println("MOVING PIECE");
 				editor.move(activeSquare, position);
 				resetTurn();
-				System.out.println(currentStage());
 			} 
 			else {
-				System.out.println("INVALID MOVE SELECT");
 				return ManagerResponseCodes.INVALID_MOVE_SELECTED;
 			}
 		} 

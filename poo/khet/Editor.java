@@ -6,6 +6,8 @@ import java.util.Map;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
+
+//TODO: borrar
 public class Editor implements CannonPositions {
 	
 	private Board board;

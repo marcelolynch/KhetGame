@@ -48,7 +48,7 @@ public class AIMover implements CannonPositions, BoardDimensions {
         BeamFate beamDestiny = simulateCannonRotation();
         if (beamDestiny == BeamFate.IMPACTED_PIECE
                 && isOpponentPiece(beamManager.getLastPos())) { 
-	       game.switchCannon();
+	       game.switchCannon(team);
         } else {
         	Action choice = getChoice(auxiliarBoard,beamManager);
  	       	choice.updateGame(game);

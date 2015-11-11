@@ -1,4 +1,4 @@
-package graphics;
+package poo.khet.UI;
 
 import java.io.IOException;
 

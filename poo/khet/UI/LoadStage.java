@@ -1,4 +1,4 @@
-package graphics;
+package poo.khet.UI;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -205,7 +205,6 @@ public class LoadStage extends Application implements GraphicDimensions {
         }
     }
     
-    //TODO: Carpeta de archivos guardados especial?
     /**
      * Se emite una alerta en caso de que el archivo con el nombre dado no haya sido encontrado
      * dentro de la carpeta de archivos guardados.

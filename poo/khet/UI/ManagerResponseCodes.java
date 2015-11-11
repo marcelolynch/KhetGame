@@ -1,4 +1,4 @@
-package graphics;
+package poo.khet.UI;
 
 /**
  * Constantes devueltas por los metodos de {@link GameManager} ante est&iacute;mulos

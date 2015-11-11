@@ -1,4 +1,4 @@
-package graphics;
+package poo.khet.UI;
 
 /**
  * Tamaños en pixeles de los elementos gráficos del juego, y de las 

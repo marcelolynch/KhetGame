@@ -292,9 +292,11 @@ public class Game implements CannonPositions {
     /**
      * Rota el cañ&oacute; del equipo que juega actualmente.
      */
-    public void switchCannon() {
+    public void switchCannon(Team team) {
         assertGameInProgress();
-
+        if (!isSwitchable(team)) {
+        	throw new IllegalArgumentException("Not current team cannon");
+        }
         BeamCannon current = getMovingTeam() == Team.SILVER ? silverCannon : redCannon;
         current.switchFacing();
     }
@@ -305,28 +307,11 @@ public class Game implements CannonPositions {
      * @param position - la posici&oacute; del cañ&oacute;n a rotar
      * @return <code>true</code> si el cañ$oacute; es rotable, <code>false</code> sino.
      */
-    public boolean isSwitchable(Position position) {
+    public boolean isSwitchable(Team team) {
         assertGameInProgress();
-
-        if (!isCannonPosition(position)) {
-            throw new IllegalArgumentException("Posición inválida");
-        }
-        if (getMovingTeam() == Team.SILVER) {
-            return position.equals(SILVER_CANNON_POSITION);
-        } else {
-            return position.equals(RED_CANNON_POSITION);
-        }
+        return getMovingTeam().equals(team); 
     }
-
-    /**
-     * Consulta si la {@link Position} es aquella que corresponde a un {@link BeamCannon}.
-     * @param position <code>Position</code> a consultar
-     * @return <tt>true</tt> si la posicion corresponde al lugar de un cañón, <tt>false</tt>
-     * en caso contrario
-     */
-    public boolean isCannonPosition(Position position) {
-        return position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION);
-    }
+    
 
     /**
      * Devuelve el recorrido de un {@link Beam} en forma de una Lista de <code>Position</code>s.

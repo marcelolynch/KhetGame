@@ -1,7 +1,10 @@
-package graphics;
+package poo.khet.UI;
 
 import java.io.IOException;
+
+import poo.khet.BeamCannon;
 import poo.khet.Board;
+import poo.khet.CannonPositions;
 import poo.khet.Game;
 import poo.khet.GameState;
 import poo.khet.Team;
@@ -10,7 +13,6 @@ import poo.khet.gameutils.FileManager;
 import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
-// TODO: cambiar la doc para hablar de los enums en vez de las constantes de error
 /**
  * {@code GameManager} se encarga de mediar entre las acciones del usuario y el {@link Game} en
  * s&iacute;.<br>
@@ -26,7 +28,7 @@ import poo.khet.gameutils.Position;
  * 
  * @see {@link Position}
  */
-public class GameManager {
+public class GameManager implements CannonPositions {
     private enum Stage {
         CHOICE, ACTION, STANDBY
     }
@@ -77,7 +79,7 @@ public class GameManager {
      * par&aacute;metro.
      * 
      * @param name - El nombre del archivo de configuracion a cargar
-     * @throws ClassNotFoundException //TODO: ??????
+     * @throws ClassNotFoundException - de abrir un archivo erróneo
      * @throws IOException - de no encontrarse el archivo
      * @see GameState
      */
@@ -185,7 +187,27 @@ public class GameManager {
         }
         return activeSquare;
     }
-
+    
+    /**
+     * Consulta si la {@link Position} es aquella que corresponde a un {@link BeamCannon}.
+     * @param position <code>Position</code> a consultar
+     * @return <tt>true</tt> si la posicion corresponde al lugar de un cañón, <tt>false</tt>
+     * en caso contrario
+     */
+    private boolean isCannonPosition(Position position) {
+        return position.equals(RED_CANNON_POSITION) || position.equals(SILVER_CANNON_POSITION);
+    }
+    
+    private Team getCannonTeam(Position position) {
+    	if (!isCannonPosition(position)) {
+    		throw new IllegalArgumentException("Not a cannon position");
+    	}
+    	if (position.equals(RED_CANNON_POSITION)) {
+    		return Team.RED;
+    	} else {
+    		return Team.SILVER;
+    	}
+    }
 
     /**
      * El m&eacute;todo <code>handle</code> ejecuta la siguiente acci&oacute;n del juego segun la
@@ -240,8 +262,8 @@ public class GameManager {
             } else {
                 return ManagerResponseCodes.INVALID_MOVE_SELECTED;
             }
-        } else if (game.isCannonPosition(position) && game.isSwitchable(position)) {
-            game.switchCannon();
+        } else if (isCannonPosition(position) && game.isSwitchable(getCannonTeam(position))) {
+            game.switchCannon(getCannonTeam(position));
             nextTurn();
         } else {
             if (game.isValidSelection(position)) {
@@ -254,7 +276,7 @@ public class GameManager {
 
         return ManagerResponseCodes.OK;
     }
-
+    
     /**
      * Si corresponde a la etapa del juego (acci&oacute;n), rota la pieza (previamente
      * seleccionada). Si no corresponde, no hace nada. Se indica si cambio el estado del juego
