@@ -116,41 +116,6 @@ public class Game implements CannonPositions {
                 silverCannon);
     }
 
-    /**
-     * Valida si el <code>Game</code> termin&oacute;, verificando si existe algun ganador.
-     * @throws IllegalStateException si el juego termin&oacute;
-     */
-    private void assertGameInProgress() throws IllegalStateException {
-        if (hasWinner()) {
-            throw new IllegalStateException("Illegal operation: game has ended");
-        }
-    }
-
-    
-    /**
-     * Verifica si todav&iacute;a se espera una acci&oacute;n en el turno,
-     * y de no ser as&iacute; (el turno ha terminado), lanza una excepci&oacute;n
-     */
-    private void assertInTurn() throws IllegalStateException {
-        if(turnEnded){
-        	throw new IllegalStateException("Illegal operation: turn already ended. Must nextTurn() first");
-        }
-		
-	}
-    
-    
-    /**
-     * Verifica si el turno ha terminado (ya se ejecut&oacute; una acci&oacute;n);
-     * de no ser as&iacute;, se lanza una excepci&oacute;n
-     * 
-     */
-    private void assertTurnEnded() throws IllegalStateException {
-        if(!turnEnded){
-        	throw new IllegalStateException("Must make a move, rotation or switch first");
-        }
-		
-	}
-
  
     /**
      * Valida que la posici&oacute;n est&eacute; ocupada por una pieza del equipo moviendo.
@@ -337,14 +302,6 @@ public class Game implements CannonPositions {
     }
 
     /**
-     * Cambia el equipo que juega actualmente.
-     * @see Team
-     */
-    private void changePlayer() {
-        movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
-    }
-
-    /**
      * Rota el ca&ntilde;&oacute; del equipo que juega actualmente.
      */
     public void switchCannon(Team team) {
@@ -361,9 +318,9 @@ public class Game implements CannonPositions {
     }
 
     /**
-     * Consulta si el {@link BeamCannon} que se encuentra en la {@link Position} es rotable, 
+     * Consulta si el {@link BeamCannon} del equipo indicado puede ser accionado, 
      * es decir si corresponde al equipo jugando actualmente.
-     * @param position - la posici&oacute; del ca&ntilde;&oacute;n a rotar
+     * @param team - el equipo del ca&ntilde;&oacute;n a rotar
      * @return <code>true</code> si el ca&ntilde;$oacute;n es rotable, <code>false</code> si no.
      */
     public boolean isSwitchable(Team team) {
@@ -400,5 +357,52 @@ public class Game implements CannonPositions {
         }
         return this.winnerTeam;
     }
+    
+    
+    //Metodos privados
+    
+    /**
+     * Cambia el equipo que juega actualmente.
+     * @see Team
+     */
+    private void changePlayer() {
+        movingTeam = (movingTeam == Team.SILVER ? Team.RED : Team.SILVER);
+    }
 
+
+    /**
+     * Valida si el <code>Game</code> termin&oacute;, verificando si existe algun ganador.
+     * @throws IllegalStateException si el juego termin&oacute;
+     */
+    private void assertGameInProgress() throws IllegalStateException {
+        if (hasWinner()) {
+            throw new IllegalStateException("Illegal operation: game has ended");
+        }
+    }
+
+    
+    /**
+     * Verifica si todav&iacute;a se espera una acci&oacute;n en el turno,
+     * y de no ser as&iacute; (el turno ha terminado), lanza una excepci&oacute;n
+     */
+    private void assertInTurn() throws IllegalStateException {
+        if(turnEnded){
+        	throw new IllegalStateException("Illegal operation: turn already ended. Must nextTurn() first");
+        }
+		
+	}
+    
+    /**
+     * Verifica si el turno ha terminado (ya se ejecut&oacute; una acci&oacute;n);
+     * de no ser as&iacute;, se lanza una excepci&oacute;n
+     * 
+     */
+    private void assertTurnEnded() throws IllegalStateException {
+        if(!turnEnded){
+        	throw new IllegalStateException("Must make a move, rotation or switch first");
+        }
+		
+	}
+
+    
 }
