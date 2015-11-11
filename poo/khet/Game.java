@@ -8,6 +8,23 @@ import poo.khet.gameutils.Position;
 
 //TODO: JavaDoc de la clase
 
+/**
+ * La clase <code>Game</code> modela el estado puntual y el desarrollo de un juego de Khet en curso.
+ * Maneja los movimientos efectuados en cada turno sobre el tablero, la ejecuci&oacute;n de los ca&ntilde;ones 
+ * <p>Antes de realizar cualquier acci&oacute;n se debe consultar si la misma es v&aacute;lida. La progresi&oacute;n de un turno
+ * esta dada por
+ * <ul>
+ * <li>Movimiento o rotacion de alguna pieza, o cambio en la direccion del ca&ntilde;&oacute;n, del equipo correspondiente</li>
+ * <li>Llamada a cambio de turno, que dispara el rayo correspondiente y altera el estado del tablero</li>
+ * </ul>
+ * <p>Se realizan validaciones de estado a la hora de ejecutar los m&eacute;todos, de manera tal que no se puede
+ * violar este orden del turno sin provocar una excepci&oacute;n
+ * 
+ * <p><code>Game</code> provee una serie de m&eacute;todos de consulta del estado actual del juego y de la legitimidad de
+ * acciones a realizar, de manera tal que una llamada incorrecta a un m&eacute;todo de acci&oacute;n 
+ * (como {@link #move()}, o {@link #rotate(Position, boolean)}) resulta en una {@link IllegalStateException}.
+ * 
+ */
 public class Game implements CannonPositions {
 
     /**
@@ -16,12 +33,12 @@ public class Game implements CannonPositions {
     private Board board;
 
     /**
-     * Cañon del equipo <i>RED</i>
+     * Ca&ntilde;on del equipo <i>RED</i>
      */
     private RedCannon redCannon;
 
     /**
-     * Cañon del equipo <i>SILVER</i>
+     * Ca&ntilde;on del equipo <i>SILVER</i>
      */
     private SilverCannon silverCannon;
     private BeamManager beamManager;
@@ -40,6 +57,13 @@ public class Game implements CannonPositions {
      * Equipo ganador
      */
     private Team winnerTeam;
+    
+    
+    /**
+     * Indica si es el momento de llamar a nextTurn(), es decir, si
+     * ya se realizo una accion
+     */
+    private boolean turnEnded;
 
     /**
      * Crea un juego a partir de un mapa que contiene las posiciones de las piezas
@@ -86,7 +110,7 @@ public class Game implements CannonPositions {
     }
 
     /**
-     * Crea un nuevo {@link GameState} con información actual del <code>Game</code>.
+     * Crea un nuevo {@link GameState} con informaci&oacute;n actual del <code>Game</code>.
      * @return el estado de juego
      */
     public GameState getGameState() {
@@ -95,19 +119,45 @@ public class Game implements CannonPositions {
     }
 
     /**
-     * Valida si el <code>Game</code> terminó, verificando si existe algun ganador.
-     * @throws IllegalStateException si el juego terminó
+     * Valida si el <code>Game</code> termin&oacute;, verificando si existe algun ganador.
+     * @throws IllegalStateException si el juego termin&oacute;
      */
-    private void assertGameInProgress() {
+    private void assertGameInProgress() throws IllegalStateException {
         if (hasWinner()) {
             throw new IllegalStateException("Illegal operation: game has ended");
         }
     }
 
+    
     /**
-     * Valida que la posición esté ocupada por una pieza del equipo moviendo.
+     * Verifica si todav&iacute;a se espera una acci&oacute;n en el turno,
+     * y de no ser as&iacute; (el turno ha terminado), lanza una excepci&oacute;n
+     */
+    private void assertInTurn() throws IllegalStateException {
+        if(turnEnded){
+        	throw new IllegalStateException("Illegal operation: turn already ended. Must nextTurn() first");
+        }
+		
+	}
+    
+    
+    /**
+     * Verifica si el turno ha terminado (ya se ejecut&oacute; una acci&oacute;n);
+     * de no ser as&iacute;, se lanza una excepci&oacute;n
      * 
-     * @param pos - posición a validar
+     */
+    private void assertTurnEnded() throws IllegalStateException {
+        if(!turnEnded){
+        	throw new IllegalStateException("Must make a move, rotation or switch first");
+        }
+		
+	}
+
+ 
+    /**
+     * Valida que la posici&oacute;n est&eacute; ocupada por una pieza del equipo moviendo.
+     * 
+     * @param pos - posici&oacute;n a validar
      * @return <tt>true</tt> si se encuentra una pieza del equipo moviendo, <tt>false</tt> sino.
      */
     public boolean isValidSelection(Position pos) {
@@ -135,11 +185,11 @@ public class Game implements CannonPositions {
     }
 
     /**
-     * Verifica si un movimiento es válido a partir de una <code>Position</code> inicial
+     * Verifica si un movimiento es v&aacute;lido a partir de una <code>Position</code> inicial
      * y una final.
      * @param init <code>Position</code> inicial del movimiento
      * @param dest <code>Position</code> final del movimiento
-     * @return <tt>true</tt> si es lícito realizar el movimiento; <tt>false</tt> en caso contrario.
+     * @return <tt>true</tt> si es l&iacute;cito realizar el movimiento; <tt>false</tt> en caso contrario.
      */
     public boolean isValidMove(Position init, Position dest) {
         assertGameInProgress();
@@ -177,9 +227,10 @@ public class Game implements CannonPositions {
      */
     public void move(Position init, Position dest) {
         assertGameInProgress();
+        assertInTurn();
 
         if (!isValidMove(init, dest)) {
-            throw new IllegalArgumentException("Movimiento inválido.");
+            throw new IllegalArgumentException("Movimiento invalido.");
         }
 
         Piece p = board.withdrawFrom(init);
@@ -189,9 +240,10 @@ public class Game implements CannonPositions {
         }
 
         board.placePiece(dest, p);
+        turnEnded = true; // Listo para nextTurn()
     }
-
-    /**
+    
+	/**
      * Rota la {@link Piece} que se encuentra en la {@link Position] dada en sentido horario
      * si clockwise es true, antihorario sino.
      * @param pos - <code>Position</code> de la <code>Piece</code> a rotar
@@ -200,9 +252,10 @@ public class Game implements CannonPositions {
      */
     public void rotate(Position pos, boolean clockwise) {
         assertGameInProgress();
+        assertInTurn();
 
         if (!isValidSelection(pos)) {
-            throw new IllegalArgumentException("Posición inválida");
+            throw new IllegalArgumentException("Posici&oacute;n invalida");
         }
 
         Piece p = board.getOccupantIn(pos);
@@ -212,6 +265,7 @@ public class Game implements CannonPositions {
         } else {
             p.rotateCounterClockwise();
         }
+        turnEnded = true; // Listo para nextTurn()
     }
 
     /**
@@ -226,7 +280,7 @@ public class Game implements CannonPositions {
 
     /**
      * Retorna el {@link BeamCannon} del {@link Team} deseado.
-     * @param team equipo del cual se desea obtener el cañón
+     * @param team equipo del cual se desea obtener el ca&ntilde;&oacute;n
      * @return el <code>BeamCannon</code>
      */
     public BeamCannon getBeamCannon(Team team) {
@@ -253,7 +307,8 @@ public class Game implements CannonPositions {
      */
     public void nextTurn() {
         assertGameInProgress();
-
+        assertTurnEnded();
+        
         BeamFate beamFate = throwBeam(getMovingTeam());
         if (beamFate == BeamFate.IMPACTED_PIECE) {
             Piece withdrawn = board.withdrawFrom(beamManager.getLastPos());
@@ -265,6 +320,8 @@ public class Game implements CannonPositions {
         if (!hasWinner()) {
             changePlayer();
         }
+    
+        turnEnded = false;
     }
 
     /**
@@ -290,22 +347,26 @@ public class Game implements CannonPositions {
     }
 
     /**
-     * Rota el cañ&oacute; del equipo que juega actualmente.
+     * Rota el ca&ntilde;&oacute; del equipo que juega actualmente.
      */
     public void switchCannon(Team team) {
         assertGameInProgress();
+        assertInTurn();
+        
         if (!isSwitchable(team)) {
         	throw new IllegalArgumentException("Not current team cannon");
         }
         BeamCannon current = getMovingTeam() == Team.SILVER ? silverCannon : redCannon;
         current.switchFacing();
+        
+        turnEnded = true; //Listo para nextTurn()
     }
 
     /**
      * Consulta si el {@link BeamCannon} que se encuentra en la {@link Position} es rotable, 
      * es decir si corresponde al equipo jugando actualmente.
-     * @param position - la posici&oacute; del cañ&oacute;n a rotar
-     * @return <code>true</code> si el cañ$oacute; es rotable, <code>false</code> sino.
+     * @param position - la posici&oacute; del ca&ntilde;&oacute;n a rotar
+     * @return <code>true</code> si el ca&ntilde;$oacute;n es rotable, <code>false</code> si no.
      */
     public boolean isSwitchable(Team team) {
         assertGameInProgress();
