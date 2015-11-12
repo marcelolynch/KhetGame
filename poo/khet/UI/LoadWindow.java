@@ -18,12 +18,12 @@ import java.io.IOException;
 import poo.khet.gameutils.GameMode;
 
 /** 
- * {@code LoadStage} es la clase que se ejecuta inicialmente en la aplicación. 
+ * Clase que se ejecuta inicialmente en la aplicación. 
  * Contiene controles para cargar partidas guardadas, o para empezar un juego
  * nuevo desde una configuración default. 
- * 
+ * @see BoardWindow
  */
-public class LoadStage extends Application implements GraphicDimensions {
+public class LoadWindow extends Application implements GraphicDimensions {
 
     private Canvas background = new Canvas(LOAD_WINDOW_W, LOAD_WINDOW_H);
     private Canvas[] defaultPreviews = new Canvas[3];
@@ -89,7 +89,7 @@ public class LoadStage extends Application implements GraphicDimensions {
         loadBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try {
-                    new BoardStage("savedGames/" + nameInput.getText(), loadStage);
+                    new BoardWindow("savedGames/" + nameInput.getText(), loadStage);
                     loadStage.close();
                 } catch (IOException fileNotFound) {
                     throwNotFoundFileAlert();
@@ -203,7 +203,7 @@ public class LoadStage extends Application implements GraphicDimensions {
      */
     private void defaultLoad(String name, GameMode selected, Stage loadStage) {
         try {
-            new BoardStage("defaultConfigs/" + name, selected, loadStage);
+            new BoardWindow("defaultConfigs/" + name, selected, loadStage);
         } catch (IOException fileNotFound) {
             throwNotFoundFileAlert();
         } catch (ClassNotFoundException classNotFound) {

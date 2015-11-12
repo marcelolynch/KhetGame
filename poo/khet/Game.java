@@ -276,7 +276,7 @@ public class Game implements CannonPositions {
         if (beamFate == BeamFate.IMPACTED_PIECE) {
             Piece withdrawn = board.withdrawFrom(beamManager.getLastPos());
 
-            if (withdrawn instanceof Pharaoh) { // TODO: instanceof justificado
+            if (withdrawn instanceof Pharaoh) {
                 winnerTeam = (withdrawn.getTeam() == Team.SILVER ? Team.RED : Team.SILVER);
             }
         }

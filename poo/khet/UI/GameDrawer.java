@@ -24,7 +24,13 @@ import poo.khet.gameutils.BoardDimensions;
 import poo.khet.gameutils.Direction;
 import poo.khet.gameutils.Position;
 
-//TODO: javadoc clase 
+/**
+ * Clase encargada de imprimir todos los elementos del tablero (piezas y rayo), 
+ * sobre un <code>GraphicsContext</code> dado. 
+ * @see Beam
+ * @see Piece
+ * @see BoardWindow
+ */
 public class GameDrawer implements CannonPositions, BoardDimensions, GraphicDimensions{
 
 	/**

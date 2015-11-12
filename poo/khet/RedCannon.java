@@ -7,7 +7,6 @@ import poo.khet.gameutils.Direction;
  * @see BeamCannon
  */
 
-//TODO: team del cannon
 public class RedCannon extends BeamCannon {
 
 	private static final long serialVersionUID = 1L;

@@ -15,53 +15,108 @@ import poo.khet.gameutils.GameMode;
 import poo.khet.gameutils.Position;
 
 import java.io.IOException;
-//TODO: JavaDoc
-public class BoardStage implements GraphicDimensions {
+
+/**
+ * Clase encargada de crear y mostrar la ventana principal del tablero del juego.
+ * Se comunica con {@link GameManager} para recibir acciones del usuario y efectuarlas en 
+ * el modelo del juego.  
+ *
+ */
+public class BoardWindow implements GraphicDimensions {
 
     private GameManager gameManager;
+    
+    /**
+     * Donde se dibujaran las piezas y el rayo.
+     */
     private GraphicsContext piecesGC;
+    
+    /**
+     * Canvas asociado al tablero.
+     */
     private Canvas graphicBoard;
+    
+    /**
+     * Canvas asociado a las piezas.
+     */
     private Canvas piecesLayer;
+    
+    /**
+     * Canvas para los botones graficos de rotacion.
+     */
     private Canvas rotateButtons;
+    
+    /**
+     * Canvas para el boton grafico de guardado.
+     */
     private Canvas saveButton;
+    
+    /**
+     * Canvas para el boton grafico de cerrar.
+     */
     private Canvas closeButton;
+    
     private GameDrawer drawer;
 
-    public BoardStage(String fileName, final Stage loadScreen) throws ClassNotFoundException, IOException {
+    /**
+     * Carga una partida guardada con el nombre dado y crea la ventana del tablero.
+     * @param fileName - nombre de la partida a cargar
+     * @param loadScreen - referencia a la ventana de carga para volver a ella si se cierra el juego
+     * @throws ClassNotFoundException - en caso de no encontrar el archivo con el nombre dado
+     * @throws IOException - en caso de haber un error al cargar
+     */
+    public BoardWindow(String fileName, final Stage loadScreen) throws ClassNotFoundException, IOException {
         gameManager = new GameManager(fileName);
         setStage(loadScreen);
     }
     
-    public BoardStage(String fileName, GameMode mode, final Stage loadScreen) throws ClassNotFoundException, IOException {
+    /**
+     * Carga una de las configuraciones default y crea la ventana del tablero.
+     * @param fileName - configuracion a cargar
+     * @param GameMode - partida de uno o dos jugadores
+     * @param loadScreen - referencia a la ventana de carga para volver a ella si se cierra el juego
+     * @throws ClassNotFoundException - en caso de no encontrar el archivo con el nombre dado
+     * @throws IOException - en caso de haber un error al cargar
+     */
+    public BoardWindow(String fileName, GameMode mode, final Stage loadScreen) throws ClassNotFoundException, IOException {
     	gameManager = new GameManager(fileName, mode);
     	setStage(loadScreen);
     }
     
+    /**
+     * Crea la ventana del tablero y ubica sus elementos. Tiene una referencia a 
+     * la ventana de carga para volver a ella si se cierra el juego
+     * @param loadScreen - ventana de carga de un juego nuevo
+     */
     private void setStage(final Stage loadScreen) {
         final Stage primaryStage = new Stage();
         Group root = new Group();
-
+        
         graphicBoard = new Canvas(BOARD_W, BOARD_H);
         graphicBoard.getGraphicsContext2D().drawImage(new Image("file:assets/Board.png"), 0, 0);
-
+        
         piecesLayer = new Canvas(graphicBoard.getWidth(), graphicBoard.getHeight());
         piecesGC = piecesLayer.getGraphicsContext2D();
-
+        
+        //Botones Rotacion
         rotateButtons = new Canvas(ROTATE_BTN_W, ROTATE_BTN_H);
         rotateButtons.getGraphicsContext2D().drawImage(new Image("file:assets/RotButtons.png"), 0, 0);
         rotateButtons.setTranslateY(graphicBoard.getHeight() + 10);
         rotateButtons.setTranslateX(20);
-
+        
+        //Boton cierre
         closeButton = new Canvas(SQUARE_BTN_SIZE, SQUARE_BTN_SIZE);
         closeButton.getGraphicsContext2D().drawImage(new Image("file:assets/CloseButton.png"), 0, 0);
         closeButton.setTranslateY(graphicBoard.getHeight() + 10);
         closeButton.setTranslateX(BOARD_WINDOW_W - SQUARE_BTN_SIZE - 20);
         
+        //Boton guardado
         saveButton = new Canvas(SQUARE_BTN_SIZE, SQUARE_BTN_SIZE);
         saveButton.getGraphicsContext2D().drawImage(new Image("file:assets/SaveButton.png"), 0, 0);
         saveButton.setTranslateY(graphicBoard.getHeight() + 10);
         saveButton.setTranslateX(closeButton.getTranslateX() - SQUARE_BTN_SIZE - 20);
-
+        
+        //Background sector de botones
         Canvas bar = new Canvas(BOARD_WINDOW_W, BOARD_WINDOW_H - BOARD_H);
         bar.getGraphicsContext2D().drawImage(new Image("file:assets/bar.png"), 0, 0);
         bar.setTranslateY(graphicBoard.getHeight());
@@ -75,7 +130,8 @@ public class BoardStage implements GraphicDimensions {
 
         drawer = gameManager.getDrawer();
         drawGame();
-
+        
+        //Handle al hacer click sobre el tablero
         piecesLayer.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 if (!gameManager.hasWinner()) {
@@ -98,7 +154,8 @@ public class BoardStage implements GraphicDimensions {
                 }
             }
         });
-
+        
+        //Handle al hacer click sobre los botones de rotacion
         rotateButtons.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
             	if(!gameManager.hasWinner()) {
@@ -110,11 +167,11 @@ public class BoardStage implements GraphicDimensions {
             	}
             }
         });
-
+        
         saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
             	if (!gameManager.hasWinner()) {
-            		new SaveStage(gameManager);
+            		new SaveWindow(gameManager);
             	}
             }
         });
@@ -136,7 +193,10 @@ public class BoardStage implements GraphicDimensions {
         primaryStage.show();
 
     }
-
+    
+    /**
+     * Muestra una alerta con el jugador ganador al terminar el juego
+     */
     private void showWinner() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Fin del Juego");
@@ -147,7 +207,12 @@ public class BoardStage implements GraphicDimensions {
         closeButton.toFront();
         rotateButtons.toBack();		
 	}
-
+    
+    /**
+     * Limpia los <code>GraphicsContexts</code> y dibuja nuevamente el tablero del juego. 
+     * Tambien esconde los botones de carga y de rotacion cuando es el turno de la computadora o 
+     * cuando el juego termina.
+     */
 	private void drawGame() {
         piecesGC.clearRect(0, 0, piecesLayer.getWidth(), piecesLayer.getHeight());
         drawer.draw(piecesGC);

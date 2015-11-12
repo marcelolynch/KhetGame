@@ -18,9 +18,9 @@ import javafx.stage.Stage;
  * Arroja una alerta en caso de no poder guardar la partida.
  *
  */
-public class SaveStage {
+public class SaveWindow {
 
-    public SaveStage(final GameManager gameManager) {
+    public SaveWindow(final GameManager gameManager) {
         final Stage saveWindow = new Stage();
         final VBox saveLayout = new VBox(10);
         final Button saveBtn = new Button("Save");
