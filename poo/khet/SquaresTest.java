@@ -96,12 +96,6 @@ public class SquaresTest {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testAccomodateInReserved() {
-        reservedRed.setOccupant(silverPiece);
-    }
-
-
     // Test de interaccion con el escarabajo (enroca con piramides)
     @Test
     public void testAcceptScarab() {

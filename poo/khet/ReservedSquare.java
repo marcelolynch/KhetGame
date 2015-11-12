@@ -32,17 +32,10 @@ public class ReservedSquare extends Square {
         this.team = team;
     }
 
-    @Override
-    public void setOccupant(Piece piece) {
-        if (!canAccomodate(piece)) {
-            throw new IllegalArgumentException();
-        }
-        super.setOccupant(piece);
-    }
 
     @Override
     public boolean canAccomodate(Piece piece) {
-        return piece.getTeam().equals(this.getTeam()) && super.canAccomodate(piece);
+        return piece.getTeam().equals(this.getTeam())  && super.canAccomodate(piece);
     }
 
 

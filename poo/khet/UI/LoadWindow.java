@@ -121,8 +121,8 @@ public class LoadWindow extends Application implements GraphicDimensions {
      * checkbox se deseleccione la otra.
      */
     private void createPlayerCheckboxes() {
-        twoPlayers = new CheckBox("Dos Jugadores");
-        onePlayer = new CheckBox("Un Jugador");
+        twoPlayers = new CheckBox("Two Players");
+        onePlayer = new CheckBox("One Player");
         twoPlayers.setTranslateX(250);
         onePlayer.setTranslateX(450);
         twoPlayers.setTranslateY(LOAD_WINDOW_H - 85 - 50);
